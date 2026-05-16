@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Phone } from "lucide-react";
 
 export default function Navbar() {
   const router = useRouter();
@@ -48,8 +48,12 @@ export default function Navbar() {
   const navLinks = [
     { label: "Hizmetler", id: "hizmetler" },
     { label: "Süreç", id: "surec" },
-    { label: "Müşteriler", id: "musteriler" },
+    { label: "İletişim", id: "iletisim" },
   ];
+
+  // NetGSM numarası kurulduğunda buraya doldurulacak. Şimdilik Calendly'ye / iletişim formuna düşüyor.
+  const DEMO_PHONE: string | null = null;
+  const DEMO_PHONE_DISPLAY = "0850 XXX XX XX";
 
   return (
     <motion.nav
@@ -90,8 +94,32 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* CTA Button */}
-          <div className="hidden md:block">
+          {/* CTA Group */}
+          <div className="hidden md:flex items-center gap-3">
+            {DEMO_PHONE ? (
+              <motion.a
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                href={`tel:${DEMO_PHONE}`}
+                className="flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium text-slate-200 border border-[#8b5cf6]/30 hover:border-[#a78bfa]/60 hover:text-white hover:bg-[#8b5cf6]/10 transition-all"
+              >
+                <Phone className="w-4 h-4 text-[#a78bfa]" />
+                <span>
+                  Canlı Demo:&nbsp;
+                  <span className="text-white">{DEMO_PHONE_DISPLAY}</span>
+                </span>
+              </motion.a>
+            ) : (
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => scrollToSection("iletisim")}
+                className="flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium text-slate-200 border border-[#8b5cf6]/30 hover:border-[#a78bfa]/60 hover:text-white hover:bg-[#8b5cf6]/10 transition-all"
+              >
+                <Phone className="w-4 h-4 text-[#a78bfa]" />
+                <span>Canlı Demo Talep Et</span>
+              </motion.button>
+            )}
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -132,9 +160,26 @@ export default function Navbar() {
                   {link.label}
                 </button>
               ))}
+              {DEMO_PHONE ? (
+                <a
+                  href={`tel:${DEMO_PHONE}`}
+                  className="flex items-center justify-center gap-2 w-full mt-4 px-6 py-3 rounded-full text-sm font-medium text-slate-200 border border-[#8b5cf6]/30"
+                >
+                  <Phone className="w-4 h-4 text-[#a78bfa]" />
+                  Canlı Demo: {DEMO_PHONE_DISPLAY}
+                </a>
+              ) : (
+                <button
+                  onClick={() => scrollToSection("iletisim")}
+                  className="flex items-center justify-center gap-2 w-full mt-4 px-6 py-3 rounded-full text-sm font-medium text-slate-200 border border-[#8b5cf6]/30"
+                >
+                  <Phone className="w-4 h-4 text-[#a78bfa]" />
+                  Canlı Demo Talep Et
+                </button>
+              )}
               <button
                 onClick={() => scrollToSection("iletisim")}
-                className="w-full mt-4 px-6 py-3 rounded-full text-sm font-semibold text-white bg-[#8b5cf6]"
+                className="w-full px-6 py-3 rounded-full text-sm font-semibold text-white bg-[#8b5cf6]"
               >
                 Teklif Al
               </button>

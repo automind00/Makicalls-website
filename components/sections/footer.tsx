@@ -42,9 +42,8 @@ const LinkedinIcon = ({ className }: { className?: string }) => (
 );
 
 export default function Footer() {
-  // Tüm hesaplar/email/phone "Yakında" — placeholder olarak disabled tooltip
-  const socials: { icon: React.ReactNode; label: string }[] = [
-    { icon: <InstagramIcon className="w-4 h-4" />, label: "Instagram" },
+  const socials: { icon: React.ReactNode; label: string; href?: string }[] = [
+    { icon: <InstagramIcon className="w-4 h-4" />, label: "Instagram", href: "https://www.instagram.com/makicalls/" },
     { icon: <LinkedinIcon className="w-4 h-4" />, label: "LinkedIn" },
     { icon: <Mail className="w-4 h-4" />, label: "E-posta" },
     { icon: <Phone className="w-4 h-4" />, label: "Telefon" },
@@ -66,19 +65,31 @@ export default function Footer() {
                 key={s.label}
                 className="group relative"
               >
-                <button
-                  type="button"
-                  aria-label={`${s.label} — yakında`}
-                  aria-disabled="true"
-                  className="w-9 h-9 rounded-full bg-white/[0.03] border border-white/10 flex items-center justify-center text-slate-600 cursor-not-allowed transition-colors"
-                >
-                  {s.icon}
-                </button>
+                {s.href ? (
+                  <a
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={s.label}
+                    className="w-9 h-9 rounded-full bg-white/[0.03] border border-white/10 flex items-center justify-center text-slate-300 hover:text-[#a78bfa] hover:border-[#8b5cf6]/40 hover:bg-[#8b5cf6]/10 transition-colors"
+                  >
+                    {s.icon}
+                  </a>
+                ) : (
+                  <button
+                    type="button"
+                    aria-label={`${s.label} — yakında`}
+                    aria-disabled="true"
+                    className="w-9 h-9 rounded-full bg-white/[0.03] border border-white/10 flex items-center justify-center text-slate-600 cursor-not-allowed transition-colors"
+                  >
+                    {s.icon}
+                  </button>
+                )}
                 <span
                   role="tooltip"
                   className="pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-black/95 border border-white/10 px-2.5 py-1 text-[11px] font-medium text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity"
                 >
-                  {s.label} · Yakında
+                  {s.label}{s.href ? "" : " · Yakında"}
                 </span>
               </div>
             ))}
