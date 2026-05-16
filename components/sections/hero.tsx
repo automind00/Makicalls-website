@@ -1,10 +1,11 @@
 "use client";
 import React from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Spotlight } from "@/components/ui/spotlight";
 import { SplineScene } from "@/components/ui/splite";
 import { RevealText } from "@/components/ui/reveal-text";
-import { ArrowRight, MessageCircle, Mic, Bot } from "lucide-react";
+import { ArrowRight, MessageCircle, Mic, Bot, Globe, Phone } from "lucide-react";
 
 const PARTICLES = [
   { id: 0, x: 12, y: 18, size: 2.4, duration: 14, delay: 0.5 },
@@ -61,19 +62,26 @@ function FloatingParticles() {
 }
 
 const subtitleWords = [
-  { text: "WhatsApp", delay: 0 },
-  { text: "&", delay: 50 },
-  { text: "Instagram", delay: 100 },
-  { text: "chatbot,", delay: 200 },
-  { text: "sesli", delay: 300 },
-  { text: "asistan", delay: 350 },
-  { text: "ve", delay: 450 },
-  { text: "özel", delay: 500 },
-  { text: "çözümlerle", delay: 600 },
-  { text: "müşterilerinizle", delay: 700 },
-  { text: "7/24", delay: 800, accent: true },
-  { text: "iletişimde", delay: 900 },
-  { text: "kalın.", delay: 1000 },
+  { text: "Sesli", delay: 0 },
+  { text: "arama", delay: 60 },
+  { text: "·", delay: 120 },
+  { text: "WhatsApp", delay: 180 },
+  { text: "·", delay: 240 },
+  { text: "Instagram", delay: 300 },
+  { text: "·", delay: 360 },
+  { text: "web", delay: 420 },
+  { text: "chat", delay: 480 },
+  { text: "—", delay: 560 },
+  { text: "hepsi", delay: 620 },
+  { text: "tek", delay: 680 },
+  { text: "asistandan.", delay: 740 },
+  { text: "Türkçe", delay: 820, accent: true },
+  { text: "konuşur,", delay: 880, accent: true },
+  { text: "randevu", delay: 960 },
+  { text: "açar,", delay: 1020 },
+  { text: "sıcak", delay: 1080 },
+  { text: "lead", delay: 1140 },
+  { text: "ayırır.", delay: 1200 },
 ];
 
 export default function Hero() {
@@ -88,9 +96,10 @@ export default function Hero() {
   };
 
   const services = [
-    { icon: <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />, label: "WhatsApp & Instagram", labelLong: "WhatsApp & Instagram Chatbot" },
-    { icon: <Mic className="w-4 h-4 sm:w-5 sm:h-5" />, label: "Sesli Asistan", labelLong: "Sesli Asistan" },
-    { icon: <Bot className="w-4 h-4 sm:w-5 sm:h-5" />, label: "Özel Çözümler", labelLong: "Özel Çözümler" },
+    { icon: <Mic className="w-4 h-4 sm:w-5 sm:h-5" />, label: "Sesli Arama" },
+    { icon: <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />, label: "WhatsApp" },
+    { icon: <Globe className="w-4 h-4 sm:w-5 sm:h-5" />, label: "Web Chat" },
+    { icon: <Bot className="w-4 h-4 sm:w-5 sm:h-5" />, label: "CRM" },
   ];
 
   return (
@@ -110,7 +119,7 @@ export default function Hero() {
             >
               <div className="w-1.5 h-1.5 rounded-full bg-[#8b5cf6] shadow-[0_0_8px_#8b5cf6] animate-pulse" />
               <span className="text-[10px] sm:text-xs text-slate-300 font-medium tracking-wide uppercase">
-                Dijital Otomasyon Ajansı
+                Klinikler için 7/24 AI · Pilot Açık
               </span>
             </motion.div>
 
@@ -129,9 +138,8 @@ export default function Hero() {
               transition={{ duration: 0.8, delay: 0.6 }}
               className="text-xl sm:text-3xl md:text-4xl font-light text-slate-200 mb-5 sm:mb-6 leading-tight tracking-tight"
             >
-              İşletmenizi{" "}
-              <span className="text-[#a78bfa] font-semibold">dijital otomasyonla</span>{" "}
-              büyütün.
+              AI <span className="text-[#a78bfa] font-semibold">resepsiyonist</span>, satış asistanı ve{" "}
+              <span className="text-[#a78bfa] font-semibold">CRM</span> — dakikalar içinde canlı.
             </motion.h2>
 
             <p className="text-sm sm:text-lg text-slate-400 max-w-xl lg:mx-0 mx-auto mb-8 sm:mb-10 leading-relaxed">
@@ -154,25 +162,27 @@ export default function Hero() {
               transition={{ duration: 0.8, delay: 2.0 }}
               className="flex flex-col sm:flex-row items-stretch sm:items-center lg:justify-start sm:justify-center gap-3 sm:gap-4 mb-8 sm:mb-10"
             >
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={scrollToContact}
-                className="relative group px-6 sm:px-8 py-3.5 sm:py-4 rounded-full text-sm sm:text-base font-semibold text-white bg-[#8b5cf6] hover:bg-[#7c3aed] transition-colors duration-300 shadow-[0_0_40px_-10px_#8b5cf6]"
-              >
-                <span className="flex items-center justify-center gap-2">
-                  Teklif Al
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </span>
-              </motion.button>
+              <Link href="/dis-klinikleri">
+                <motion.span
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="relative inline-flex group px-6 sm:px-8 py-3.5 sm:py-4 rounded-full text-sm sm:text-base font-semibold text-white bg-[#8b5cf6] hover:bg-[#7c3aed] transition-colors duration-300 shadow-[0_0_40px_-10px_#8b5cf6] cursor-pointer"
+                >
+                  <span className="flex items-center justify-center gap-2">
+                    Pilot Programa Başvur
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                </motion.span>
+              </Link>
 
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={scrollToServices}
-                className="px-6 sm:px-8 py-3.5 sm:py-4 rounded-full text-sm sm:text-base font-medium text-slate-200 border border-[#8b5cf6]/30 hover:border-[#a78bfa]/60 hover:text-white hover:bg-[#8b5cf6]/10 transition-all duration-300 backdrop-blur-sm bg-white/[0.02]"
+                onClick={scrollToContact}
+                className="px-6 sm:px-8 py-3.5 sm:py-4 rounded-full text-sm sm:text-base font-medium text-slate-200 border border-[#8b5cf6]/30 hover:border-[#a78bfa]/60 hover:text-white hover:bg-[#8b5cf6]/10 transition-all duration-300 backdrop-blur-sm bg-white/[0.02] flex items-center justify-center gap-2"
               >
-                Hizmetleri Keşfet
+                <Phone className="w-4 h-4 text-[#a78bfa]" />
+                Canlı Demo Talep Et
               </motion.button>
             </motion.div>
 

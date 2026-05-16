@@ -3,6 +3,7 @@ import Hero from "@/components/sections/hero";
 import TrustStrip from "@/components/sections/trust-strip";
 import DashboardMockup from "@/components/sections/dashboard-mockup";
 import Sectors from "@/components/sections/sectors";
+import Languages from "@/components/sections/languages";
 import Integrations from "@/components/sections/integrations";
 import Services from "@/components/sections/services";
 import Process from "@/components/sections/process";
@@ -19,6 +20,7 @@ export default function Home() {
         <TrustStrip />
         <DashboardMockup />
         <Sectors />
+        <Languages />
         <Integrations />
         <Services />
         <Process />
