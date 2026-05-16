@@ -26,7 +26,7 @@ const pains = [
 
 export default function PainPoints() {
   return (
-    <section className="relative py-16 md:py-24 bg-[#0a0a0a] overflow-hidden">
+    <section className="relative py-16 md:py-24 bg-[color:var(--color-page)] overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-1/4 w-[400px] h-[400px] bg-red-500/4 rounded-full blur-[120px]" />
       </div>
@@ -39,12 +39,12 @@ export default function PainPoints() {
           transition={{ duration: 0.7 }}
           className="text-center mb-12 md:mb-16 max-w-2xl mx-auto"
         >
-          <span className="text-[10px] sm:text-xs font-medium uppercase tracking-[0.2em] text-[#a78bfa] mb-3 block">
+          <span className="text-[10px] sm:text-xs font-medium uppercase tracking-[0.2em] text-brand-soft mb-3 block">
             Klinik sahiplerinin günlük problemi
           </span>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-[-0.02em] leading-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[color:var(--color-fg)] tracking-[-0.02em] leading-tight">
             Telefonu açan biri olmadığında{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-br from-white via-[#fca5a5] to-[#f87171]">
+            <span className="text-transparent bg-clip-text bg-gradient-to-br from-red-500 via-red-400 to-rose-500">
               hasta kaybediyorsunuz
             </span>
           </h2>
@@ -58,16 +58,16 @@ export default function PainPoints() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.6, delay: i * 0.12 }}
-              className="relative p-[1px] rounded-2xl bg-gradient-to-b from-white/10 to-transparent"
+              className="relative p-[1px] rounded-2xl bg-gradient-to-b from-[color:var(--color-border-strong)] to-transparent"
             >
-              <div className="h-full bg-[#111111] rounded-2xl p-6 md:p-7">
-                <div className="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-300 mb-5">
+              <div className="h-full bg-[color:var(--color-elevated)] rounded-2xl p-6 md:p-7 shadow-[var(--shadow-md)]">
+                <div className="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-500 mb-5">
                   {p.icon}
                 </div>
-                <h3 className="text-lg font-semibold text-white mb-3">{p.title}</h3>
-                <p className="text-sm text-slate-400 leading-relaxed mb-5">{p.body}</p>
-                <div className="pt-4 border-t border-white/5">
-                  <p className="text-xs text-slate-500 italic">{p.stat}</p>
+                <h3 className="text-lg font-semibold text-[color:var(--color-fg)] mb-3">{p.title}</h3>
+                <p className="text-sm text-[color:var(--color-fg-muted)] leading-relaxed mb-5">{p.body}</p>
+                <div className="pt-4 border-t border-[color:var(--color-border)]">
+                  <p className="text-xs text-[color:var(--color-fg-muted)] italic">{p.stat}</p>
                 </div>
               </div>
             </motion.div>

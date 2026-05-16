@@ -34,9 +34,9 @@ export default function DentalFaq() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section className="relative py-16 md:py-24 bg-[#0a0a0a]">
+    <section className="relative py-16 md:py-24 bg-[color:var(--color-page)]">
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#8b5cf6]/4 rounded-full blur-[120px]" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-brand/4 rounded-full blur-[120px]" />
       </div>
 
       <div className="relative z-10 max-w-3xl mx-auto px-5 sm:px-6 lg:px-8">
@@ -47,10 +47,10 @@ export default function DentalFaq() {
           transition={{ duration: 0.7 }}
           className="text-center mb-10 md:mb-14"
         >
-          <span className="text-[10px] sm:text-xs font-medium uppercase tracking-[0.2em] text-[#a78bfa] mb-3 block">
+          <span className="text-[10px] sm:text-xs font-medium uppercase tracking-[0.2em] text-brand-soft mb-3 block">
             Sıkça sorulanlar
           </span>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-[-0.02em] leading-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[color:var(--color-fg)] tracking-[-0.02em] leading-tight">
             Aklınızdaki sorular
           </h2>
         </motion.div>
@@ -65,17 +65,17 @@ export default function DentalFaq() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.4, delay: i * 0.05 }}
-                className="rounded-2xl bg-[#111111] border border-white/5 overflow-hidden"
+                className="rounded-2xl bg-[color:var(--color-elevated)] border border-[color:var(--color-border)] overflow-hidden shadow-[var(--shadow-sm)]"
               >
                 <button
                   type="button"
                   onClick={() => setOpen(isOpen ? null : i)}
-                  className="w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-4 sm:py-5 text-left hover:bg-white/[0.02] transition-colors"
+                  className="w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-4 sm:py-5 text-left hover:bg-brand/5 transition-colors"
                   aria-expanded={isOpen}
                 >
-                  <span className="text-sm sm:text-base font-medium text-white">{f.q}</span>
+                  <span className="text-sm sm:text-base font-medium text-[color:var(--color-fg)]">{f.q}</span>
                   <ChevronDown
-                    className={`w-4 h-4 sm:w-5 sm:h-5 text-[#a78bfa] flex-shrink-0 transition-transform ${
+                    className={`w-4 h-4 sm:w-5 sm:h-5 text-brand-soft flex-shrink-0 transition-transform ${
                       isOpen ? "rotate-180" : ""
                     }`}
                   />
@@ -89,7 +89,7 @@ export default function DentalFaq() {
                       transition={{ duration: 0.25 }}
                       className="overflow-hidden"
                     >
-                      <div className="px-5 sm:px-6 pb-5 text-sm text-slate-400 leading-relaxed">
+                      <div className="px-5 sm:px-6 pb-5 text-sm text-[color:var(--color-fg-muted)] leading-relaxed">
                         {f.a}
                       </div>
                     </motion.div>
@@ -104,7 +104,6 @@ export default function DentalFaq() {
   );
 }
 
-// Schema.org için FAQ list — JSON-LD'de kullanılacak.
 export const dentalFaqJsonLd = faqs.map((f) => ({
   "@type": "Question",
   name: f.q,

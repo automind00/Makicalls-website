@@ -103,7 +103,7 @@ export default function Hero() {
   ];
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0a0a0a]">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[color:var(--color-page)]">
       <AnimatedGrid />
       <FloatingParticles />
       <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
@@ -115,10 +115,10 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/5 border border-white/10 mb-6 sm:mb-8"
+              className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-[color:var(--color-surface)] border border-[color:var(--color-border)] mb-6 sm:mb-8"
             >
-              <div className="w-1.5 h-1.5 rounded-full bg-[#8b5cf6] shadow-[0_0_8px_#8b5cf6] animate-pulse" />
-              <span className="text-[10px] sm:text-xs text-slate-300 font-medium tracking-wide uppercase">
+              <div className="w-1.5 h-1.5 rounded-full bg-brand shadow-[0_0_8px_rgb(var(--brand))] animate-pulse" />
+              <span className="text-[10px] sm:text-xs text-[color:var(--color-fg-secondary)] font-medium tracking-wide uppercase">
                 Klinikler için 7/24 AI · Pilot Açık
               </span>
             </motion.div>
@@ -136,20 +136,20 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
-              className="text-xl sm:text-3xl md:text-4xl font-light text-slate-200 mb-5 sm:mb-6 leading-tight tracking-tight"
+              className="text-xl sm:text-3xl md:text-4xl font-light text-[color:var(--color-fg-secondary)] mb-5 sm:mb-6 leading-tight tracking-tight"
             >
-              AI <span className="text-[#a78bfa] font-semibold">resepsiyonist</span>, satış asistanı ve{" "}
-              <span className="text-[#a78bfa] font-semibold">CRM</span> — dakikalar içinde canlı.
+              AI <span className="text-brand-soft font-semibold">resepsiyonist</span>, satış asistanı ve{" "}
+              <span className="text-brand-soft font-semibold">CRM</span> — dakikalar içinde canlı.
             </motion.h2>
 
-            <p className="text-sm sm:text-lg text-slate-400 max-w-xl lg:mx-0 mx-auto mb-8 sm:mb-10 leading-relaxed">
+            <p className="text-sm sm:text-lg text-[color:var(--color-fg-muted)] max-w-xl lg:mx-0 mx-auto mb-8 sm:mb-10 leading-relaxed">
               {subtitleWords.map((w, i) => (
                 <motion.span
                   key={i}
                   initial={{ opacity: 0, y: 12, filter: "blur(6px)" }}
                   animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                   transition={{ duration: 0.4, delay: 0.9 + w.delay / 1000 }}
-                  className={`inline-block mr-1.5 ${w.accent ? "text-white font-semibold" : ""}`}
+                  className={`inline-block mr-1.5 ${w.accent ? "text-[color:var(--color-fg)] font-semibold" : ""}`}
                 >
                   {w.text}
                 </motion.span>
@@ -166,7 +166,7 @@ export default function Hero() {
                 <motion.span
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="relative inline-flex group px-6 sm:px-8 py-3.5 sm:py-4 rounded-full text-sm sm:text-base font-semibold text-white bg-[#8b5cf6] hover:bg-[#7c3aed] transition-colors duration-300 shadow-[0_0_40px_-10px_#8b5cf6] cursor-pointer"
+                  className="relative inline-flex group px-6 sm:px-8 py-3.5 sm:py-4 rounded-full text-sm sm:text-base font-semibold text-white bg-brand hover:bg-brand-deep transition-colors duration-300 shadow-[0_0_40px_-10px_rgb(var(--brand))] cursor-pointer"
                 >
                   <span className="flex items-center justify-center gap-2">
                     Pilot Programa Başvur
@@ -179,9 +179,9 @@ export default function Hero() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={scrollToContact}
-                className="px-6 sm:px-8 py-3.5 sm:py-4 rounded-full text-sm sm:text-base font-medium text-slate-200 border border-[#8b5cf6]/30 hover:border-[#a78bfa]/60 hover:text-white hover:bg-[#8b5cf6]/10 transition-all duration-300 backdrop-blur-sm bg-white/[0.02] flex items-center justify-center gap-2"
+                className="px-6 sm:px-8 py-3.5 sm:py-4 rounded-full text-sm sm:text-base font-medium text-[color:var(--color-fg-secondary)] border border-brand/30 hover:border-brand-soft/60 hover:text-[color:var(--color-fg)] hover:bg-brand/10 transition-all duration-300 backdrop-blur-sm bg-[color:var(--color-surface)] flex items-center justify-center gap-2"
               >
-                <Phone className="w-4 h-4 text-[#a78bfa]" />
+                <Phone className="w-4 h-4 text-brand-soft" />
                 Canlı Demo Talep Et
               </motion.button>
             </motion.div>
@@ -198,10 +198,10 @@ export default function Hero() {
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5, delay: 2.4 + i * 0.1 }}
-                  className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white/5 border border-white/10 hover:border-[#8b5cf6]/40 hover:bg-white/10 transition-all duration-300 cursor-default"
+                  className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-[color:var(--color-surface)] border border-[color:var(--color-border)] hover:border-brand/40 hover:bg-brand/5 transition-all duration-300 cursor-default"
                 >
-                  <span className="text-[#a78bfa]">{s.icon}</span>
-                  <span className="text-sm text-slate-300">{s.label}</span>
+                  <span className="text-brand-soft">{s.icon}</span>
+                  <span className="text-sm text-[color:var(--color-fg-secondary)]">{s.label}</span>
                 </motion.div>
               ))}
             </motion.div>
@@ -213,7 +213,7 @@ export default function Hero() {
             transition={{ duration: 1.2, delay: 0.6 }}
             className="relative h-[400px] sm:h-[500px] lg:h-[600px] w-full hidden md:block"
           >
-            <div className="absolute inset-0 rounded-3xl bg-[#8b5cf6]/8 blur-3xl" />
+            <div className="absolute inset-0 rounded-3xl bg-brand/8 blur-3xl" />
             <SplineScene
               scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
               className="w-full h-full"
@@ -222,7 +222,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0a0a0a] to-transparent pointer-events-none z-[5]" />
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[color:var(--color-page)] to-transparent pointer-events-none z-[5]" />
     </section>
   );
 }

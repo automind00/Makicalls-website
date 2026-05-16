@@ -1,49 +1,113 @@
 @import "tailwindcss";
 
+/* ==========================================================================
+   MAKICALLS — Stripe-inspired token system
+   Brand: violet (#8b5cf6) korunur her iki temada.
+   Light: ferah, klinik-uygun, premium beyaz/gri yüzeyler.
+   Dark:  premium siyah, mor accent — mevcut hali.
+   ========================================================================== */
+
 :root {
-  --background: #0a0a0a;
-  --foreground: #ededed;
-  --brand: #8b5cf6;
-  --brand-soft: #a78bfa;
-  --brand-deep: #7c3aed;
-  --brand-glow: 139 92 246;
+  /* ---- LIGHT (default) ---- */
+  --bg-page: 255 255 255;            /* #ffffff */
+  --bg-surface: 246 249 252;         /* #f6f9fc — Stripe-style soft gray surface */
+  --bg-elevated: 255 255 255;        /* card sat above gray surface */
+  --bg-inverse: 10 37 64;            /* #0a2540 — for dark band sections */
+
+  --text-primary: 10 37 64;          /* #0a2540 navy-black */
+  --text-secondary: 66 84 102;       /* #425466 slate */
+  --text-muted: 105 115 134;         /* #697386 cool gray */
+  --text-inverse: 255 255 255;
+
+  --border-base: 0 0 0;              /* RGB component, opacity uygulanır */
+  --border-soft-opacity: 0.08;
+  --border-strong-opacity: 0.14;
+
+  --brand: 139 92 246;               /* #8b5cf6 — MakiCalls signature, her iki tema */
+  --brand-soft: 167 139 250;         /* #a78bfa */
+  --brand-deep: 124 58 237;          /* #7c3aed */
+  --brand-tint-bg: 245 243 255;      /* #f5f3ff — light brand tint surface */
+
+  --shadow-sm: 0 1px 2px 0 rgba(10, 37, 64, 0.05);
+  --shadow-md: 0 6px 18px -4px rgba(10, 37, 64, 0.08), 0 2px 4px -2px rgba(10, 37, 64, 0.04);
+  --shadow-lg: 0 28px 56px -16px rgba(10, 37, 64, 0.14), 0 4px 8px -2px rgba(10, 37, 64, 0.06);
+  --shadow-glow: 0 0 60px -10px rgba(139, 92, 246, 0.35);
+
+  --scrollbar-track: 246 249 252;
+  --scrollbar-thumb: 139 92 246;
+}
+
+.dark {
+  /* ---- DARK ---- */
+  --bg-page: 10 10 10;               /* #0a0a0a */
+  --bg-surface: 17 17 17;            /* #111111 */
+  --bg-elevated: 22 22 24;
+  --bg-inverse: 246 249 252;
+
+  --text-primary: 255 255 255;
+  --text-secondary: 226 232 240;     /* slate-200 */
+  --text-muted: 148 163 184;         /* slate-400 */
+  --text-inverse: 10 37 64;
+
+  --border-base: 255 255 255;
+  --border-soft-opacity: 0.10;
+  --border-strong-opacity: 0.20;
+
+  --brand-tint-bg: 22 18 38;         /* dark brand tint surface */
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 8px 24px -6px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 30px 60px -16px rgba(0, 0, 0, 0.65);
+  --shadow-glow: 0 0 60px -10px rgba(139, 92, 246, 0.45);
+
+  --scrollbar-track: 10 10 10;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-brand: var(--brand);
-  --color-brand-soft: var(--brand-soft);
-  --color-brand-deep: var(--brand-deep);
+  /* Surfaces */
+  --color-page: rgb(var(--bg-page));
+  --color-surface: rgb(var(--bg-surface));
+  --color-elevated: rgb(var(--bg-elevated));
+  --color-inverse: rgb(var(--bg-inverse));
+  --color-brand-tint: rgb(var(--brand-tint-bg));
+
+  /* Text */
+  --color-fg: rgb(var(--text-primary));
+  --color-fg-secondary: rgb(var(--text-secondary));
+  --color-fg-muted: rgb(var(--text-muted));
+  --color-fg-inverse: rgb(var(--text-inverse));
+
+  /* Brand */
+  --color-brand: rgb(var(--brand));
+  --color-brand-soft: rgb(var(--brand-soft));
+  --color-brand-deep: rgb(var(--brand-deep));
+
+  /* Borders */
+  --color-border: rgb(var(--border-base) / var(--border-soft-opacity));
+  --color-border-strong: rgb(var(--border-base) / var(--border-strong-opacity));
+
+  /* Fonts */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 
+  /* Animations */
   --animate-spotlight: spotlight 2s ease 0.75s 1 forwards;
   --animate-marquee: marquee var(--duration, 40s) linear infinite;
   --animate-marquee-vertical: marquee-vertical var(--duration, 40s) linear infinite;
   --animate-border-beam: border-beam calc(var(--duration) * 1s) infinite linear;
 
   @keyframes spotlight {
-    0% {
-      opacity: 0;
-      transform: translate(-72%, -62%) scale(0.5);
-    }
-    100% {
-      opacity: 1;
-      transform: translate(-50%, -40%) scale(1);
-    }
+    0%   { opacity: 0; transform: translate(-72%, -62%) scale(0.5); }
+    100% { opacity: 1; transform: translate(-50%, -40%) scale(1); }
   }
-
   @keyframes marquee {
     from { transform: translateX(0); }
-    to { transform: translateX(calc(-100% - var(--gap, 1rem))); }
+    to   { transform: translateX(calc(-100% - var(--gap, 1rem))); }
   }
-
   @keyframes marquee-vertical {
     from { transform: translateY(0); }
-    to { transform: translateY(calc(-100% - var(--gap, 1rem))); }
+    to   { transform: translateY(calc(-100% - var(--gap, 1rem))); }
   }
-
   @keyframes border-beam {
     100% { offset-distance: 100%; }
   }
@@ -51,35 +115,51 @@
 
 html {
   scroll-behavior: smooth;
+  background: rgb(var(--bg-page));
+  color-scheme: light dark;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: rgb(var(--bg-page));
+  color: rgb(var(--text-primary));
   font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 ::selection {
-  background: rgb(var(--brand-glow) / 0.35);
-  color: #ffffff;
+  background: rgb(var(--brand) / 0.30);
+  color: rgb(var(--text-primary));
 }
 
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
-
 ::-webkit-scrollbar-track {
-  background: #0a0a0a;
+  background: rgb(var(--scrollbar-track));
 }
-
 ::-webkit-scrollbar-thumb {
-  background: rgb(var(--brand-glow) / 0.3);
+  background: rgb(var(--brand) / 0.30);
   border-radius: 999px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background: rgb(var(--brand-glow) / 0.6);
+  background: rgb(var(--brand) / 0.60);
+}
+
+/* Theme transition - smooth flick between modes */
+*,
+*::before,
+*::after {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-timing-function: ease;
+  transition-duration: 200ms;
+}
+
+/* Disable transition during initial load to avoid flash */
+html.theme-loading *,
+html.theme-loading *::before,
+html.theme-loading *::after {
+  transition: none !important;
 }

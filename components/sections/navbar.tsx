@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone } from "lucide-react";
+import ThemeToggle from "@/components/ui/theme-toggle";
 
 export default function Navbar() {
   const router = useRouter();
@@ -62,7 +63,7 @@ export default function Navbar() {
       transition={{ duration: 0.6, ease: "easeOut" }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? "bg-black/80 backdrop-blur-xl border-b border-white/10 shadow-2xl"
+          ? "bg-[color:var(--color-page)]/85 backdrop-blur-xl border-b border-[color:var(--color-border)] shadow-[var(--shadow-md)]"
           : "bg-transparent"
       }`}
     >
@@ -75,8 +76,8 @@ export default function Navbar() {
             whileHover={{ scale: 1.02 }}
             aria-label="Ana sayfa"
           >
-            <span className="text-white font-bold text-xl md:text-[22px] tracking-[-0.02em] leading-none">
-              Maki<span className="text-[#a78bfa] group-hover:text-[#c4b5fd] transition-colors">Calls</span>
+            <span className="font-bold text-xl md:text-[22px] tracking-[-0.02em] leading-none text-[color:var(--color-fg)]">
+              Maki<span className="text-brand group-hover:text-brand-soft transition-colors">Calls</span>
             </span>
           </motion.button>
 
@@ -86,27 +87,28 @@ export default function Navbar() {
               <button
                 key={link.id}
                 onClick={() => scrollToSection(link.id)}
-                className="text-sm text-slate-300 hover:text-white transition-colors duration-300 relative group"
+                className="text-sm text-[color:var(--color-fg-secondary)] hover:text-[color:var(--color-fg)] transition-colors duration-300 relative group"
               >
                 {link.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#8b5cf6] group-hover:w-full transition-all duration-300" />
+                <span className="absolute -bottom-1 left-0 w-0 h-px bg-brand group-hover:w-full transition-all duration-300" />
               </button>
             ))}
           </div>
 
           {/* CTA Group */}
           <div className="hidden md:flex items-center gap-3">
+            <ThemeToggle />
             {DEMO_PHONE ? (
               <motion.a
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 href={`tel:${DEMO_PHONE}`}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium text-slate-200 border border-[#8b5cf6]/30 hover:border-[#a78bfa]/60 hover:text-white hover:bg-[#8b5cf6]/10 transition-all"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium text-[color:var(--color-fg-secondary)] border border-brand/30 hover:border-brand-soft/60 hover:text-[color:var(--color-fg)] hover:bg-brand/10 transition-all"
               >
-                <Phone className="w-4 h-4 text-[#a78bfa]" />
+                <Phone className="w-4 h-4 text-brand-soft" />
                 <span>
                   Canlı Demo:&nbsp;
-                  <span className="text-white">{DEMO_PHONE_DISPLAY}</span>
+                  <span className="text-[color:var(--color-fg)] font-semibold">{DEMO_PHONE_DISPLAY}</span>
                 </span>
               </motion.a>
             ) : (
@@ -114,9 +116,9 @@ export default function Navbar() {
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={() => scrollToSection("iletisim")}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium text-slate-200 border border-[#8b5cf6]/30 hover:border-[#a78bfa]/60 hover:text-white hover:bg-[#8b5cf6]/10 transition-all"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium text-[color:var(--color-fg-secondary)] border border-brand/30 hover:border-brand-soft/60 hover:text-[color:var(--color-fg)] hover:bg-brand/10 transition-all"
               >
-                <Phone className="w-4 h-4 text-[#a78bfa]" />
+                <Phone className="w-4 h-4 text-brand-soft" />
                 <span>Canlı Demo Talep Et</span>
               </motion.button>
             )}
@@ -124,20 +126,23 @@ export default function Navbar() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => scrollToSection("iletisim")}
-              className="relative px-6 py-2.5 rounded-full text-sm font-semibold text-white bg-[#8b5cf6] hover:bg-[#7c3aed] transition-colors duration-300 shadow-[0_0_30px_-8px_#8b5cf6]"
+              className="relative px-6 py-2.5 rounded-full text-sm font-semibold text-white bg-brand hover:bg-brand-deep transition-colors duration-300 shadow-[0_0_30px_-8px_rgb(var(--brand)/0.6)]"
             >
               Teklif Al
             </motion.button>
           </div>
 
           {/* Mobile Menu Toggle */}
-          <button
-            className="md:hidden text-white p-2"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label="Menü"
-          >
-            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          <div className="md:hidden flex items-center gap-2">
+            <ThemeToggle size="sm" />
+            <button
+              className="text-[color:var(--color-fg)] p-2"
+              onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label="Menü"
+            >
+              {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -148,14 +153,14 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-black/95 backdrop-blur-xl border-t border-white/10"
+            className="md:hidden bg-[color:var(--color-page)]/95 backdrop-blur-xl border-t border-[color:var(--color-border)]"
           >
             <div className="px-6 py-6 space-y-4">
               {navLinks.map((link) => (
                 <button
                   key={link.id}
                   onClick={() => scrollToSection(link.id)}
-                  className="block text-slate-300 hover:text-white transition-colors text-base w-full text-left"
+                  className="block text-[color:var(--color-fg-secondary)] hover:text-[color:var(--color-fg)] transition-colors text-base w-full text-left"
                 >
                   {link.label}
                 </button>
@@ -163,23 +168,23 @@ export default function Navbar() {
               {DEMO_PHONE ? (
                 <a
                   href={`tel:${DEMO_PHONE}`}
-                  className="flex items-center justify-center gap-2 w-full mt-4 px-6 py-3 rounded-full text-sm font-medium text-slate-200 border border-[#8b5cf6]/30"
+                  className="flex items-center justify-center gap-2 w-full mt-4 px-6 py-3 rounded-full text-sm font-medium text-[color:var(--color-fg-secondary)] border border-brand/30"
                 >
-                  <Phone className="w-4 h-4 text-[#a78bfa]" />
+                  <Phone className="w-4 h-4 text-brand-soft" />
                   Canlı Demo: {DEMO_PHONE_DISPLAY}
                 </a>
               ) : (
                 <button
                   onClick={() => scrollToSection("iletisim")}
-                  className="flex items-center justify-center gap-2 w-full mt-4 px-6 py-3 rounded-full text-sm font-medium text-slate-200 border border-[#8b5cf6]/30"
+                  className="flex items-center justify-center gap-2 w-full mt-4 px-6 py-3 rounded-full text-sm font-medium text-[color:var(--color-fg-secondary)] border border-brand/30"
                 >
-                  <Phone className="w-4 h-4 text-[#a78bfa]" />
+                  <Phone className="w-4 h-4 text-brand-soft" />
                   Canlı Demo Talep Et
                 </button>
               )}
               <button
                 onClick={() => scrollToSection("iletisim")}
-                className="w-full px-6 py-3 rounded-full text-sm font-semibold text-white bg-[#8b5cf6]"
+                className="w-full px-6 py-3 rounded-full text-sm font-semibold text-white bg-brand"
               >
                 Teklif Al
               </button>

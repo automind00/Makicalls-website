@@ -25,10 +25,10 @@ const languages: Lang[] = [
 
 export default function Languages() {
   return (
-    <section className="relative py-16 md:py-24 bg-[#0a0a0a] overflow-hidden">
+    <section className="relative py-16 md:py-24 bg-[color:var(--color-surface)] overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-0 w-[400px] h-[400px] bg-[#8b5cf6]/6 rounded-full blur-[140px]" />
-        <div className="absolute bottom-0 right-1/4 w-[500px] h-[300px] bg-[#a78bfa]/5 rounded-full blur-[120px]" />
+        <div className="absolute top-1/2 left-0 w-[400px] h-[400px] bg-brand/6 rounded-full blur-[140px]" />
+        <div className="absolute bottom-0 right-1/4 w-[500px] h-[300px] bg-brand-soft/5 rounded-full blur-[120px]" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
@@ -40,33 +40,33 @@ export default function Languages() {
           className="grid lg:grid-cols-5 gap-10 lg:gap-14 items-center"
         >
           <div className="lg:col-span-2 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#8b5cf6]/10 border border-[#8b5cf6]/30 mb-4">
-              <Globe className="w-3.5 h-3.5 text-[#a78bfa]" />
-              <span className="text-[10px] sm:text-xs font-medium uppercase tracking-[0.2em] text-[#a78bfa]">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand/10 border border-brand/30 mb-4">
+              <Globe className="w-3.5 h-3.5 text-brand-soft" />
+              <span className="text-[10px] sm:text-xs font-medium uppercase tracking-[0.2em] text-brand-soft">
                 Çoklu dil desteği
               </span>
             </div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-[-0.02em] leading-tight mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[color:var(--color-fg)] tracking-[-0.02em] leading-tight mb-4">
               Hasta hangi dilde yazarsa{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-br from-white via-[#e9d5ff] to-[#a78bfa]">
+              <span className="text-transparent bg-clip-text bg-gradient-to-br from-[color:var(--color-fg)] via-brand-soft to-brand">
                 aynı dilde cevap alır
               </span>
             </h2>
-            <p className="text-sm sm:text-base text-slate-400 leading-relaxed mb-5">
+            <p className="text-sm sm:text-base text-[color:var(--color-fg-muted)] leading-relaxed mb-5">
               Türkçe asıl çalışma dili. Sağlık turizmi kliniklerimiz için 14 ek dil hazır — İngilizce,
               Almanca, Rusça, Arapça ön planda.
             </p>
-            <div className="flex flex-wrap justify-center lg:justify-start items-center gap-3 text-xs text-slate-500">
+            <div className="flex flex-wrap justify-center lg:justify-start items-center gap-3 text-xs text-[color:var(--color-fg-muted)]">
               <span className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                 15 dil canlı
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#a78bfa]" />
+                <span className="w-1.5 h-1.5 rounded-full bg-brand-soft" />
                 Aksan algılama
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
                 Otomatik geçiş
               </span>
             </div>
@@ -83,17 +83,19 @@ export default function Languages() {
                   transition={{ duration: 0.35, delay: i * 0.025 }}
                   className={`group relative p-3 sm:p-3.5 rounded-xl border transition-all hover:scale-105 ${
                     lang.priority
-                      ? "bg-gradient-to-br from-[#8b5cf6]/12 to-transparent border-[#8b5cf6]/30 hover:border-[#a78bfa]/60"
-                      : "bg-white/[0.03] border-white/10 hover:border-[#8b5cf6]/30"
+                      ? "bg-gradient-to-br from-brand/12 to-transparent border-brand/30 hover:border-brand-soft/60"
+                      : "bg-[color:var(--color-elevated)] border-[color:var(--color-border)] hover:border-brand/30"
                   }`}
                 >
-                  <div className="text-[9px] uppercase tracking-wider font-bold text-[#a78bfa] mb-1">
+                  <div className="text-[9px] uppercase tracking-wider font-bold text-brand-soft mb-1">
                     {lang.code}
                   </div>
-                  <div className="text-xs sm:text-sm font-medium text-white leading-tight truncate">
+                  <div className="text-xs sm:text-sm font-medium text-[color:var(--color-fg)] leading-tight truncate">
                     {lang.native}
                   </div>
-                  <div className="text-[10px] text-slate-500 mt-0.5 truncate">{lang.name}</div>
+                  <div className="text-[10px] text-[color:var(--color-fg-muted)] mt-0.5 truncate">
+                    {lang.name}
+                  </div>
                 </motion.div>
               ))}
             </div>

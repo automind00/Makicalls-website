@@ -116,10 +116,10 @@ const orbitConfigs = [
 
 export default function Process() {
   return (
-    <section id="surec" className="relative py-16 md:py-32 bg-[#0a0a0a] overflow-hidden">
+    <section id="surec" className="relative py-16 md:py-32 bg-[color:var(--color-page)] overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-0 w-[600px] h-[600px] bg-[#8b5cf6]/5 rounded-full blur-[128px] -translate-y-1/2" />
-        <div className="absolute top-1/2 right-0 w-[600px] h-[600px] bg-[#8b5cf6]/4 rounded-full blur-[128px] -translate-y-1/2" />
+        <div className="absolute top-1/2 left-0 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[128px] -translate-y-1/2" />
+        <div className="absolute top-1/2 right-0 w-[600px] h-[600px] bg-brand/4 rounded-full blur-[128px] -translate-y-1/2" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
@@ -130,16 +130,16 @@ export default function Process() {
           transition={{ duration: 0.8 }}
           className="text-center mb-10 md:mb-16"
         >
-          <span className="text-[10px] sm:text-xs font-medium uppercase tracking-[0.2em] text-[#a78bfa] mb-3 sm:mb-4 block">
+          <span className="text-[10px] sm:text-xs font-medium uppercase tracking-[0.2em] text-brand-soft mb-3 sm:mb-4 block">
             Nasıl Çalışırız
           </span>
-          <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-white mb-3 sm:mb-4 tracking-[-0.02em] leading-tight">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-[color:var(--color-fg)] mb-3 sm:mb-4 tracking-[-0.02em] leading-tight">
             3 Adımda{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-br from-white via-[#e9d5ff] to-[#a78bfa]">
+            <span className="text-transparent bg-clip-text bg-gradient-to-br from-[color:var(--color-fg)] via-brand-soft to-brand">
               Başlayın
             </span>
           </h2>
-          <p className="text-sm sm:text-base md:text-lg text-slate-400 max-w-xl mx-auto">
+          <p className="text-sm sm:text-base md:text-lg text-[color:var(--color-fg-muted)] max-w-xl mx-auto">
             Basit ve şeffaf sürecimizle dijital dönüşümünüzü hızla başlatın.
           </p>
         </motion.div>
@@ -155,8 +155,8 @@ export default function Process() {
             <OrbitingSkills
               centerIcon={
                 <div className="text-center">
-                  <span className="text-sm font-bold text-white tracking-[-0.02em]">
-                    Maki<span className="text-[#a78bfa]">Calls</span>
+                  <span className="text-sm font-bold tracking-[-0.02em] text-[color:var(--color-fg)]">
+                    Maki<span className="text-brand-soft">Calls</span>
                   </span>
                 </div>
               }
@@ -177,24 +177,24 @@ export default function Process() {
               >
                 <div className="flex items-start gap-5">
                   <div className="relative flex-shrink-0">
-                    <div className="absolute inset-0 w-16 h-16 rounded-2xl bg-[#8b5cf6] opacity-20 blur-xl group-hover:opacity-40 transition-opacity duration-500" />
-                    <div className="relative w-16 h-16 rounded-2xl bg-[#8b5cf6] flex items-center justify-center text-white shadow-[0_0_20px_-4px_#8b5cf6]">
+                    <div className="absolute inset-0 w-16 h-16 rounded-2xl bg-brand opacity-20 blur-xl group-hover:opacity-40 transition-opacity duration-500" />
+                    <div className="relative w-16 h-16 rounded-2xl bg-brand flex items-center justify-center text-white shadow-[0_0_20px_-4px_rgb(var(--brand))]">
                       {step.icon}
                     </div>
-                    <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-[#0a0a0a] border-2 border-white/20 flex items-center justify-center">
-                      <span className="text-[10px] font-bold text-white">{step.number}</span>
+                    <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-[color:var(--color-elevated)] border-2 border-[color:var(--color-border-strong)] flex items-center justify-center shadow-[var(--shadow-sm)]">
+                      <span className="text-[10px] font-bold text-[color:var(--color-fg)]">{step.number}</span>
                     </div>
                   </div>
 
                   <div className="flex-1 pt-1">
-                    <h3 className="text-xl font-bold text-white mb-1">{step.title}</h3>
-                    <p className="text-sm text-[#a78bfa] font-medium mb-2">{step.subtitle}</p>
-                    <p className="text-sm text-slate-400 leading-relaxed">{step.description}</p>
+                    <h3 className="text-xl font-bold text-[color:var(--color-fg)] mb-1">{step.title}</h3>
+                    <p className="text-sm text-brand-soft font-medium mb-2">{step.subtitle}</p>
+                    <p className="text-sm text-[color:var(--color-fg-muted)] leading-relaxed">{step.description}</p>
                   </div>
                 </div>
 
                 {i < steps.length - 1 && (
-                  <div className="absolute left-8 top-16 w-px h-8 bg-gradient-to-b from-white/20 to-transparent" />
+                  <div className="absolute left-8 top-16 w-px h-8 bg-gradient-to-b from-[color:var(--color-border-strong)] to-transparent" />
                 )}
               </motion.div>
             ))}

@@ -57,10 +57,10 @@ export default function Services() {
   };
 
   return (
-    <section id="hizmetler" className="relative py-16 md:py-32 bg-[#0a0a0a]">
+    <section id="hizmetler" className="relative py-16 md:py-32 bg-[color:var(--color-page)]">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#8b5cf6]/5 rounded-full blur-[128px]" />
-        <div className="absolute bottom-0 left-1/4 w-[500px] h-[300px] bg-[#8b5cf6]/4 rounded-full blur-[120px]" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-brand/5 rounded-full blur-[128px]" />
+        <div className="absolute bottom-0 left-1/4 w-[500px] h-[300px] bg-brand/4 rounded-full blur-[120px]" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
@@ -71,17 +71,17 @@ export default function Services() {
           transition={{ duration: 0.8 }}
           className="text-center mb-12 md:mb-16"
         >
-          <span className="text-[10px] sm:text-xs font-medium uppercase tracking-[0.2em] text-[#a78bfa] mb-3 sm:mb-4 block">
+          <span className="text-[10px] sm:text-xs font-medium uppercase tracking-[0.2em] text-brand-soft mb-3 sm:mb-4 block">
             Hizmetlerimiz
           </span>
-          <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-white mb-3 sm:mb-4 tracking-[-0.02em] leading-tight">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-[color:var(--color-fg)] mb-3 sm:mb-4 tracking-[-0.02em] leading-tight">
             İşletmeniz İçin{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-br from-white via-[#e9d5ff] to-[#a78bfa]">
+            <span className="text-transparent bg-clip-text bg-gradient-to-br from-[color:var(--color-fg)] via-brand-soft to-brand">
               Doğru Paketi
             </span>{" "}
             Seçin
           </h2>
-          <p className="text-sm sm:text-base md:text-lg text-slate-400 max-w-xl mx-auto">
+          <p className="text-sm sm:text-base md:text-lg text-[color:var(--color-fg-muted)] max-w-xl mx-auto">
             Her işletmenin ihtiyacına uygun, ölçeklenebilir çözümler sunuyoruz.
           </p>
         </motion.div>
@@ -98,44 +98,47 @@ export default function Services() {
             >
               {pkg.popular && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-20">
-                  <span className="px-4 py-1.5 text-xs font-semibold bg-[#8b5cf6] text-white rounded-full shadow-[0_0_20px_-2px_#8b5cf6]">
+                  <span className="px-4 py-1.5 text-xs font-semibold bg-brand text-white rounded-full shadow-[0_0_20px_-2px_rgb(var(--brand))]">
                     En Popüler
                   </span>
                 </div>
               )}
 
               <div
-                className={`relative h-full rounded-2xl overflow-hidden bg-[#111111] border ${
-                  pkg.popular ? "border-[#8b5cf6]/40 shadow-[0_0_40px_-12px_#8b5cf6]" : "border-white/10"
+                className={`relative h-full rounded-2xl overflow-hidden bg-[color:var(--color-elevated)] border shadow-[var(--shadow-md)] ${
+                  pkg.popular ? "border-brand/40 shadow-[0_0_40px_-12px_rgb(var(--brand))]" : "border-[color:var(--color-border)]"
                 }`}
               >
                 <BorderBeam
                   size={pkg.popular ? 280 : 220}
                   duration={pkg.popular ? 12 : 16}
                   delay={i * 2}
-                  colorFrom="#a78bfa"
-                  colorTo="#7c3aed"
+                  colorFrom="rgb(var(--brand-soft))"
+                  colorTo="rgb(var(--brand-deep))"
                 />
 
                 <div className="relative h-full p-6 lg:p-8 flex flex-col">
                   <div
                     className={`w-14 h-14 rounded-xl flex items-center justify-center text-white mb-5 ${
                       pkg.popular
-                        ? "bg-[#8b5cf6] shadow-[0_0_20px_-4px_#8b5cf6]"
-                        : "bg-white/5 border border-white/10"
+                        ? "bg-brand shadow-[0_0_20px_-4px_rgb(var(--brand))]"
+                        : "bg-[color:var(--color-surface)] border border-[color:var(--color-border)] text-brand-soft"
                     }`}
                   >
                     {pkg.icon}
                   </div>
 
-                  <h3 className="text-xl font-bold text-white mb-1">{pkg.title}</h3>
-                  <span className="text-sm text-slate-400 mb-3">{pkg.subtitle}</span>
-                  <p className="text-sm text-slate-400 mb-6 leading-relaxed">{pkg.description}</p>
+                  <h3 className="text-xl font-bold text-[color:var(--color-fg)] mb-1">{pkg.title}</h3>
+                  <span className="text-sm text-[color:var(--color-fg-muted)] mb-3">{pkg.subtitle}</span>
+                  <p className="text-sm text-[color:var(--color-fg-muted)] mb-6 leading-relaxed">{pkg.description}</p>
 
                   <ul className="space-y-3 mb-8 flex-1">
                     {pkg.features.map((feature, j) => (
-                      <li key={j} className="flex items-start gap-3 text-sm text-slate-300">
-                        <CheckCircle2 className="w-4 h-4 text-[#a78bfa] mt-0.5 flex-shrink-0" />
+                      <li
+                        key={j}
+                        className="flex items-start gap-3 text-sm text-[color:var(--color-fg-secondary)]"
+                      >
+                        <CheckCircle2 className="w-4 h-4 text-brand-soft mt-0.5 flex-shrink-0" />
                         {feature}
                       </li>
                     ))}
@@ -147,8 +150,8 @@ export default function Services() {
                     onClick={scrollToContact}
                     className={`w-full py-3.5 rounded-xl text-sm font-semibold transition-all duration-300 flex items-center justify-center gap-2 group/btn ${
                       pkg.popular
-                        ? "bg-[#8b5cf6] text-white hover:bg-[#7c3aed] shadow-[0_0_30px_-8px_#8b5cf6]"
-                        : "bg-white/5 text-white border border-white/10 hover:bg-white/10 hover:border-[#8b5cf6]/40"
+                        ? "bg-brand text-white hover:bg-brand-deep shadow-[0_0_30px_-8px_rgb(var(--brand))]"
+                        : "bg-[color:var(--color-surface)] text-[color:var(--color-fg)] border border-[color:var(--color-border)] hover:bg-brand/5 hover:border-brand/40"
                     }`}
                   >
                     Teklif Al

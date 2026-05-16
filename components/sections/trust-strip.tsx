@@ -11,7 +11,7 @@ const stats = [
 
 export default function TrustStrip() {
   return (
-    <section className="relative py-10 md:py-14 bg-[#0a0a0a]">
+    <section className="relative py-10 md:py-14 bg-[color:var(--color-page)]">
       <div className="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
           {stats.map((s, i) => (
@@ -23,10 +23,10 @@ export default function TrustStrip() {
               transition={{ duration: 0.5, delay: i * 0.08 }}
               className="text-center"
             >
-              <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-white via-[#e9d5ff] to-[#a78bfa] mb-1 tracking-tight">
+              <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-[color:var(--color-fg)] via-brand-soft to-brand mb-1 tracking-tight">
                 {s.value}
               </div>
-              <div className="text-[10px] sm:text-xs text-slate-500 uppercase tracking-[0.15em]">
+              <div className="text-[10px] sm:text-xs text-[color:var(--color-fg-muted)] uppercase tracking-[0.15em]">
                 {s.label}
               </div>
             </motion.div>

@@ -50,28 +50,23 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="relative bg-black border-t border-white/5">
+    <footer className="relative bg-[color:var(--color-surface)] border-t border-[color:var(--color-border)]">
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-          {/* Wordmark */}
-          <div className="text-white font-bold text-xl tracking-[-0.02em]">
-            Maki<span className="text-[#a78bfa]">Calls</span>
+          <div className="font-bold text-xl tracking-[-0.02em] text-[color:var(--color-fg)]">
+            Maki<span className="text-brand">Calls</span>
           </div>
 
-          {/* Social Links — disabled, "Yakında" hover */}
           <div className="flex items-center gap-3">
             {socials.map((s) => (
-              <div
-                key={s.label}
-                className="group relative"
-              >
+              <div key={s.label} className="group relative">
                 {s.href ? (
                   <a
                     href={s.href}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={s.label}
-                    className="w-9 h-9 rounded-full bg-white/[0.03] border border-white/10 flex items-center justify-center text-slate-300 hover:text-[#a78bfa] hover:border-[#8b5cf6]/40 hover:bg-[#8b5cf6]/10 transition-colors"
+                    className="w-9 h-9 rounded-full bg-[color:var(--color-elevated)] border border-[color:var(--color-border)] flex items-center justify-center text-[color:var(--color-fg-secondary)] hover:text-brand-soft hover:border-brand-soft/40 hover:bg-brand/10 transition-colors"
                   >
                     {s.icon}
                   </a>
@@ -80,44 +75,44 @@ export default function Footer() {
                     type="button"
                     aria-label={`${s.label} — yakında`}
                     aria-disabled="true"
-                    className="w-9 h-9 rounded-full bg-white/[0.03] border border-white/10 flex items-center justify-center text-slate-600 cursor-not-allowed transition-colors"
+                    className="w-9 h-9 rounded-full bg-[color:var(--color-elevated)] border border-[color:var(--color-border)] flex items-center justify-center text-[color:var(--color-fg-muted)] opacity-50 cursor-not-allowed transition-colors"
                   >
                     {s.icon}
                   </button>
                 )}
                 <span
                   role="tooltip"
-                  className="pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-black/95 border border-white/10 px-2.5 py-1 text-[11px] font-medium text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity"
+                  className="pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-[color:var(--color-elevated)] border border-[color:var(--color-border-strong)] px-2.5 py-1 text-[11px] font-medium text-[color:var(--color-fg-secondary)] opacity-0 group-hover:opacity-100 transition-opacity shadow-[var(--shadow-md)]"
                 >
-                  {s.label}{s.href ? "" : " · Yakında"}
+                  {s.label}
+                  {s.href ? "" : " · Yakında"}
                 </span>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Bottom */}
-        <div className="mt-8 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center md:justify-between gap-4 text-center md:text-left">
-          <p className="text-xs text-slate-500">
+        <div className="mt-8 pt-8 border-t border-[color:var(--color-border)] flex flex-col md:flex-row items-center md:justify-between gap-4 text-center md:text-left">
+          <p className="text-xs text-[color:var(--color-fg-muted)]">
             © {new Date().getFullYear()} MakiCalls. Tüm hakları saklıdır.
           </p>
 
           <nav className="flex items-center gap-x-5 gap-y-2 flex-wrap justify-center">
             <Link
               href="/kvkk"
-              className="text-xs text-slate-400 hover:text-white transition-colors"
+              className="text-xs text-[color:var(--color-fg-secondary)] hover:text-[color:var(--color-fg)] transition-colors"
             >
               KVKK Aydınlatma
             </Link>
             <Link
               href="/gizlilik"
-              className="text-xs text-slate-400 hover:text-white transition-colors"
+              className="text-xs text-[color:var(--color-fg-secondary)] hover:text-[color:var(--color-fg)] transition-colors"
             >
               Gizlilik Politikası
             </Link>
             <Link
               href="/sartlar"
-              className="text-xs text-slate-400 hover:text-white transition-colors"
+              className="text-xs text-[color:var(--color-fg-secondary)] hover:text-[color:var(--color-fg)] transition-colors"
             >
               Kullanım Şartları
             </Link>
