@@ -58,9 +58,12 @@ const columns: { title: string; links: FooterLink[] }[] = [
     title: "Sektörler",
     links: [
       { label: "Diş Klinikleri", href: "/dis-klinikleri" },
-      { label: "Saç Ekimi (Yakında)", href: "/#sektorler" },
-      { label: "Estetik Klinikler (Yakında)", href: "/#sektorler" },
-      { label: "Sağlık Turizmi (Yakında)", href: "/#sektorler" },
+      { label: "Saç Ekimi", href: "/#sektorler" },
+      { label: "Estetik Klinikler", href: "/#sektorler" },
+      { label: "Sağlık Turizmi", href: "/#sektorler" },
+      { label: "Araç Kiralama", href: "/#sektorler" },
+      { label: "E-ticaret", href: "/#sektorler" },
+      { label: "Gayrimenkul", href: "/#sektorler" },
     ],
   },
   {
