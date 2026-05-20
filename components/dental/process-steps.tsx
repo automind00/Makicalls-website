@@ -6,14 +6,14 @@ const steps = [
   {
     n: "01",
     title: "Klinik bilgilerinizi paylaşın",
-    body: "15 dakikalık tek bir form: çalışma saatleri, hizmet listesi, randevu kuralları, SSS, marka tonu.",
-    time: "15 dakika",
+    body: "Tek bir kısa form: çalışma saatleri, hizmet listesi, randevu kuralları, SSS, marka tonu.",
+    time: "Sizden 15 dk",
   },
   {
     n: "02",
-    title: "AI'yı sizin kliniğinize göre eğitiyoruz",
+    title: "AI’yı sizin kliniğinize göre eğitiyoruz",
     body: "Bilgilerinizi alıyoruz, ses karakterini ayarlıyoruz, randevu defteri / CRM / NetGSM ile entegre ediyoruz.",
-    time: "3 iş günü",
+    time: "Bizim işimiz",
   },
   {
     n: "03",
@@ -42,11 +42,11 @@ export default function ProcessSteps() {
             3 adımda canlı
           </span>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[color:var(--color-fg)] tracking-[-0.02em] leading-tight">
-            Toplam{" "}
+            Sizden tek istediğimiz{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-br from-[color:var(--color-fg)] via-brand-soft to-brand">
-              3 iş günü
+              15 dakika
             </span>
-            , klinik tarafından harcadığınız zaman 15 dakika
+            , gerisini biz hallederiz
           </h2>
         </motion.div>
 

@@ -75,14 +75,13 @@ export default function Services() {
             Hizmetlerimiz
           </span>
           <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-[color:var(--color-fg)] mb-3 sm:mb-4 tracking-[-0.02em] leading-tight">
-            İşletmeniz İçin{" "}
+            AI Çağrı Merkezi{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-br from-[color:var(--color-fg)] via-brand-soft to-brand">
-              Doğru Paketi
-            </span>{" "}
-            Seçin
+              Paketleri
+            </span>
           </h2>
           <p className="text-sm sm:text-base md:text-lg text-[color:var(--color-fg-muted)] max-w-xl mx-auto">
-            Her işletmenin ihtiyacına uygun, ölçeklenebilir çözümler sunuyoruz.
+            Sesli arama, WhatsApp, Instagram — müşterin nereden geliyorsa orada cevap veren paketler.
           </p>
         </motion.div>
 
@@ -154,7 +153,7 @@ export default function Services() {
                         : "bg-[color:var(--color-surface)] text-[color:var(--color-fg)] border border-[color:var(--color-border)] hover:bg-brand/5 hover:border-brand/40"
                     }`}
                   >
-                    Teklif Al
+                    Canlı Demo Talep Et
                     <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
                   </motion.button>
                 </div>

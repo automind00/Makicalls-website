@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import Link from "next/link";
 import { motion } from "framer-motion";
 import { Spotlight } from "@/components/ui/spotlight";
 import { SplineScene } from "@/components/ui/splite";
@@ -62,26 +61,19 @@ function FloatingParticles() {
 }
 
 const subtitleWords = [
-  { text: "Sesli", delay: 0 },
-  { text: "arama", delay: 60 },
-  { text: "·", delay: 120 },
-  { text: "WhatsApp", delay: 180 },
-  { text: "·", delay: 240 },
-  { text: "Instagram", delay: 300 },
-  { text: "·", delay: 360 },
-  { text: "web", delay: 420 },
-  { text: "chat", delay: 480 },
+  { text: "Telefonu", delay: 0, accent: true },
+  { text: "cevaplar,", delay: 80, accent: true },
+  { text: "mesajı", delay: 160 },
+  { text: "yazar,", delay: 220 },
+  { text: "randevuyu", delay: 280 },
+  { text: "açar.", delay: 340 },
+  { text: "7/24", delay: 440, accent: true },
+  { text: "Türkçe", delay: 500, accent: true },
   { text: "—", delay: 560 },
-  { text: "hepsi", delay: 620 },
-  { text: "tek", delay: 680 },
-  { text: "asistandan.", delay: 740 },
-  { text: "Türkçe", delay: 820, accent: true },
-  { text: "konuşur,", delay: 880, accent: true },
-  { text: "randevu", delay: 960 },
-  { text: "açar,", delay: 1020 },
-  { text: "sıcak", delay: 1080 },
-  { text: "lead", delay: 1140 },
-  { text: "ayırır.", delay: 1200 },
+  { text: "müşterin", delay: 620 },
+  { text: "hiç", delay: 680 },
+  { text: "boş", delay: 740 },
+  { text: "çalmaz.", delay: 800 },
 ];
 
 export default function Hero() {
@@ -119,11 +111,15 @@ export default function Hero() {
             >
               <div className="w-1.5 h-1.5 rounded-full bg-brand shadow-[0_0_8px_rgb(var(--brand))] animate-pulse" />
               <span className="text-[10px] sm:text-xs text-[color:var(--color-fg-secondary)] font-medium tracking-wide uppercase">
-                Klinikler için 7/24 AI · Pilot Açık
+                AI Çağrı Merkezi · 7/24 Türkçe Cevaplar
               </span>
             </motion.div>
 
-            <div className="mb-3 sm:mb-4 lg:flex lg:justify-start flex justify-center">
+            <h1 className="sr-only">
+              MakiCalls — AI Çağrı Merkezi ve Türkçe Sesli Asistan
+            </h1>
+
+            <div className="mb-3 sm:mb-4 lg:flex lg:justify-start flex justify-center" aria-hidden="true">
               <RevealText
                 text="MakiCalls"
                 fontSize="text-[44px] sm:text-6xl md:text-7xl lg:text-[88px]"
@@ -138,8 +134,8 @@ export default function Hero() {
               transition={{ duration: 0.8, delay: 0.6 }}
               className="text-xl sm:text-3xl md:text-4xl font-light text-[color:var(--color-fg-secondary)] mb-5 sm:mb-6 leading-tight tracking-tight"
             >
-              AI <span className="text-brand-soft font-semibold">resepsiyonist</span>, satış asistanı ve{" "}
-              <span className="text-brand-soft font-semibold">CRM</span> — dakikalar içinde canlı.
+              <span className="text-brand-soft font-semibold">AI sesli asistan</span> telefonu açar,{" "}
+              <span className="text-brand-soft font-semibold">chatbot</span> mesajı yazar.
             </motion.h2>
 
             <p className="text-sm sm:text-lg text-[color:var(--color-fg-muted)] max-w-xl lg:mx-0 mx-auto mb-8 sm:mb-10 leading-relaxed">
@@ -162,27 +158,27 @@ export default function Hero() {
               transition={{ duration: 0.8, delay: 2.0 }}
               className="flex flex-col sm:flex-row items-stretch sm:items-center lg:justify-start sm:justify-center gap-3 sm:gap-4 mb-8 sm:mb-10"
             >
-              <Link href="/dis-klinikleri">
-                <motion.span
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="relative inline-flex group px-6 sm:px-8 py-3.5 sm:py-4 rounded-full text-sm sm:text-base font-semibold text-white bg-brand hover:bg-brand-deep transition-colors duration-300 shadow-[0_0_40px_-10px_rgb(var(--brand))] cursor-pointer"
-                >
-                  <span className="flex items-center justify-center gap-2">
-                    Pilot Programa Başvur
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                </motion.span>
-              </Link>
-
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={scrollToContact}
+                className="relative inline-flex group px-6 sm:px-8 py-3.5 sm:py-4 rounded-full text-sm sm:text-base font-semibold text-white bg-brand hover:bg-brand-deep transition-colors duration-300 shadow-[0_0_40px_-10px_rgb(var(--brand))] cursor-pointer"
+              >
+                <span className="flex items-center justify-center gap-2">
+                  <Phone className="w-4 h-4" />
+                  Canlı Demo Talep Et
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </motion.button>
+
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={scrollToServices}
                 className="px-6 sm:px-8 py-3.5 sm:py-4 rounded-full text-sm sm:text-base font-medium text-[color:var(--color-fg-secondary)] border border-brand/30 hover:border-brand-soft/60 hover:text-[color:var(--color-fg)] hover:bg-brand/10 transition-all duration-300 backdrop-blur-sm bg-[color:var(--color-surface)] flex items-center justify-center gap-2"
               >
-                <Phone className="w-4 h-4 text-brand-soft" />
-                Canlı Demo Talep Et
+                Hizmetleri Gör
+                <ArrowRight className="w-4 h-4 text-brand-soft" />
               </motion.button>
             </motion.div>
 

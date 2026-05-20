@@ -13,16 +13,16 @@ const faqs = [
     a: "Yaygın randevu yazılımları (Dentafy, MediKlinik, Cleo gibi) ve Google Calendar ile entegre çalışır. Özel sisteminiz varsa kurulum aşamasında API tarafını biz hallederiz.",
   },
   {
-    q: "Kurulum ne kadar sürer? Klinik tarafından kaç saat alır?",
-    a: "Toplam 3 iş günü. Sizden tek bir 15 dakikalık bilgi toplama formu istiyoruz: çalışma saatleri, hizmet listesi, randevu kuralları, sık sorulanlar. Geri kalanı bizim işimiz.",
+    q: "Kurulum nasıl yürüyor? Klinik tarafından kaç saat alır?",
+    a: "Sizden tek bir 15 dakikalık bilgi toplama formu istiyoruz: çalışma saatleri, hizmet listesi, randevu kuralları, sık sorulanlar. Eğitim, entegrasyon ve test bizim işimiz. Süreç ve takvim ön görüşmede netleşir.",
   },
   {
     q: "Hasta kişisel verileri nasıl korunuyor? KVKK uyumlu mu?",
     a: "Veriler Türkiye'de barındırılan Supabase altyapısında, KVKK uyumlu şekilde tutuluyor. Çağrı kayıtları sadece sizin erişimde, üçüncü taraflarla paylaşılmıyor. Sözleşmede açıkça yazıyor.",
   },
   {
-    q: "Pilot süresinden sonra sözleşme zorunluluğu var mı?",
-    a: "Hayır. 3 ay sonra istediğiniz zaman ayrılabilirsiniz, taahhüt yok. Asistan kayıtları + hasta verileri size ait, dışa aktarımı ücretsiz.",
+    q: "Sözleşme zorunluluğu var mı?",
+    a: "Uzun süreli taahhüt yok. İstediğiniz zaman ayrılabilirsiniz. Asistan kayıtları + hasta verileri size ait, dışa aktarımı ücretsiz.",
   },
   {
     q: "Hasta gerçekten bir doktorla konuşmak isterse ne oluyor?",

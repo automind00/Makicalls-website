@@ -134,13 +134,13 @@ export default function Process() {
             Nasıl Çalışırız
           </span>
           <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-[color:var(--color-fg)] mb-3 sm:mb-4 tracking-[-0.02em] leading-tight">
-            3 Adımda{" "}
+            Çalışma{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-br from-[color:var(--color-fg)] via-brand-soft to-brand">
-              Başlayın
+              Sürecimiz
             </span>
           </h2>
           <p className="text-sm sm:text-base md:text-lg text-[color:var(--color-fg-muted)] max-w-xl mx-auto">
-            Basit ve şeffaf sürecimizle dijital dönüşümünüzü hızla başlatın.
+            Ek altyapı yok, kurulum dahil. Analiz, devreye alma, canlı destek — biz hallederiz.
           </p>
         </motion.div>
 

@@ -197,7 +197,7 @@ export default function ContactForm() {
                     </>
                   ) : (
                     <>
-                      <Send className="w-4 h-4" /> Teklif Al
+                      <Send className="w-4 h-4" /> Talep Gönder
                     </>
                   )}
                 </motion.button>

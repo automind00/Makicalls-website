@@ -25,7 +25,7 @@ export default function DentalHero() {
         >
           <div className="w-1.5 h-1.5 rounded-full bg-brand-soft shadow-[0_0_8px_rgb(var(--brand-soft))] animate-pulse" />
           <span className="text-[10px] sm:text-xs text-[color:var(--color-fg-secondary)] font-medium tracking-wide uppercase">
-            İstanbul Diş Klinikleri İçin · Pilot Programı Açık
+            İstanbul Diş Klinikleri İçin · 7/24 AI Resepsiyonist
           </span>
         </motion.div>
 
@@ -61,11 +61,12 @@ export default function DentalHero() {
           <motion.button
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.96 }}
-            onClick={() => scrollTo("pilot-basvuru")}
+            onClick={() => scrollTo("demo-talep")}
             className="relative group px-7 sm:px-8 py-4 rounded-full text-sm sm:text-base font-semibold text-white bg-brand hover:bg-brand-deep transition-colors shadow-[0_0_50px_-10px_rgb(var(--brand))]"
           >
             <span className="flex items-center justify-center gap-2">
-              Pilot Programa Başvur
+              <Phone className="w-4 h-4" />
+              Canlı Demo Talep Et
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </span>
           </motion.button>
@@ -89,7 +90,7 @@ export default function DentalHero() {
           transition={{ duration: 0.8, delay: 0.85 }}
           className="text-xs text-[color:var(--color-fg-muted)]"
         >
-          İlk 3 İstanbul kliniği için <span className="text-brand-soft font-medium">$500 kurulum + $200/ay</span> pilot fiyatı · Sözleşme yok
+          İstanbul diş klinikleri için <span className="text-brand-soft font-medium">7/24 Türkçe</span> · Uzun sözleşme yok, ön ödeme yok
         </motion.p>
       </div>
     </section>

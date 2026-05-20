@@ -90,7 +90,7 @@ export default function PilotForm() {
     "w-full pl-10 pr-4 py-3 rounded-xl bg-[color:var(--color-surface)] border border-[color:var(--color-border)] text-[color:var(--color-fg)] text-sm placeholder:text-[color:var(--color-fg-muted)] focus:outline-none focus:border-brand/60 transition-colors disabled:opacity-60";
 
   return (
-    <section id="pilot-basvuru" className="relative py-20 md:py-28 bg-[color:var(--color-surface)] overflow-hidden">
+    <section id="demo-talep" className="relative py-20 md:py-28 bg-[color:var(--color-surface)] overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[700px] bg-brand/8 rounded-full blur-[150px]" />
       </div>
@@ -104,12 +104,12 @@ export default function PilotForm() {
           className="text-center mb-10"
         >
           <span className="text-[10px] sm:text-xs font-medium uppercase tracking-[0.2em] text-brand-soft mb-3 block">
-            Pilot başvuru formu
+            Canlı Demo Talep Et
           </span>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[color:var(--color-fg)] tracking-[-0.02em] leading-tight">
-            İlk 3 klinikten biri{" "}
+            Kliniğinize özel{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-br from-[color:var(--color-fg)] via-brand-soft to-brand">
-              sizin olsun
+              AI asistanı dinleyin
             </span>
           </h2>
           <p className="mt-4 text-sm sm:text-base text-[color:var(--color-fg-muted)]">
@@ -289,7 +289,7 @@ export default function PilotForm() {
                     </>
                   ) : (
                     <>
-                      <Send className="w-4 h-4" /> Pilot programa başvur
+                      <Send className="w-4 h-4" /> Talep Gönder
                     </>
                   )}
                 </motion.button>

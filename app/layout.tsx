@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/providers/theme-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,12 +14,13 @@ const geistMono = Geist_Mono({
 
 const SITE_URL = "https://makicalls.com";
 const SITE_NAME = "MakiCalls";
-const SITE_TITLE = "MakiCalls — AI Destekli Müşteri İletişim Çözümleri";
+const SITE_TITLE = "MakiCalls — AI Çağrı Merkezi & Türkçe Sesli Asistan";
 const SITE_DESCRIPTION =
-  "WhatsApp & Instagram chatbot, sesli asistan ve özel otomasyon çözümleriyle müşterilerinizle 7/24 iletişimde kalın. İşletmenizi dijital otomasyonla büyütün.";
+  "Telefonu cevaplayan AI sesli asistan, WhatsApp ve Instagram chatbotu. 7/24 Türkçe konuşur, randevu açar, müşteriyi kaçırmaz.";
 
 export const viewport: Viewport = {
   themeColor: "#0a0a0a",
+  colorScheme: "dark",
   width: "device-width",
   initialScale: 1,
 };
@@ -33,14 +33,20 @@ export const metadata: Metadata = {
   },
   description: SITE_DESCRIPTION,
   keywords: [
-    "AI chatbot",
+    "AI çağrı merkezi",
+    "yapay zeka çağrı merkezi",
+    "AI sesli asistan",
+    "Türkçe sesli AI",
+    "AI telefon asistanı",
+    "AI resepsiyonist",
+    "sanal çağrı merkezi",
+    "çağrı merkezi otomasyonu",
     "WhatsApp chatbot",
     "Instagram chatbot",
-    "sesli asistan",
+    "Türkçe chatbot",
     "müşteri otomasyonu",
-    "dijital dönüşüm",
+    "randevu botu",
     "MakiCalls",
-    "otomasyon ajansı",
   ],
   authors: [{ name: SITE_NAME }],
   creator: SITE_NAME,
@@ -64,7 +70,7 @@ export const metadata: Metadata = {
         url: "/og-image.svg",
         width: 1200,
         height: 630,
-        alt: "MakiCalls — Dijital Otomasyon Ajansı",
+        alt: "MakiCalls — AI Çağrı Merkezi ve Türkçe Sesli Asistan",
       },
     ],
   },
@@ -95,11 +101,10 @@ export default function RootLayout({
   return (
     <html
       lang="tr"
-      suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`dark ${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[color:var(--color-page)] text-[color:var(--color-fg)]">
-        <ThemeProvider>{children}</ThemeProvider>
+        {children}
       </body>
     </html>
   );
