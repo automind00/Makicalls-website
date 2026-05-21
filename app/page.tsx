@@ -35,9 +35,9 @@ export default function Home() {
         <GoogleReviews />
         <Results />
         <Testimonials />
-        <Faq />
         <CtaBanner />
         <ContactForm />
+        <Faq />
       </main>
       <Footer />
     </>
