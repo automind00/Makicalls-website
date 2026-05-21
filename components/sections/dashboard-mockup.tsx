@@ -11,10 +11,10 @@ import {
   Settings,
   TrendingUp,
   MessageCircle,
-  Globe,
   Mic,
   Sparkles,
-  Activity,
+  CalendarCheck,
+  Wallet,
 } from "lucide-react";
 
 type TabId = "overview" | "inbox" | "calls" | "pipeline";
@@ -27,13 +27,57 @@ const tabs: { id: TabId; label: string; icon: React.ReactNode }[] = [
 ];
 
 /** Sahte rakamlar tasarım amaçlı — gerçek müşteri verisi değil. */
-const OVERVIEW_STATS = [
-  { label: "Bugünkü Konuşmalar", value: "24", trend: "+18%", icon: <MessageCircle className="w-4 h-4" />, color: "from-blue-500/20 to-blue-600/10", iconBg: "bg-blue-500/10 text-blue-300" },
-  { label: "Aktif Leadler", value: "12", trend: "+3 yeni", icon: <Users className="w-4 h-4" />, color: "from-amber-500/20 to-amber-600/10", iconBg: "bg-amber-500/10 text-amber-300" },
-  { label: "Sesli Aramalar", value: "6", trend: "+2 bugün", icon: <Phone className="w-4 h-4" />, color: "from-violet-500/20 to-violet-600/10", iconBg: "bg-[#8b5cf6]/10 text-[#a78bfa]" },
-  { label: "AI Çözüm Oranı", value: "%82", trend: "+5%", icon: <Activity className="w-4 h-4" />, color: "from-emerald-500/20 to-emerald-600/10", iconBg: "bg-emerald-500/10 text-emerald-300" },
-  { label: "Dönüşüm Oranı", value: "%64", trend: "+23%", icon: <TrendingUp className="w-4 h-4" />, color: "from-rose-500/20 to-rose-600/10", iconBg: "bg-rose-500/10 text-rose-300" },
-  { label: "Dil Çeşitliliği", value: "15", trend: "TR · EN · DE · RU...", icon: <Globe className="w-4 h-4" />, color: "from-cyan-500/20 to-cyan-600/10", iconBg: "bg-cyan-500/10 text-cyan-300" },
+const KPIS = [
+  {
+    label: "Yanıtlanan Mesaj",
+    value: "1.284",
+    sub: "WhatsApp · Instagram · Web",
+    trend: "+18%",
+    icon: <MessageCircle className="w-4 h-4" />,
+    iconBg: "bg-blue-500/10 text-blue-300",
+  },
+  {
+    label: "Karşılanan Arama",
+    value: "342",
+    sub: "7/24 otomatik · 0 kaçan",
+    trend: "+12%",
+    icon: <Phone className="w-4 h-4" />,
+    iconBg: "bg-[#8b5cf6]/10 text-[#a78bfa]",
+  },
+  {
+    label: "Kazanılan Randevu",
+    value: "97",
+    sub: "AI dönüşümü %64",
+    trend: "+24%",
+    icon: <CalendarCheck className="w-4 h-4" />,
+    iconBg: "bg-emerald-500/10 text-emerald-300",
+  },
+  {
+    label: "Tahmini Tasarruf",
+    value: "₺128.500",
+    sub: "operatör maliyetine kıyasla",
+    trend: "+31%",
+    icon: <Wallet className="w-4 h-4" />,
+    iconBg: "bg-amber-500/10 text-amber-300",
+    highlight: true,
+  },
+];
+
+const WEEKLY = [
+  { d: "Pzt", v: 62 },
+  { d: "Sal", v: 78 },
+  { d: "Çar", v: 54 },
+  { d: "Per", v: 90 },
+  { d: "Cum", v: 100 },
+  { d: "Cmt", v: 73 },
+  { d: "Paz", v: 41 },
+];
+
+const CHANNELS = [
+  { label: "WhatsApp", pct: 42, color: "bg-emerald-400" },
+  { label: "Sesli Arama", pct: 28, color: "bg-[#a78bfa]" },
+  { label: "Instagram DM", pct: 18, color: "bg-rose-400" },
+  { label: "Web Chat", pct: 12, color: "bg-blue-400" },
 ];
 
 const INBOX_ITEMS = [
@@ -69,13 +113,33 @@ const CALL_DEMO = {
   suggestion: "Hasta yüksek niyetli (skor: 88). DHI All-Inclusive paket teklif edin (3.500$). Fotoğrafları bugün isteyin — 24 saat içinde kişisel analiz raporu gönderin.",
 };
 
-function SidebarItem({ icon, label, active, badge }: { icon: React.ReactNode; label: string; active?: boolean; badge?: number }) {
+function SidebarItem({
+  icon,
+  label,
+  active,
+  badge,
+  onClick,
+  interactive = true,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  active?: boolean;
+  badge?: number;
+  onClick?: () => void;
+  interactive?: boolean;
+}) {
   return (
-    <div
-      className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs transition-colors ${
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={!interactive}
+      aria-pressed={active}
+      className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs transition-colors text-left ${
         active
           ? "bg-[#8b5cf6]/15 text-white border border-[#8b5cf6]/30"
-          : "text-slate-400 hover:text-slate-200"
+          : interactive
+            ? "text-slate-400 hover:text-slate-200 hover:bg-white/[0.03] border border-transparent cursor-pointer"
+            : "text-slate-500 border border-transparent cursor-default opacity-70"
       }`}
     >
       <span className={active ? "text-[#a78bfa]" : "text-slate-500"}>{icon}</span>
@@ -86,28 +150,101 @@ function SidebarItem({ icon, label, active, badge }: { icon: React.ReactNode; la
         </span>
       )}
       {active && <span className="w-1 h-1 rounded-full bg-[#a78bfa] shadow-[0_0_6px_#a78bfa]" />}
-    </div>
+    </button>
   );
 }
 
 function OverviewScreen() {
   return (
-    <div className="p-5 sm:p-6 space-y-5">
-      <div>
-        <h4 className="text-base sm:text-lg font-bold text-white">Genel Bakış</h4>
-        <p className="text-[11px] text-slate-500">Demo Klinik — Bugünün Özeti</p>
+    <div className="p-4 sm:p-6 space-y-4 sm:space-y-5">
+      <div className="flex items-center justify-between">
+        <div>
+          <h4 className="text-base sm:text-lg font-bold text-white">Genel Bakış</h4>
+          <p className="text-[11px] text-slate-500">Demo Klinik — Son 30 gün</p>
+        </div>
+        <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/[0.03] border border-white/10">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+          <span className="text-[9px] text-slate-400 font-medium">Canlı</span>
+        </div>
       </div>
-      <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
-        {OVERVIEW_STATS.map((s) => (
-          <div key={s.label} className={`p-3 rounded-xl bg-gradient-to-br ${s.color} border border-white/5`}>
-            <div className="flex items-start justify-between mb-2">
+
+      {/* KPI cards */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3">
+        {KPIS.map((s) => (
+          <div
+            key={s.label}
+            className={`p-3 rounded-xl border ${
+              s.highlight
+                ? "bg-gradient-to-br from-[#8b5cf6]/20 to-transparent border-[#8b5cf6]/40"
+                : "bg-white/[0.02] border-white/[0.06]"
+            }`}
+          >
+            <div className="flex items-center justify-between mb-2.5">
               <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${s.iconBg}`}>{s.icon}</div>
+              <span className="text-[9px] text-emerald-300 font-semibold flex items-center gap-0.5">
+                <TrendingUp className="w-2.5 h-2.5" /> {s.trend}
+              </span>
             </div>
-            <div className="text-lg sm:text-xl font-bold text-white tabular-nums leading-none">{s.value}</div>
-            <div className="text-[10px] text-slate-400 mt-1 truncate">{s.label}</div>
-            <div className="text-[9px] text-emerald-300 font-medium mt-1">↑ {s.trend}</div>
+            <div className="text-lg sm:text-2xl font-bold text-white tabular-nums leading-none">{s.value}</div>
+            <div className="text-[10px] text-slate-300 mt-1.5 font-medium truncate">{s.label}</div>
+            <div className="text-[9px] text-slate-500 mt-0.5 truncate">{s.sub}</div>
           </div>
         ))}
+      </div>
+
+      {/* Chart + channels */}
+      <div className="grid lg:grid-cols-3 gap-3">
+        {/* Weekly activity */}
+        <div className="lg:col-span-2 p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-[11px] font-semibold text-white">Haftalık konuşma hacmi</span>
+            <span className="text-[9px] text-slate-500">son 7 gün</span>
+          </div>
+          <div className="flex items-end justify-between gap-1.5 sm:gap-2 h-24">
+            {WEEKLY.map((b, i) => (
+              <div key={b.d} className="flex-1 flex flex-col items-center gap-1.5">
+                <div className="w-full flex items-end h-20">
+                  <motion.div
+                    initial={{ height: 0 }}
+                    whileInView={{ height: `${b.v}%` }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: i * 0.06, ease: "easeOut" }}
+                    className={`w-full rounded-md ${
+                      b.v === 100
+                        ? "bg-gradient-to-t from-[#8b5cf6] to-[#a78bfa]"
+                        : "bg-gradient-to-t from-[#8b5cf6]/40 to-[#a78bfa]/30"
+                    }`}
+                  />
+                </div>
+                <span className="text-[8px] text-slate-500">{b.d}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Channel breakdown */}
+        <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+          <span className="text-[11px] font-semibold text-white block mb-3">Kanal dağılımı</span>
+          <div className="space-y-2.5">
+            {CHANNELS.map((c, i) => (
+              <div key={c.label}>
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-[10px] text-slate-300">{c.label}</span>
+                  <span className="text-[10px] text-slate-400 tabular-nums font-medium">%{c.pct}</span>
+                </div>
+                <div className="h-1.5 rounded-full bg-white/[0.04] overflow-hidden">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    whileInView={{ width: `${c.pct}%` }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.7, delay: i * 0.08, ease: "easeOut" }}
+                    className={`h-full rounded-full ${c.color}`}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -253,6 +390,11 @@ export default function DashboardMockup() {
   const [activeTab, setActiveTab] = useState<TabId>("overview");
   const [autoplay, setAutoplay] = useState(true);
 
+  const selectTab = (id: TabId) => {
+    setActiveTab(id);
+    setAutoplay(false);
+  };
+
   useEffect(() => {
     if (!autoplay) return;
     const id = window.setInterval(() => {
@@ -299,10 +441,7 @@ export default function DashboardMockup() {
             <button
               key={t.id}
               type="button"
-              onClick={() => {
-                setActiveTab(t.id);
-                setAutoplay(false);
-              }}
+              onClick={() => selectTab(t.id)}
               aria-pressed={activeTab === t.id}
               className={`flex items-center gap-2 px-3.5 py-2 rounded-full text-xs font-medium transition-all border ${
                 activeTab === t.id
@@ -353,14 +492,14 @@ export default function DashboardMockup() {
                     <div className="text-[9px] text-slate-500">Pilot</div>
                   </div>
                 </div>
-                <SidebarItem icon={<LayoutGrid className="w-3.5 h-3.5" />} label="Genel Bakış" active={activeTab === "overview"} />
-                <SidebarItem icon={<Inbox className="w-3.5 h-3.5" />} label="Gelen Kutusu" active={activeTab === "inbox"} badge={8} />
-                <SidebarItem icon={<Phone className="w-3.5 h-3.5" />} label="Çağrılar" active={activeTab === "calls"} />
-                <SidebarItem icon={<Users className="w-3.5 h-3.5" />} label="Lead Pipeline" active={activeTab === "pipeline"} />
-                <SidebarItem icon={<Bot className="w-3.5 h-3.5" />} label="AI Asistan" />
-                <SidebarItem icon={<Workflow className="w-3.5 h-3.5" />} label="İş Akışları" />
+                <SidebarItem icon={<LayoutGrid className="w-3.5 h-3.5" />} label="Genel Bakış" active={activeTab === "overview"} onClick={() => selectTab("overview")} />
+                <SidebarItem icon={<Inbox className="w-3.5 h-3.5" />} label="Gelen Kutusu" active={activeTab === "inbox"} badge={8} onClick={() => selectTab("inbox")} />
+                <SidebarItem icon={<Phone className="w-3.5 h-3.5" />} label="Çağrılar" active={activeTab === "calls"} onClick={() => selectTab("calls")} />
+                <SidebarItem icon={<Users className="w-3.5 h-3.5" />} label="Lead Pipeline" active={activeTab === "pipeline"} onClick={() => selectTab("pipeline")} />
+                <SidebarItem icon={<Bot className="w-3.5 h-3.5" />} label="AI Asistan" interactive={false} />
+                <SidebarItem icon={<Workflow className="w-3.5 h-3.5" />} label="İş Akışları" interactive={false} />
                 <div className="mt-auto pt-3 border-t border-white/5">
-                  <SidebarItem icon={<Settings className="w-3.5 h-3.5" />} label="Hesap Ayarları" />
+                  <SidebarItem icon={<Settings className="w-3.5 h-3.5" />} label="Hesap Ayarları" interactive={false} />
                 </div>
               </div>
 
