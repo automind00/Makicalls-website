@@ -22,6 +22,10 @@ export const faqItems: QA[] = [
     a: "Her aramada transkript + güven skoru üretilir; düşük güvenli yanıtlar size gerçek-zamanlı uyarı düşer. İlk hafta her aramayı sizinle birlikte gözden geçirir, asistanı sizin tonunuza ayarlarız.",
   },
   {
+    q: "Google yorum sistemi nasıl çalışıyor?",
+    a: "Tedaviden bir gün sonra hastaya otomatik takip mesajı gider. Hasta memnuniyetini belirtirse AI tek tıklık Google yorum linkini gönderir; memnun değilse problemini öğrenip kliniğe özel iletir. Böylece olumlu yorumlar Google'a çıkar, olumsuz deneyimler herkesin önünde değil sizin elinizde çözülür — akıllı kötü yorum filtresi gibi.",
+  },
+  {
     q: "Hangi entegrasyonlarla çalışır?",
     a: "WhatsApp Business API, Instagram DM, Google Calendar, NetGSM, Stripe, Calendly ve Supabase tabanlı CRM. Mevcut sisteminiz farklıysa n8n üzerinden bağlarız.",
   },

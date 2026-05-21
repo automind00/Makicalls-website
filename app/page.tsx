@@ -2,11 +2,13 @@ import Navbar from "@/components/sections/navbar";
 import Hero from "@/components/sections/hero";
 import TrustStrip from "@/components/sections/trust-strip";
 import Integrations from "@/components/sections/integrations";
+import Omnichannel from "@/components/sections/omnichannel";
 import Comparison from "@/components/sections/comparison";
 import Services from "@/components/sections/services";
 import Process from "@/components/sections/process";
 import Sectors from "@/components/sections/sectors";
 import DashboardMockup from "@/components/sections/dashboard-mockup";
+import GoogleReviews from "@/components/sections/google-reviews";
 import Results from "@/components/sections/results";
 import Testimonials from "@/components/sections/testimonials";
 import Faq from "@/components/sections/faq";
@@ -24,11 +26,13 @@ export default function Home() {
         <Hero />
         <TrustStrip />
         <Integrations />
+        <Omnichannel />
         <Comparison />
         <Services />
         <Process />
         <Sectors />
         <DashboardMockup />
+        <GoogleReviews />
         <Results />
         <Testimonials />
         <Faq />

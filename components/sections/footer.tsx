@@ -49,6 +49,7 @@ const columns: { title: string; links: FooterLink[] }[] = [
     links: [
       { label: "AI Sesli Asistan", href: "/#hizmetler" },
       { label: "WhatsApp & Instagram Chatbot", href: "/#hizmetler" },
+      { label: "Google Yorum Otomasyonu", href: "/#google-yorum" },
       { label: "Özel Otomasyon", href: "/#hizmetler" },
       { label: "Süreç", href: "/#surec" },
       { label: "SSS", href: "/#sss" },
