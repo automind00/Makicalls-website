@@ -37,10 +37,12 @@ export default function AdminLoginPage() {
       setState("sent");
     } catch (err) {
       console.error("[AdminLogin] error:", err);
+      const raw = err instanceof Error ? err.message : "";
+      const isNetwork = /failed to fetch|networkerror|load failed|fetch/i.test(raw);
       setErrorMessage(
-        err instanceof Error
-          ? err.message
-          : "Giriş bağlantısı gönderilemedi. Lütfen tekrar deneyin.",
+        isNetwork
+          ? "Sunucuya şu anda ulaşılamıyor. Bağlantı geçici olarak kapalı olabilir; lütfen birkaç dakika sonra tekrar deneyin."
+          : raw || "Giriş bağlantısı gönderilemedi. Lütfen tekrar deneyin.",
       );
       setState("error");
     }
