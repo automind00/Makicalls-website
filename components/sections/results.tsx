@@ -2,10 +2,14 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { TrendingUp, Clock, PhoneIncoming, Wallet } from "lucide-react";
+import { CountUp } from "@/components/ui/count-up";
 
 type Metric = {
   icon: React.ReactNode;
-  value: string;
+  to: number;
+  prefix?: string;
+  suffix?: string;
+  decimals?: number;
   label: string;
   detail: string;
 };
@@ -13,25 +17,31 @@ type Metric = {
 const metrics: Metric[] = [
   {
     icon: <PhoneIncoming className="w-5 h-5" />,
-    value: "%92",
+    to: 92,
+    prefix: "%",
     label: "Mesai dışı arama yanıt oranı",
     detail: "Eskiden gece/hafta sonu aramalar kayıptı. Şimdi neredeyse hepsi cevaplanıyor.",
   },
   {
     icon: <TrendingUp className="w-5 h-5" />,
-    value: "3.1×",
+    to: 3.1,
+    decimals: 1,
+    suffix: "×",
     label: "Aydan aya randevu artışı",
     detail: "Pilot kliniklerde ilk 30 günde randevu sayısı ortalama 3 katına çıktı.",
   },
   {
     icon: <Clock className="w-5 h-5" />,
-    value: "<8 sn",
+    to: 8,
+    prefix: "<",
+    suffix: " sn",
     label: "Ortalama yanıt süresi",
     detail: "Hasta mesajı attığı an cevap alır — Instagram, WhatsApp, web chat — fark etmez.",
   },
   {
     icon: <Wallet className="w-5 h-5" />,
-    value: "%73",
+    to: 73,
+    prefix: "%",
     label: "Aylık operatör maliyeti tasarrufu",
     detail: "Tek tam zamanlı operatöre kıyasla AI çağrı merkezi maliyeti.",
   },
@@ -81,8 +91,8 @@ export default function Results() {
                 <div className="w-11 h-11 rounded-xl bg-brand/10 border border-brand/30 text-brand-soft flex items-center justify-center mb-5">
                   {m.icon}
                 </div>
-                <div className="text-3xl sm:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-[color:var(--color-fg)] via-brand-soft to-brand mb-2 tracking-tight">
-                  {m.value}
+                <div className="text-3xl sm:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-[color:var(--color-fg)] via-brand-soft to-brand mb-2 tracking-tight tabular-nums">
+                  <CountUp to={m.to} prefix={m.prefix} suffix={m.suffix} decimals={m.decimals} />
                 </div>
                 <div className="text-sm font-semibold text-[color:var(--color-fg)] mb-2 leading-snug">
                   {m.label}

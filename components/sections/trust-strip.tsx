@@ -1,11 +1,14 @@
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
+import { CountUp } from "@/components/ui/count-up";
 
-const stats = [
-  { value: "5 dk", label: "Kurulum süresi" },
-  { value: "7/24", label: "Yanıt zamanı" },
-  { value: "%100", label: "Türkçe destek" },
+type Stat = { value: string; label: string; to?: number; prefix?: string; suffix?: string };
+
+const stats: Stat[] = [
+  { value: "7/24", to: 7, suffix: "/24", label: "Kesintisiz hizmet" },
+  { value: "%100", to: 100, prefix: "%", label: "Türkçe doğal konuşma" },
+  { value: "15+ dil", to: 15, suffix: "+ dil", label: "Çoklu dil desteği" },
   { value: "<1 sn", label: "Yanıt gecikmesi" },
 ];
 
@@ -17,14 +20,18 @@ export default function TrustStrip() {
           {stats.map((s, i) => (
             <motion.div
               key={s.label}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
-              className="text-center"
+              initial={{ opacity: 0, y: 20, scale: 0.92 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.55, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+              className="group text-center"
             >
-              <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-[color:var(--color-fg)] via-brand-soft to-brand mb-1 tracking-tight">
-                {s.value}
+              <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-[color:var(--color-fg)] via-brand-soft to-brand mb-1 tracking-tight tabular-nums transition-transform duration-300 group-hover:scale-110">
+                {s.to !== undefined ? (
+                  <CountUp to={s.to} prefix={s.prefix} suffix={s.suffix} />
+                ) : (
+                  s.value
+                )}
               </div>
               <div className="text-[10px] sm:text-xs text-[color:var(--color-fg-muted)] uppercase tracking-[0.15em]">
                 {s.label}
