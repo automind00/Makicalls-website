@@ -3,51 +3,50 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Marquee } from "@/components/ui/marquee";
 
-type Integration = { name: string; slug?: string };
+type Integration = { name: string; domain: string };
 
-// slug = simpleicons.org slug. slug yoksa yalnızca yazı gösterilir (niş markalar).
 const rowOne: Integration[] = [
-  { name: "WhatsApp Business", slug: "whatsapp" },
-  { name: "Instagram", slug: "instagram" },
-  { name: "Telegram", slug: "telegram" },
-  { name: "Google Calendar", slug: "googlecalendar" },
-  { name: "Google Ads", slug: "googleads" },
-  { name: "Zapier", slug: "zapier" },
-  { name: "Make", slug: "make" },
-  { name: "HubSpot", slug: "hubspot" },
-  { name: "Salesforce", slug: "salesforce" },
-  { name: "Pipedrive", slug: "pipedrive" },
-  { name: "NetGSM" },
+  { name: "WhatsApp Business", domain: "whatsapp.com" },
+  { name: "Instagram", domain: "instagram.com" },
+  { name: "Telegram", domain: "telegram.org" },
+  { name: "Google Calendar", domain: "calendar.google.com" },
+  { name: "Google Ads", domain: "ads.google.com" },
+  { name: "Zapier", domain: "zapier.com" },
+  { name: "Make", domain: "make.com" },
+  { name: "HubSpot", domain: "hubspot.com" },
+  { name: "Salesforce", domain: "salesforce.com" },
+  { name: "Pipedrive", domain: "pipedrive.com" },
+  { name: "NetGSM", domain: "netgsm.com.tr" },
 ];
 
 const rowTwo: Integration[] = [
-  { name: "Zoho CRM", slug: "zoho" },
-  { name: "Notion", slug: "notion" },
-  { name: "Airtable", slug: "airtable" },
-  { name: "Slack", slug: "slack" },
-  { name: "Stripe", slug: "stripe" },
-  { name: "Calendly", slug: "calendly" },
-  { name: "Twilio", slug: "twilio" },
-  { name: "TikTok", slug: "tiktok" },
-  { name: "LinkedIn", slug: "linkedin" },
-  { name: "n8n", slug: "n8n" },
-  { name: "Supabase", slug: "supabase" },
+  { name: "Zoho CRM", domain: "zoho.com" },
+  { name: "Notion", domain: "notion.so" },
+  { name: "Airtable", domain: "airtable.com" },
+  { name: "Slack", domain: "slack.com" },
+  { name: "Stripe", domain: "stripe.com" },
+  { name: "Calendly", domain: "calendly.com" },
+  { name: "Twilio", domain: "twilio.com" },
+  { name: "TikTok", domain: "tiktok.com" },
+  { name: "LinkedIn", domain: "linkedin.com" },
+  { name: "n8n", domain: "n8n.io" },
+  { name: "Supabase", domain: "supabase.com" },
 ];
 
 function Pill({ item }: { item: Integration }) {
   return (
     <div className="flex items-center gap-2.5 px-4 sm:px-5 py-2.5 rounded-full bg-[color:var(--color-elevated)] border border-[color:var(--color-border)] hover:border-brand-soft/40 transition-colors whitespace-nowrap">
-      {item.slug && (
-        // eslint-disable-next-line @next/next/no-img-element
+      <span className="w-6 h-6 rounded-md bg-white flex items-center justify-center overflow-hidden flex-shrink-0 shadow-sm">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={`https://cdn.simpleicons.org/${item.slug}/e2e8f0`}
-          alt=""
-          width={18}
-          height={18}
+          src={`https://www.google.com/s2/favicons?domain=${item.domain}&sz=64`}
+          alt={`${item.name} logosu`}
+          width={16}
+          height={16}
           loading="lazy"
-          className="w-[18px] h-[18px] opacity-80"
+          className="w-4 h-4 object-contain"
         />
-      )}
+      </span>
       <span className="text-xs sm:text-sm text-[color:var(--color-fg-secondary)] font-medium">
         {item.name}
       </span>
@@ -79,7 +78,6 @@ export default function Integrations() {
           </h3>
         </motion.div>
 
-        {/* Akan iki sıra */}
         <div className="relative">
           <Marquee pauseOnHover className="[--duration:38s] [--gap:0.75rem]">
             {rowOne.map((item) => (
@@ -92,7 +90,6 @@ export default function Integrations() {
             ))}
           </Marquee>
 
-          {/* Kenar fade'leri */}
           <div className="pointer-events-none absolute inset-y-0 left-0 w-16 sm:w-32 bg-gradient-to-r from-[color:var(--color-surface)] to-transparent" />
           <div className="pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-32 bg-gradient-to-l from-[color:var(--color-surface)] to-transparent" />
         </div>
