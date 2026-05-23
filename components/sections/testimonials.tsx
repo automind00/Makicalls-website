@@ -2,69 +2,50 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Marquee } from "@/components/ui/marquee";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Star } from "lucide-react";
 
 const testimonials = [
   {
-    name: "Ahmet Yılmaz",
-    role: "Restoran Sahibi",
-    body: "MakiCalls sayesinde WhatsApp üzerinden otomatik sipariş alıyoruz. Müşteri memnuniyetimiz %40 arttı!",
-    img: "https://randomuser.me/api/portraits/men/32.jpg",
+    name: "Dr. Mehmet K.",
+    role: "Diş Kliniği · İstanbul",
+    body: "Mesai dışı gelen aramalar artık kaçmıyor. Sabah panelde gece açılan randevuları görüyoruz.",
   },
   {
-    name: "Elif Kaya",
-    role: "E-ticaret Yöneticisi",
-    body: "Instagram DM'lere 7/24 otomatik yanıt verebilmek satışlarımızı ikiye katladı.",
-    img: "https://randomuser.me/api/portraits/women/44.jpg",
+    name: "Elif K.",
+    role: "Estetik Klinik · İzmir",
+    body: "Instagram DM ve WhatsApp tek yerde toplanıyor; hangi hasta sıcak, AI bize söylüyor.",
   },
   {
-    name: "Murat Demir",
-    role: "Klinik Müdürü",
-    body: "Sesli asistan ile randevu sürecimiz tamamen otomatize oldu.",
-    img: "https://randomuser.me/api/portraits/men/51.jpg",
+    name: "Burak Ş.",
+    role: "Saç Ekimi Kliniği · İstanbul",
+    body: "Yabancı hastalar İngilizce ve Arapça yanıt alıyor, ön bilgileri bize hazır geliyor.",
   },
   {
-    name: "Ayşe Öztürk",
-    role: "Butik Otel Sahibi",
-    body: "Misafirlerimiz chatbot ile anında bilgi alabiliyor. Çok profesyonel!",
-    img: "https://randomuser.me/api/portraits/women/65.jpg",
+    name: "Ayşe Ö.",
+    role: "Diş Kliniği · Ankara",
+    body: "Google yorum sistemi sayesinde memnun hastalar yorum bırakıyor, puanımız yükseldi.",
   },
   {
-    name: "Can Arslan",
-    role: "Dijital Pazarlama",
-    body: "Dashboard müthiş! Tüm metrikleri tek yerden takip edebiliyorum.",
-    img: "https://randomuser.me/api/portraits/men/75.jpg",
+    name: "Can A.",
+    role: "Klinik Yöneticisi",
+    body: "Operatör maliyetimiz düştü, telefon hiç boş çalmıyor. Kurulum sürpriz çıkarmadı.",
   },
   {
-    name: "Zeynep Acar",
-    role: "Güzellik Salonu",
-    body: "Müşterilerim artık WhatsApp'tan kolayca randevu alabiliyor.",
-    img: "https://randomuser.me/api/portraits/women/33.jpg",
-  },
-  {
-    name: "Burak Şahin",
-    role: "Spor Salonu",
-    body: "Üyelik hatırlatmaları otomatik gidiyor. Kayıp oranımız yarıya düştü.",
-    img: "https://randomuser.me/api/portraits/men/22.jpg",
-  },
-  {
-    name: "Selin Koç",
-    role: "Eğitim Danışmanı",
-    body: "7/24 bilgi veren chatbot sayesinde kayıtlarımız çok arttı.",
-    img: "https://randomuser.me/api/portraits/women/28.jpg",
+    name: "Zeynep A.",
+    role: "Güzellik Merkezi · Bursa",
+    body: "Randevu hatırlatmaları otomatik gidiyor; iptaller ve gelmeyen hasta oranı azaldı.",
   },
 ];
 
-function TestimonialCard({ name, role, body, img }: (typeof testimonials)[number]) {
+function TestimonialCard({ name, role, body }: (typeof testimonials)[number]) {
   return (
     <div className="w-[280px] p-[1px] rounded-2xl bg-gradient-to-b from-white/15 to-transparent mb-3">
       <div className="bg-[#111111] rounded-2xl p-5 h-full">
         <div className="flex items-center gap-3 mb-3">
           <Avatar className="size-10 border-2 border-white/10">
-            <AvatarImage src={img} alt={name} />
-            <AvatarFallback className="bg-[#8b5cf6] text-white text-sm font-medium">
-              {name[0]}
+            <AvatarFallback className="bg-gradient-to-br from-[#8b5cf6] to-[#7c3aed] text-white text-sm font-semibold">
+              {name.replace(/^Dr\.\s*/, "")[0]}
             </AvatarFallback>
           </Avatar>
           <div>
@@ -104,16 +85,16 @@ export default function Testimonials() {
           className="text-center mb-10 md:mb-16"
         >
           <span className="text-[10px] sm:text-xs font-medium uppercase tracking-[0.2em] text-[#a78bfa] mb-3 sm:mb-4 block">
-            Müşteri Yorumları
+            Pilot Geri Bildirimleri
           </span>
           <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-white mb-3 sm:mb-4 tracking-[-0.02em] leading-tight">
-            Müşterilerimiz{" "}
+            İşletmeler{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-br from-white via-[#e9d5ff] to-[#a78bfa]">
-              Ne Diyor?
+              ne diyor?
             </span>
           </h2>
           <p className="text-sm sm:text-base text-slate-400 max-w-xl mx-auto">
-            Yüzlerce işletme MakiCalls ile dijital dönüşümünü başlattı.
+            Pilot dönemde MakiCalls kullanan işletmelerden gelen ilk geri bildirimler.
           </p>
         </motion.div>
       </div>

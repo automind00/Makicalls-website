@@ -24,7 +24,7 @@
   <!-- Brand dot + label -->
   <g transform="translate(80, 80)">
     <circle cx="8" cy="8" r="6" fill="#a78bfa"/>
-    <text x="28" y="13" font-family="ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="16" font-weight="600" letter-spacing="3" fill="#cbd5e1">DİJİTAL OTOMASYON AJANSI</text>
+    <text x="28" y="13" font-family="ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="16" font-weight="600" letter-spacing="3" fill="#cbd5e1">AI ÇAĞRI MERKEZİ · 7/24 TÜRKÇE</text>
   </g>
 
   <!-- Wordmark -->
@@ -33,13 +33,13 @@
   </text>
 
   <!-- Headline -->
-  <text x="80" y="420" font-family="ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="44" font-weight="300" fill="#cbd5e1">İşletmenizi <tspan fill="#ffffff" font-weight="600">dijital otomasyonla</tspan> büyütün.</text>
+  <text x="80" y="420" font-family="ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="44" font-weight="300" fill="#cbd5e1"><tspan fill="#ffffff" font-weight="600">AI sesli asistan</tspan> telefonu açar, müşteriyi kaçırmaz.</text>
 
   <!-- Sub -->
-  <text x="80" y="490" font-family="ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="26" font-weight="400" fill="#94a3b8">WhatsApp &amp; Instagram chatbot · Sesli asistan · Özel çözümler</text>
+  <text x="80" y="490" font-family="ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="26" font-weight="400" fill="#94a3b8">Sesli arama · WhatsApp · Instagram · Web chat — tek panel</text>
 
   <!-- footer line -->
   <line x1="80" y1="555" x2="1120" y2="555" stroke="rgba(139,92,246,0.2)" stroke-width="1"/>
   <text x="80" y="585" font-family="ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="20" font-weight="500" fill="#94a3b8">makicalls.com</text>
-  <text x="1120" y="585" text-anchor="end" font-family="ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="20" font-weight="500" fill="#94a3b8">7/24 müşteri iletişimi</text>
+  <text x="1120" y="585" text-anchor="end" font-family="ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="20" font-weight="500" fill="#94a3b8">7/24 Türkçe cevaplar</text>
 </svg>
