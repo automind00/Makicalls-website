@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
+import WhatsAppButton from "@/components/ui/whatsapp-button";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -105,6 +107,8 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-[color:var(--color-page)] text-[color:var(--color-fg)]">
         {children}
+        <WhatsAppButton />
+        <Analytics />
       </body>
     </html>
   );
