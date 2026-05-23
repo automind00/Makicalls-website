@@ -9,7 +9,6 @@ import Process from "@/components/sections/process";
 import Sectors from "@/components/sections/sectors";
 import DashboardMockup from "@/components/sections/dashboard-mockup";
 import GoogleReviews from "@/components/sections/google-reviews";
-import Results from "@/components/sections/results";
 import Testimonials from "@/components/sections/testimonials";
 import Faq from "@/components/sections/faq";
 import CtaBanner from "@/components/sections/cta-banner";
@@ -33,7 +32,6 @@ export default function Home() {
         <Sectors />
         <DashboardMockup />
         <GoogleReviews />
-        <Results />
         <Testimonials />
         <CtaBanner />
         <ContactForm />
