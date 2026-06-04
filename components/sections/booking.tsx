@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
-import { CalendlyInline } from "@/components/ui/calendly-inline";
+import { Calendar } from "@/components/ui/calendar";
 
 export default function Booking() {
   return (
@@ -31,7 +31,7 @@ export default function Booking() {
             </span>
           </h2>
           <p className="text-[color:var(--color-fg-muted)] max-w-xl mx-auto">
-            30 dakika içinde Makicalls&apos;ı kliniğinizin ihtiyaçlarına göre konuşalım. Slot seçin, formu doldurun — randevunuz anında onaylanır.
+            30 dakika içinde Makicalls&apos;ı kliniğinizin ihtiyaçlarına göre konuşalım. Karta tıklayın, randevuyu site üzerinden alın.
           </p>
         </motion.div>
 
@@ -40,12 +40,8 @@ export default function Booking() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, delay: 0.15 }}
-          className="rounded-3xl overflow-hidden border border-[color:var(--color-border-strong)] bg-[color:var(--color-page)]"
         >
-          <CalendlyInline
-            url="https://calendly.com/ekremhndolu/30min"
-            height={720}
-          />
+          <Calendar />
         </motion.div>
       </div>
     </section>
