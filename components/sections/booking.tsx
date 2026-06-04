@@ -40,7 +40,7 @@ export default function Booking() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, delay: 0.15 }}
-          className="p-[1px] rounded-3xl bg-gradient-to-b from-[color:var(--color-border-strong)] to-[color:var(--color-border)]"
+          className="rounded-3xl overflow-hidden border border-[color:var(--color-border-strong)] bg-[color:var(--color-page)]"
         >
           <CalendlyInline
             url="https://calendly.com/ekremhndolu/30min"

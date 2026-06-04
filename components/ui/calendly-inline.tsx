@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import Script from "next/script";
+import { useEffect, useRef, useState } from "react";
 
 interface CalendlyInlineProps {
   /** Calendly event URL, e.g. https://calendly.com/ekremhndolu/30min */
@@ -13,11 +14,10 @@ interface CalendlyInlineProps {
 declare global {
   interface Window {
     Calendly?: {
-      initInlineWidget: (opts: {
+      initInlineWidgets?: () => void;
+      initInlineWidget?: (opts: {
         url: string;
         parentElement: HTMLElement;
-        prefill?: Record<string, unknown>;
-        utm?: Record<string, unknown>;
       }) => void;
     };
   }
@@ -25,65 +25,102 @@ declare global {
 
 /**
  * Calendly inline embed — booking takes place ON the site, no redirect.
- * Themed against the Makicalls dark / violet palette via Calendly query params.
+ * Uses Calendly's auto-init pattern (`.calendly-inline-widget` + data-url) so
+ * the script picks up the widget itself; a manual fallback re-init also runs
+ * after mount in case the script loaded before the div existed.
+ *
+ * Theming params: dark background (#0a0a0a), white text, violet brand.
  */
 export function CalendlyInline({
   url,
   height = 720,
   className = "",
 }: CalendlyInlineProps) {
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const initializedRef = useRef(false);
+  const themedUrl = `${url}?hide_event_type_details=1&hide_gdpr_banner=1&background_color=0a0a0a&text_color=ffffff&primary_color=8b5cf6`;
+  const widgetRef = useRef<HTMLDivElement | null>(null);
+  const [failed, setFailed] = useState(false);
 
-  // Calendly accepts theming via query params on the embed URL.
-  // 0a0a0a = --bg-page, ffffff = --text-primary, 8b5cf6 = --brand
-  const themedUrl = `${url}?hide_landing_page_details=1&hide_gdpr_banner=1&background_color=0a0a0a&text_color=ffffff&primary_color=8b5cf6`;
-
+  // Belt-and-suspenders: if the script already loaded before this mounted, or
+  // auto-init missed our div, call init manually. Then watch for the iframe
+  // Calendly injects; if it never appears after 8s, surface a fallback link.
   useEffect(() => {
-    if (initializedRef.current || !containerRef.current) return;
+    let cancelled = false;
 
-    const SCRIPT_ID = "calendly-widget-script";
-    const STYLE_ID = "calendly-widget-style";
-
-    // Calendly's official stylesheet (rendered controls only — does not override our colors)
-    if (!document.getElementById(STYLE_ID)) {
-      const link = document.createElement("link");
-      link.id = STYLE_ID;
-      link.rel = "stylesheet";
-      link.href = "https://assets.calendly.com/assets/external/widget.css";
-      document.head.appendChild(link);
-    }
-
-    const mount = () => {
-      if (!containerRef.current || initializedRef.current) return;
-      if (!window.Calendly) return;
-      window.Calendly.initInlineWidget({
-        url: themedUrl,
-        parentElement: containerRef.current,
-      });
-      initializedRef.current = true;
+    const tryInit = () => {
+      const cal = window.Calendly;
+      if (!cal || !widgetRef.current) return false;
+      if (cal.initInlineWidget) {
+        cal.initInlineWidget({
+          url: themedUrl,
+          parentElement: widgetRef.current,
+        });
+        return true;
+      }
+      if (cal.initInlineWidgets) {
+        cal.initInlineWidgets();
+        return true;
+      }
+      return false;
     };
 
-    const existing = document.getElementById(SCRIPT_ID) as HTMLScriptElement | null;
-    if (existing) {
-      if (window.Calendly) mount();
-      else existing.addEventListener("load", mount, { once: true });
-      return;
-    }
+    const interval = setInterval(() => {
+      if (cancelled) return;
+      if (widgetRef.current?.querySelector("iframe")) {
+        clearInterval(interval);
+        return;
+      }
+      tryInit();
+    }, 300);
 
-    const script = document.createElement("script");
-    script.id = SCRIPT_ID;
-    script.src = "https://assets.calendly.com/assets/external/widget.js";
-    script.async = true;
-    script.addEventListener("load", mount, { once: true });
-    document.body.appendChild(script);
+    const timeout = setTimeout(() => {
+      if (cancelled) return;
+      if (!widgetRef.current?.querySelector("iframe")) {
+        setFailed(true);
+      }
+      clearInterval(interval);
+    }, 8000);
+
+    return () => {
+      cancelled = true;
+      clearInterval(interval);
+      clearTimeout(timeout);
+    };
   }, [themedUrl]);
 
   return (
-    <div
-      ref={containerRef}
-      className={`calendly-inline-widget w-full rounded-3xl overflow-hidden border border-[color:var(--color-border)] bg-[color:var(--color-page)] ${className}`}
-      style={{ minWidth: 320, height }}
-    />
+    <>
+      {/* Calendly's stylesheet — Next will hoist this to <head> */}
+      <link
+        rel="stylesheet"
+        href="https://assets.calendly.com/assets/external/widget.css"
+      />
+      <div className={`relative w-full ${className}`}>
+        <div
+          ref={widgetRef}
+          className="calendly-inline-widget w-full"
+          data-url={themedUrl}
+          style={{ minWidth: 320, height }}
+        />
+        {failed && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 bg-[color:var(--color-page)]">
+            <p className="text-[color:var(--color-fg-muted)] mb-4">
+              Takvim yüklenemedi. Yeni sekmede deneyebilirsiniz:
+            </p>
+            <a
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand hover:bg-brand-deep text-white font-semibold transition-colors"
+            >
+              Calendly&apos;de Aç
+            </a>
+          </div>
+        )}
+      </div>
+      <Script
+        src="https://assets.calendly.com/assets/external/widget.js"
+        strategy="afterInteractive"
+      />
+    </>
   );
 }
