@@ -34,6 +34,8 @@ export default function Home() {
         <GoogleReviews />
         <Testimonials />
         <CtaBanner />
+        {/* "İletişim" navbar linki Booking bölümüne anchor olarak inisin */}
+        <span id="iletisim" aria-hidden="true" />
         <Booking />
         <Faq />
       </main>

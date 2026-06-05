@@ -20,7 +20,14 @@ export default function Navbar() {
   const scrollToSection = (id: string) => {
     setMobileOpen(false);
     const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+      return;
+    }
+    // Anasayfa dışındaysak (örn. /sektorler/oteller) hash ile anasayfaya git
+    if (window.location.pathname !== "/") {
+      router.push(`/#${id}`);
+    }
   };
 
   /**
@@ -47,6 +54,7 @@ export default function Navbar() {
 
   const navLinks = [
     { label: "Hizmetler", id: "hizmetler" },
+    { label: "Sektörler", id: "sektorler" },
     { label: "Süreç", id: "surec" },
     { label: "SSS", id: "sss" },
     { label: "İletişim", id: "iletisim" },
