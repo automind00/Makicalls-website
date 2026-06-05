@@ -161,10 +161,25 @@ export default function Booking() {
       // Keep selectedDate so the success screen can show what they booked
     } catch (err) {
       console.error("[Booking] submit error:", err);
+      // Supabase'in PostgrestError'u `Error` instance degil; mesaji `err.message`'da
+      // ama bazen `err.error_description`'da geliyor. Her ikisini de yakalayalim.
+      const msg = (() => {
+        if (!err) return null;
+        if (typeof err === "string") return err;
+        if (typeof err === "object") {
+          const e = err as Record<string, unknown>;
+          const code = typeof e.code === "string" ? e.code : null;
+          const message =
+            (typeof e.message === "string" && e.message) ||
+            (typeof e.error_description === "string" && e.error_description) ||
+            (typeof e.details === "string" && e.details) ||
+            null;
+          if (message) return code ? `${message} (${code})` : message;
+        }
+        return null;
+      })();
       setErrorMessage(
-        err instanceof Error
-          ? err.message
-          : "Bir hata oluştu. Lütfen tekrar deneyin.",
+        msg ?? "Bir hata oluştu. Lütfen tekrar deneyin. (Konsol'da detay var.)",
       );
       setState("error");
     }
