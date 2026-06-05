@@ -52,12 +52,17 @@ export const metadata: Metadata = {
   authors: [{ name: SITE_NAME }],
   creator: SITE_NAME,
   publisher: SITE_NAME,
+  // Not: app/icon.tsx ve app/apple-icon.tsx Next.js convention'i ile otomatik
+  // <link rel="icon"> ve apple touch icon eklerler. Aşağıda ekstra olarak
+  // SVG fallback + yüksek çözünürlüklü PNG logo veriyoruz (Google tercih eder).
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/icon", sizes: "32x32", type: "image/png" },
+      { url: "/logo", sizes: "512x512", type: "image/png" },
     ],
     shortcut: "/favicon.svg",
-    apple: "/favicon.svg",
+    apple: [{ url: "/apple-icon", sizes: "180x180", type: "image/png" }],
   },
   openGraph: {
     type: "website",
