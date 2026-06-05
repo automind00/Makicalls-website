@@ -52,13 +52,26 @@ export default function Navbar() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const navLinks = [
+  /**
+   * `href` varsa direkt o sayfaya gider (Next router).
+   * `id` varsa aynı sayfada scroll yapar, anasayfa dışındaysak /#id fallback.
+   */
+  const navLinks: { label: string; id?: string; href?: string }[] = [
     { label: "Hizmetler", id: "hizmetler" },
-    { label: "Sektörler", id: "sektorler" },
+    { label: "Sektörler", href: "/sektorler" },
     { label: "Süreç", id: "surec" },
     { label: "SSS", id: "sss" },
     { label: "İletişim", id: "iletisim" },
   ];
+
+  const handleNavClick = (link: { id?: string; href?: string }) => {
+    if (link.href) {
+      setMobileOpen(false);
+      router.push(link.href);
+      return;
+    }
+    if (link.id) scrollToSection(link.id);
+  };
 
   // NetGSM numarası kurulduğunda buraya doldurulacak. Şimdilik Calendly'ye / iletişim formuna düşüyor.
   const DEMO_PHONE: string | null = null;
@@ -93,8 +106,8 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
               <button
-                key={link.id}
-                onClick={() => scrollToSection(link.id)}
+                key={link.label}
+                onClick={() => handleNavClick(link)}
                 className="text-sm text-[color:var(--color-fg-secondary)] hover:text-[color:var(--color-fg)] transition-colors duration-300 relative group"
               >
                 {link.label}
@@ -153,8 +166,8 @@ export default function Navbar() {
             <div className="px-6 py-6 space-y-4">
               {navLinks.map((link) => (
                 <button
-                  key={link.id}
-                  onClick={() => scrollToSection(link.id)}
+                  key={link.label}
+                  onClick={() => handleNavClick(link)}
                   className="block text-[color:var(--color-fg-secondary)] hover:text-[color:var(--color-fg)] transition-colors text-base w-full text-left"
                 >
                   {link.label}
