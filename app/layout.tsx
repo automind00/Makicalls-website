@@ -66,6 +66,9 @@ export const metadata: Metadata = {
     apple: [{ url: "/apple-icon", sizes: "180x180", type: "image/png" }],
   },
   manifest: "/manifest.webmanifest",
+  // openGraph.images ve twitter.images burada belirtilmiyor —
+  // app/opengraph-image.tsx Next.js convention'i ile otomatik
+  // /opengraph-image endpoint'i üretir ve meta tag'lerini ekler.
   openGraph: {
     type: "website",
     locale: "tr_TR",
@@ -73,20 +76,11 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "MakiCalls — AI Çağrı Merkezi ve Türkçe Sesli Asistan",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
-    images: ["/og-image.png"],
   },
   robots: {
     index: true,
