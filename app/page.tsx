@@ -5,8 +5,8 @@ import Integrations from "@/components/sections/integrations";
 import Omnichannel from "@/components/sections/omnichannel";
 import Comparison from "@/components/sections/comparison";
 import Services from "@/components/sections/services";
+import SectorShowcase from "@/components/sections/sector-showcase";
 import Process from "@/components/sections/process";
-import Sectors from "@/components/sections/sectors";
 import DashboardMockup from "@/components/sections/dashboard-mockup";
 import GoogleReviews from "@/components/sections/google-reviews";
 import Testimonials from "@/components/sections/testimonials";
@@ -28,8 +28,8 @@ export default function Home() {
         <Omnichannel />
         <Comparison />
         <Services />
+        <SectorShowcase />
         <Process />
-        <Sectors />
         <DashboardMockup />
         <GoogleReviews />
         <Testimonials />
