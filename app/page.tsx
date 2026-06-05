@@ -13,7 +13,6 @@ import Testimonials from "@/components/sections/testimonials";
 import Faq from "@/components/sections/faq";
 import CtaBanner from "@/components/sections/cta-banner";
 import Booking from "@/components/sections/booking";
-import ContactForm from "@/components/sections/contact-form";
 import Footer from "@/components/sections/footer";
 import JsonLd from "@/components/seo/json-ld";
 
@@ -36,7 +35,6 @@ export default function Home() {
         <Testimonials />
         <CtaBanner />
         <Booking />
-        <ContactForm />
         <Faq />
       </main>
       <Footer />

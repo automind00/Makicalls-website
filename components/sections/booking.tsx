@@ -1,9 +1,132 @@
 "use client";
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  CheckCircle,
+  AlertCircle,
+  Loader2,
+  User,
+  Mail,
+  Phone,
+  Building2,
+  MessageSquare,
+  Clock,
+  Send,
+} from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
+import { getSupabaseBrowserClient } from "@/lib/supabase/client";
+
+type FormState = "idle" | "submitting" | "success" | "error";
+
+const TIME_SLOTS = [
+  "09:00",
+  "10:00",
+  "11:00",
+  "13:00",
+  "14:00",
+  "15:00",
+  "16:00",
+  "17:00",
+];
+
+function formatDateTR(d: Date) {
+  return d.toLocaleDateString("tr-TR", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
 
 export default function Booking() {
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [state, setState] = useState<FormState>("idle");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    clinic: "",
+    notes: "",
+  });
+  const panelRef = useRef<HTMLDivElement | null>(null);
+
+  // When user picks a day, scroll the booking panel into view.
+  useEffect(() => {
+    if (selectedDate && panelRef.current) {
+      panelRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+  }, [selectedDate]);
+
+  const handleBookClick = () => {
+    if (!selectedDate) {
+      // Scroll to calendar / nudge — pick today's first available, or just open panel area
+      const today = new Date();
+      // Skip weekends
+      const day = today.getDay();
+      if (day !== 0 && day !== 6) setSelectedDate(today);
+      else {
+        // jump to next monday
+        const next = new Date(today);
+        next.setDate(today.getDate() + ((1 + 7 - day) % 7 || 7));
+        setSelectedDate(next);
+      }
+    }
+    panelRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedDate || !selectedTime) {
+      setErrorMessage("Lütfen bir tarih ve saat seçin.");
+      setState("error");
+      return;
+    }
+    setState("submitting");
+    setErrorMessage(null);
+
+    try {
+      const supabase = getSupabaseBrowserClient();
+      const dateStr = formatDateTR(selectedDate);
+      const composedMessage = [
+        `RANDEVU TALEBİ`,
+        `Tarih: ${dateStr}`,
+        `Saat: ${selectedTime}`,
+        formData.phone ? `Telefon: ${formData.phone}` : null,
+        formData.notes ? `\nNot: ${formData.notes}` : null,
+      ]
+        .filter(Boolean)
+        .join("\n");
+
+      const { error } = await supabase.from("contact_submissions").insert({
+        name: formData.name.trim(),
+        email: formData.email.trim().toLowerCase(),
+        company: formData.clinic.trim() || null,
+        message: composedMessage,
+        user_agent: typeof navigator !== "undefined" ? navigator.userAgent : null,
+      });
+
+      if (error) throw error;
+
+      setState("success");
+      setFormData({ name: "", email: "", phone: "", clinic: "", notes: "" });
+      setSelectedTime(null);
+      // Keep selectedDate so the success screen can show what they booked
+    } catch (err) {
+      console.error("[Booking] submit error:", err);
+      setErrorMessage(
+        err instanceof Error
+          ? err.message
+          : "Bir hata oluştu. Lütfen tekrar deneyin.",
+      );
+      setState("error");
+    }
+  };
+
+  const inputBase =
+    "w-full pl-10 pr-4 py-3 rounded-xl bg-[color:var(--color-surface)] border border-[color:var(--color-border)] text-[color:var(--color-fg)] text-sm placeholder:text-[color:var(--color-fg-muted)] focus:outline-none focus:border-brand/60 focus:ring-1 focus:ring-brand/30 transition-all disabled:opacity-60";
+
   return (
     <section
       id="randevu"
@@ -31,7 +154,7 @@ export default function Booking() {
             </span>
           </h2>
           <p className="text-[color:var(--color-fg-muted)] max-w-xl mx-auto">
-            30 dakika içinde Makicalls&apos;ı kliniğinizin ihtiyaçlarına göre konuşalım. Karta tıklayın, randevuyu site üzerinden alın.
+            30 dakika içinde Makicalls&apos;ı kliniğinizin ihtiyaçlarına göre konuşalım.
           </p>
         </motion.div>
 
@@ -41,8 +164,225 @@ export default function Booking() {
           viewport={{ once: true }}
           transition={{ duration: 0.7, delay: 0.15 }}
         >
-          <Calendar />
+          <Calendar
+            selectedDate={selectedDate}
+            onSelectDate={(d) => {
+              setSelectedDate(d);
+              setState("idle");
+              setErrorMessage(null);
+            }}
+            onBookClick={handleBookClick}
+          />
         </motion.div>
+
+        {/* Booking detail panel — appears once a date is picked */}
+        <div ref={panelRef}>
+          <AnimatePresence mode="wait">
+            {selectedDate && (
+              <motion.div
+                key="booking-panel"
+                initial={{ opacity: 0, y: 20, height: 0 }}
+                animate={{ opacity: 1, y: 0, height: "auto" }}
+                exit={{ opacity: 0, y: 10, height: 0 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                className="overflow-hidden"
+              >
+                <div className="mt-8 p-[1px] rounded-3xl bg-gradient-to-b from-[color:var(--color-border-strong)] to-[color:var(--color-border)]">
+                  <div className="bg-[color:var(--color-elevated)] rounded-3xl p-6 md:p-10 shadow-[var(--shadow-md)]">
+                    {state === "success" ? (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="text-center py-8"
+                      >
+                        <div className="w-16 h-16 rounded-full bg-emerald-500/20 flex items-center justify-center mx-auto mb-4">
+                          <CheckCircle className="w-8 h-8 text-emerald-500" />
+                        </div>
+                        <h3 className="text-2xl font-bold text-[color:var(--color-fg)] mb-2">
+                          Randevu Talebiniz Alındı
+                        </h3>
+                        <p className="text-[color:var(--color-fg-muted)] mb-4">
+                          {selectedDate && (
+                            <>
+                              <span className="text-[color:var(--color-fg)] font-medium capitalize">
+                                {formatDateTR(selectedDate)}
+                              </span>
+                              <br />
+                            </>
+                          )}
+                          tarihindeki randevunuz için en kısa sürede sizinle iletişime geçeceğiz.
+                        </p>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setState("idle");
+                            setSelectedDate(null);
+                          }}
+                          className="text-sm text-brand-soft hover:text-brand-deep underline-offset-4 hover:underline"
+                        >
+                          Yeni randevu oluştur
+                        </button>
+                      </motion.div>
+                    ) : (
+                      <form onSubmit={handleSubmit} className="space-y-6">
+                        <div className="flex flex-wrap items-center gap-3">
+                          <span className="text-xs uppercase tracking-[0.2em] text-brand-soft">
+                            Seçilen Tarih
+                          </span>
+                          <span className="text-base md:text-lg font-semibold text-[color:var(--color-fg)] capitalize">
+                            {formatDateTR(selectedDate)}
+                          </span>
+                        </div>
+
+                        {/* Time slot picker */}
+                        <div>
+                          <label className="text-sm text-[color:var(--color-fg-muted)] mb-3 flex items-center gap-2">
+                            <Clock className="w-4 h-4" />
+                            Uygun saati seçin
+                          </label>
+                          <div className="grid grid-cols-4 sm:grid-cols-8 gap-2">
+                            {TIME_SLOTS.map((slot) => (
+                              <button
+                                type="button"
+                                key={slot}
+                                onClick={() => setSelectedTime(slot)}
+                                className={`py-2 rounded-lg text-sm font-medium border transition-all ${
+                                  selectedTime === slot
+                                    ? "bg-brand border-brand text-white shadow-[var(--shadow-glow)]"
+                                    : "bg-[color:var(--color-surface)] border-[color:var(--color-border)] text-[color:var(--color-fg-muted)] hover:border-brand/40 hover:text-white"
+                                }`}
+                              >
+                                {slot}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-5">
+                          <div>
+                            <label htmlFor="b-name" className="text-sm text-[color:var(--color-fg-muted)] mb-2 block">
+                              Adınız Soyadınız
+                            </label>
+                            <div className="relative">
+                              <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[color:var(--color-fg-muted)]" />
+                              <input
+                                id="b-name"
+                                required
+                                value={formData.name}
+                                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                disabled={state === "submitting"}
+                                className={inputBase}
+                                placeholder="Adınız Soyadınız"
+                              />
+                            </div>
+                          </div>
+                          <div>
+                            <label htmlFor="b-phone" className="text-sm text-[color:var(--color-fg-muted)] mb-2 block">
+                              Telefon
+                            </label>
+                            <div className="relative">
+                              <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[color:var(--color-fg-muted)]" />
+                              <input
+                                id="b-phone"
+                                required
+                                type="tel"
+                                value={formData.phone}
+                                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                                disabled={state === "submitting"}
+                                className={inputBase}
+                                placeholder="05XX XXX XX XX"
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-5">
+                          <div>
+                            <label htmlFor="b-email" className="text-sm text-[color:var(--color-fg-muted)] mb-2 block">
+                              E-posta
+                            </label>
+                            <div className="relative">
+                              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[color:var(--color-fg-muted)]" />
+                              <input
+                                id="b-email"
+                                required
+                                type="email"
+                                value={formData.email}
+                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                disabled={state === "submitting"}
+                                className={inputBase}
+                                placeholder="ornek@email.com"
+                              />
+                            </div>
+                          </div>
+                          <div>
+                            <label htmlFor="b-clinic" className="text-sm text-[color:var(--color-fg-muted)] mb-2 block">
+                              Klinik / İşletme
+                            </label>
+                            <div className="relative">
+                              <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[color:var(--color-fg-muted)]" />
+                              <input
+                                id="b-clinic"
+                                value={formData.clinic}
+                                onChange={(e) => setFormData({ ...formData, clinic: e.target.value })}
+                                disabled={state === "submitting"}
+                                className={inputBase}
+                                placeholder="İşletme adınız"
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div>
+                          <label htmlFor="b-notes" className="text-sm text-[color:var(--color-fg-muted)] mb-2 block">
+                            Notunuz (opsiyonel)
+                          </label>
+                          <div className="relative">
+                            <MessageSquare className="absolute left-3 top-3 w-4 h-4 text-[color:var(--color-fg-muted)]" />
+                            <textarea
+                              id="b-notes"
+                              rows={3}
+                              value={formData.notes}
+                              onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+                              disabled={state === "submitting"}
+                              className={`${inputBase} resize-none`}
+                              placeholder="Görüşmede konuşmak istediğiniz bir konu var mı?"
+                            />
+                          </div>
+                        </div>
+
+                        {state === "error" && errorMessage && (
+                          <div className="flex items-start gap-2 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/30 text-sm text-red-700 dark:text-red-300">
+                            <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                            <span>{errorMessage}</span>
+                          </div>
+                        )}
+
+                        <motion.button
+                          whileHover={state === "submitting" ? undefined : { scale: 1.01 }}
+                          whileTap={state === "submitting" ? undefined : { scale: 0.99 }}
+                          type="submit"
+                          disabled={state === "submitting" || !selectedTime}
+                          className="w-full py-4 rounded-xl text-base font-semibold text-white bg-brand hover:bg-brand-deep transition-colors duration-300 flex items-center justify-center gap-2 shadow-[0_0_30px_-8px_rgb(var(--brand))] disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          {state === "submitting" ? (
+                            <>
+                              <Loader2 className="w-4 h-4 animate-spin" /> Gönderiliyor...
+                            </>
+                          ) : (
+                            <>
+                              <Send className="w-4 h-4" /> Randevuyu Onayla
+                            </>
+                          )}
+                        </motion.button>
+                      </form>
+                    )}
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
     </section>
   );

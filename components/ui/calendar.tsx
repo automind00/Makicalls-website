@@ -1,118 +1,176 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
-import Link from "next/link";
-import Script from "next/script";
-import { ArrowUpRight } from "lucide-react";
+import React, { useEffect, useMemo, useState } from "react";
+import { ArrowUpRight, CalendarDays } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const dayNames = ["PZR", "PZT", "SAL", "ÇAR", "PER", "CUM", "CMT"];
 
-declare global {
-  interface Window {
-    Calendly?: {
-      initPopupWidget?: (opts: { url: string }) => void;
-      initInlineWidgets?: () => void;
-      initInlineWidget?: (opts: {
-        url: string;
-        parentElement: HTMLElement;
-      }) => void;
-    };
-  }
+interface CalendarProps {
+  selectedDate: Date | null;
+  onSelectDate: (date: Date) => void;
+  onBookClick: () => void;
 }
 
-const CALENDLY_URL = "https://calendly.com/ekremhndolu/30min";
-// Themed for dark + violet brand. Calendly popup respects these query params.
-const THEMED_URL = `${CALENDLY_URL}?hide_event_type_details=1&hide_gdpr_banner=1&background_color=0a0a0a&text_color=ffffff&primary_color=8b5cf6`;
-
-function openCalendlyPopup() {
-  if (typeof window === "undefined") return;
-  if (window.Calendly?.initPopupWidget) {
-    window.Calendly.initPopupWidget({ url: THEMED_URL });
-  } else {
-    // Script not ready yet — fall back to a new tab so the user can still book.
-    window.open(CALENDLY_URL, "_blank", "noopener,noreferrer");
-  }
-}
-
-const CalendarDay: React.FC<{
+interface CalendarDayCellProps {
   day: number | string;
   isHeader?: boolean;
   isAvailable?: boolean;
   isToday?: boolean;
-}> = ({ day, isHeader, isAvailable, isToday }) => {
+  isSelected?: boolean;
+  isDisabled?: boolean;
+  onClick?: () => void;
+}
+
+const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
+  day,
+  isHeader,
+  isAvailable,
+  isToday,
+  isSelected,
+  isDisabled,
+  onClick,
+}) => {
   const base =
     "col-span-1 row-span-1 flex h-8 w-8 items-center justify-center";
 
   let stateClass = "text-[color:var(--color-fg-muted)]";
   if (!isHeader) {
-    if (isAvailable) stateClass = "bg-brand text-white shadow-[var(--shadow-glow)]";
+    if (isSelected)
+      stateClass =
+        "bg-brand text-white shadow-[var(--shadow-glow)] scale-110";
+    else if (isAvailable)
+      stateClass =
+        "bg-brand/15 text-white hover:bg-brand hover:scale-110 cursor-pointer";
     else if (isToday)
-      stateClass = "border border-brand/60 text-[color:var(--color-fg)]";
+      stateClass =
+        "border border-brand/60 text-[color:var(--color-fg)] hover:bg-brand/30 cursor-pointer";
+    else if (!isDisabled)
+      stateClass =
+        "text-[color:var(--color-fg-muted)] hover:text-white hover:bg-white/5 cursor-pointer";
+    else stateClass = "text-[color:var(--color-fg-muted)]/40";
+  }
+
+  const content = (
+    <span className={`font-medium ${isHeader ? "text-[10px] tracking-wider" : "text-sm"}`}>
+      {day}
+    </span>
+  );
+
+  if (isHeader || isDisabled || !onClick) {
+    return (
+      <div className={`${base} ${isHeader ? "" : "rounded-xl"} ${stateClass}`}>
+        {content}
+      </div>
+    );
   }
 
   return (
-    <div
-      className={`${base} ${isHeader ? "" : "rounded-xl transition-colors"} ${stateClass}`}
+    <button
+      type="button"
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        onClick();
+      }}
+      className={`${base} rounded-xl transition-all duration-200 ${stateClass}`}
     >
-      <span className={`font-medium ${isHeader ? "text-[10px] tracking-wider" : "text-sm"}`}>
-        {day}
-      </span>
-    </div>
+      {content}
+    </button>
   );
 };
 
-export function Calendar() {
-  const currentDate = new Date();
-  const currentMonthName = currentDate.toLocaleString("tr-TR", { month: "long" });
-  const currentYear = currentDate.getFullYear();
-  const todayDate = currentDate.getDate();
-  const firstDayOfMonth = new Date(currentYear, currentDate.getMonth(), 1);
-  const firstDayOfWeek = firstDayOfMonth.getDay();
-  const daysInMonth = new Date(
-    currentYear,
-    currentDate.getMonth() + 1,
-    0
-  ).getDate();
+export function Calendar({ selectedDate, onSelectDate, onBookClick }: CalendarProps) {
+  const [viewDate, setViewDate] = useState<Date | null>(null);
 
-  // Hydration-safe: highlights only render after mount, so SSR/CSR match.
+  // Initialize to current month after mount (hydration safe)
+  useEffect(() => {
+    setViewDate(new Date());
+  }, []);
+
+  const computed = useMemo(() => {
+    const d = viewDate ?? new Date();
+    return {
+      monthName: d.toLocaleString("tr-TR", { month: "long" }),
+      year: d.getFullYear(),
+      month: d.getMonth(),
+      todayDate: new Date().getDate(),
+      todayMonth: new Date().getMonth(),
+      todayYear: new Date().getFullYear(),
+      firstDayOfWeek: new Date(d.getFullYear(), d.getMonth(), 1).getDay(),
+      daysInMonth: new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate(),
+    };
+  }, [viewDate]);
+
+  // Highlight a deterministic subset of upcoming weekdays as "available"
   const [availableDays, setAvailableDays] = useState<Set<number>>(new Set());
   useEffect(() => {
+    if (!viewDate) return;
     const slots = new Set<number>();
-    for (let d = todayDate; d <= daysInMonth; d++) {
-      const weekday = new Date(currentYear, currentDate.getMonth(), d).getDay();
-      if (weekday !== 0 && weekday !== 6 && (d + todayDate) % 3 === 0) {
+    const startDay =
+      computed.month === computed.todayMonth && computed.year === computed.todayYear
+        ? computed.todayDate
+        : 1;
+    for (let d = startDay; d <= computed.daysInMonth; d++) {
+      const weekday = new Date(computed.year, computed.month, d).getDay();
+      if (weekday !== 0 && weekday !== 6 && (d + computed.todayDate) % 3 === 0) {
         slots.add(d);
       }
     }
     setAvailableDays(slots);
-  }, [todayDate, daysInMonth, currentYear, currentDate]);
+  }, [viewDate, computed]);
 
-  const handleBook = useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    openCalendlyPopup();
-  }, []);
+  const isPastDay = (d: number) => {
+    if (computed.year < computed.todayYear) return true;
+    if (computed.year === computed.todayYear && computed.month < computed.todayMonth) return true;
+    if (
+      computed.year === computed.todayYear &&
+      computed.month === computed.todayMonth &&
+      d < computed.todayDate
+    )
+      return true;
+    return false;
+  };
 
   const renderCalendarDays = () => {
     const days: React.ReactNode[] = [
       ...dayNames.map((day) => (
-        <CalendarDay key={`header-${day}`} day={day} isHeader />
+        <CalendarDayCell key={`header-${day}`} day={day} isHeader />
       )),
-      ...Array.from({ length: firstDayOfWeek }).map((_, i) => (
+      ...Array.from({ length: computed.firstDayOfWeek }).map((_, i) => (
         <div
           key={`empty-start-${i}`}
           className="col-span-1 row-span-1 h-8 w-8"
         />
       )),
-      ...Array.from({ length: daysInMonth }).map((_, i) => {
+      ...Array.from({ length: computed.daysInMonth }).map((_, i) => {
         const d = i + 1;
+        const disabled = isPastDay(d);
+        const weekday = new Date(computed.year, computed.month, d).getDay();
+        const isWeekend = weekday === 0 || weekday === 6;
+        const clickable = !disabled && !isWeekend;
+        const isSel =
+          selectedDate &&
+          selectedDate.getDate() === d &&
+          selectedDate.getMonth() === computed.month &&
+          selectedDate.getFullYear() === computed.year;
+        const isTodayCell =
+          d === computed.todayDate &&
+          computed.month === computed.todayMonth &&
+          computed.year === computed.todayYear;
         return (
-          <CalendarDay
+          <CalendarDayCell
             key={`date-${d}`}
             day={d}
             isAvailable={availableDays.has(d)}
-            isToday={d === todayDate}
+            isToday={isTodayCell}
+            isSelected={!!isSel}
+            isDisabled={disabled || isWeekend}
+            onClick={
+              clickable
+                ? () => onSelectDate(new Date(computed.year, computed.month, d))
+                : undefined
+            }
           />
         );
       }),
@@ -122,132 +180,57 @@ export function Calendar() {
   };
 
   return (
-    <>
-      {/* Calendly assets — hoisted by Next; only loaded once even if Calendar mounts multiple times */}
-      <link
-        rel="stylesheet"
-        href="https://assets.calendly.com/assets/external/widget.css"
-      />
-      <Script
-        src="https://assets.calendly.com/assets/external/widget.js"
-        strategy="afterInteractive"
-      />
+    <div className="group relative flex flex-col rounded-3xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] p-6 md:p-8 hover:border-brand/40 transition-colors overflow-hidden">
+      <div className="pointer-events-none absolute inset-0 z-0 bg-gradient-to-tl from-brand/10 via-transparent to-transparent opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100" />
+      <div className="relative z-10 grid h-full gap-6 md:grid-cols-[1fr_auto] md:items-center">
+        <div>
+          <span className="text-xs font-medium uppercase tracking-[0.2em] text-brand-soft mb-3 block">
+            Randevu
+          </span>
+          <h2 className="mb-3 text-2xl md:text-3xl font-bold text-[color:var(--color-fg)] tracking-tight">
+            Makicalls&apos;ı 30 dakikada tanıyın
+          </h2>
+          <p className="mb-5 text-sm md:text-base text-[color:var(--color-fg-muted)] max-w-md">
+            Kliniğinize özel demo arama dinleyin, AI çağrı asistanını gerçek zamanlı test edelim. Uzun sözleşme yok, ön ödeme yok.
+          </p>
+          <Button
+            type="button"
+            onClick={onBookClick}
+            className="rounded-2xl bg-brand hover:bg-brand-deep text-white"
+          >
+            <CalendarDays className="mr-2 h-4 w-4" />
+            {selectedDate
+              ? "Bilgileri Gir"
+              : "Şimdi Randevu Al"}
+            <ArrowUpRight className="ml-1 h-4 w-4" />
+          </Button>
+        </div>
 
-      <BentoCard onClick={openCalendlyPopup}>
-        <div className="grid h-full gap-6 md:grid-cols-[1fr_auto] md:items-center">
-          <div>
-            <span className="text-xs font-medium uppercase tracking-[0.2em] text-brand-soft mb-3 block">
-              Randevu
-            </span>
-            <h2 className="mb-3 text-2xl md:text-3xl font-bold text-[color:var(--color-fg)] tracking-tight">
-              Makicalls&apos;ı 30 dakikada tanıyın
-            </h2>
-            <p className="mb-5 text-sm md:text-base text-[color:var(--color-fg-muted)] max-w-md">
-              Kliniğinize özel demo arama dinleyin, AI çağrı asistanını gerçek zamanlı test edelim. Uzun sözleşme yok, ön ödeme yok.
-            </p>
-            <Button
-              onClick={handleBook}
-              className="rounded-2xl bg-brand hover:bg-brand-deep text-white"
+        <div className="transition-all duration-500 ease-out md:group-hover:-translate-y-1">
+          <div className="w-full md:w-[420px] rounded-[24px] border border-[color:var(--color-border-strong)] p-2 transition-colors duration-300 group-hover:border-brand/60 bg-[color:var(--color-surface)]">
+            <div
+              className="rounded-2xl border border-[color:var(--color-border)] p-4 bg-[color:var(--color-elevated)]"
+              style={{ boxShadow: "0px 2px 1.5px 0px rgb(255 255 255 / 0.04) inset" }}
             >
-              Şimdi Randevu Al
-              <ArrowUpRight className="ml-1 h-4 w-4" />
-            </Button>
-          </div>
-
-          <div className="transition-all duration-500 ease-out md:group-hover:-translate-y-1">
-            <div className="w-full md:w-[420px] rounded-[24px] border border-[color:var(--color-border-strong)] p-2 transition-colors duration-300 group-hover:border-brand/60 bg-[color:var(--color-surface)]">
-              <div
-                className="rounded-2xl border border-[color:var(--color-border)] p-4 bg-[color:var(--color-elevated)]"
-                style={{ boxShadow: "0px 2px 1.5px 0px rgb(255 255 255 / 0.04) inset" }}
-              >
-                <div className="flex items-center space-x-2">
-                  <p className="text-sm text-[color:var(--color-fg)]">
-                    <span className="font-medium capitalize">
-                      {currentMonthName}, {currentYear}
-                    </span>
-                  </p>
-                  <span className="h-1 w-1 rounded-full bg-[color:var(--color-fg-muted)]">&nbsp;</span>
-                  <p className="text-xs text-[color:var(--color-fg-muted)]">30 dk görüşme</p>
-                </div>
-                <div className="mt-4 grid grid-cols-7 gap-1.5">
-                  {renderCalendarDays()}
-                </div>
+              <div className="flex items-center space-x-2">
+                <p className="text-sm text-[color:var(--color-fg)]">
+                  <span className="font-medium capitalize">
+                    {computed.monthName}, {computed.year}
+                  </span>
+                </p>
+                <span className="h-1 w-1 rounded-full bg-[color:var(--color-fg-muted)]">&nbsp;</span>
+                <p className="text-xs text-[color:var(--color-fg-muted)]">30 dk görüşme</p>
               </div>
+              <div className="mt-4 grid grid-cols-7 gap-1.5">
+                {renderCalendarDays()}
+              </div>
+              <p className="mt-4 text-[10px] text-[color:var(--color-fg-muted)] text-center">
+                Bir gün seçin · Hafta içi randevu mümkün
+              </p>
             </div>
           </div>
         </div>
-      </BentoCard>
-    </>
-  );
-}
-
-interface BentoCardProps {
-  children: React.ReactNode;
-  height?: string;
-  className?: string;
-  showHoverGradient?: boolean;
-  hideOverflow?: boolean;
-  linkTo?: string;
-  onClick?: () => void;
-}
-
-export function BentoCard({
-  children,
-  height = "h-auto",
-  className = "",
-  showHoverGradient = true,
-  hideOverflow = true,
-  linkTo,
-  onClick,
-}: BentoCardProps) {
-  const interactive = Boolean(linkTo || onClick);
-  const cardContent = (
-    <div
-      className={`group relative flex flex-col rounded-3xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] p-6 md:p-8 hover:border-brand/40 transition-colors ${
-        hideOverflow ? "overflow-hidden" : ""
-      } ${height} ${className}`}
-    >
-      {interactive && (
-        <div className="absolute bottom-6 right-6 z-30 flex h-12 w-12 rotate-6 items-center justify-center rounded-full bg-brand opacity-0 transition-all duration-300 ease-in-out group-hover:translate-y-[-8px] group-hover:rotate-0 group-hover:opacity-100">
-          <ArrowUpRight className="h-6 w-6 text-white" />
-        </div>
-      )}
-      {showHoverGradient && (
-        <div className="pointer-events-none absolute inset-0 z-20 bg-gradient-to-tl from-brand/15 via-transparent to-transparent opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100" />
-      )}
-      <div className="relative z-10 h-full">{children}</div>
+      </div>
     </div>
   );
-
-  if (onClick) {
-    return (
-      <button
-        type="button"
-        onClick={onClick}
-        className="block w-full text-left cursor-pointer"
-        aria-label="Randevu al"
-      >
-        {cardContent}
-      </button>
-    );
-  }
-
-  if (linkTo) {
-    return linkTo.startsWith("/") ? (
-      <Link href={linkTo} className="block">
-        {cardContent}
-      </Link>
-    ) : (
-      <a
-        href={linkTo}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="block"
-      >
-        {cardContent}
-      </a>
-    );
-  }
-
-  return cardContent;
 }
