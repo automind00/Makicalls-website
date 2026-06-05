@@ -18,6 +18,34 @@ import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 
 type FormState = "idle" | "submitting" | "success" | "error";
 
+const SUBMIT_TIMEOUT_MS = 12_000;
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+
+/** Race a promise against a timeout. Rejects with a friendly message on timeout. */
+function withTimeout<T>(p: Promise<T>, ms: number): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
+    const timer = setTimeout(
+      () =>
+        reject(
+          new Error(
+            "Sunucuya ulaşılamıyor. İnternet bağlantınızı kontrol edip tekrar deneyin.",
+          ),
+        ),
+      ms,
+    );
+    p.then(
+      (value) => {
+        clearTimeout(timer);
+        resolve(value);
+      },
+      (err) => {
+        clearTimeout(timer);
+        reject(err);
+      },
+    );
+  });
+}
+
 const TIME_SLOTS = [
   "09:00",
   "10:00",
@@ -51,6 +79,16 @@ export default function Booking() {
     notes: "",
   });
   const panelRef = useRef<HTMLDivElement | null>(null);
+
+  // Pre-warm the Supabase client on mount so the first submit doesn't pay
+  // the cost of lazy initialization + DNS/TLS handshake.
+  useEffect(() => {
+    try {
+      getSupabaseBrowserClient();
+    } catch {
+      // env not configured locally — ignore; submit will surface the error if needed
+    }
+  }, []);
 
   // When user picks a day, scroll the booking panel into view.
   useEffect(() => {
@@ -99,13 +137,21 @@ export default function Booking() {
         .filter(Boolean)
         .join("\n");
 
-      const { error } = await supabase.from("contact_submissions").insert({
-        name: formData.name.trim(),
-        email: formData.email.trim().toLowerCase(),
-        company: formData.clinic.trim() || null,
-        message: composedMessage,
-        user_agent: typeof navigator !== "undefined" ? navigator.userAgent : null,
-      });
+      const insertPromise = supabase
+        .from("contact_submissions")
+        .insert({
+          name: formData.name.trim(),
+          email: formData.email.trim().toLowerCase(),
+          company: formData.clinic.trim() || null,
+          message: composedMessage,
+          user_agent: typeof navigator !== "undefined" ? navigator.userAgent : null,
+        });
+
+      const { error } = await withTimeout(
+        // supabase-js returns a thenable; wrap in Promise.resolve to satisfy types
+        Promise.resolve(insertPromise),
+        SUBMIT_TIMEOUT_MS,
+      );
 
       if (error) throw error;
 
@@ -132,6 +178,14 @@ export default function Booking() {
       id="randevu"
       className="relative py-24 md:py-32 bg-[color:var(--color-page)] overflow-hidden"
     >
+      {/* Warm TLS to Supabase as soon as this section is in the DOM,
+          so the submit click doesn't pay handshake latency. */}
+      {SUPABASE_URL && (
+        <>
+          <link rel="preconnect" href={SUPABASE_URL} crossOrigin="" />
+          <link rel="dns-prefetch" href={SUPABASE_URL} />
+        </>
+      )}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-brand/5 rounded-full blur-[128px]" />
       </div>
