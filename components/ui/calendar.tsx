@@ -31,8 +31,9 @@ const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
   isDisabled,
   onClick,
 }) => {
+  // Mobile: 40x40 (44+padding gives 44px tap target), desktop: 36x36 daha sıkı
   const base =
-    "col-span-1 row-span-1 flex h-8 w-8 items-center justify-center";
+    "col-span-1 row-span-1 flex h-10 w-10 sm:h-9 sm:w-9 items-center justify-center";
 
   let stateClass = "text-[color:var(--color-fg-muted)]";
   if (!isHeader) {
@@ -41,18 +42,18 @@ const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
         "bg-brand text-white shadow-[var(--shadow-glow)] scale-110";
     else if (isAvailable)
       stateClass =
-        "bg-brand/15 text-white hover:bg-brand hover:scale-110 cursor-pointer";
+        "bg-brand/15 text-white active:bg-brand hover:bg-brand hover:scale-110 cursor-pointer";
     else if (isToday)
       stateClass =
-        "border border-brand/60 text-[color:var(--color-fg)] hover:bg-brand/30 cursor-pointer";
+        "border border-brand/60 text-[color:var(--color-fg)] active:bg-brand/30 hover:bg-brand/30 cursor-pointer";
     else if (!isDisabled)
       stateClass =
-        "text-[color:var(--color-fg-muted)] hover:text-white hover:bg-white/5 cursor-pointer";
+        "text-[color:var(--color-fg-muted)] active:text-white active:bg-white/5 hover:text-white hover:bg-white/5 cursor-pointer";
     else stateClass = "text-[color:var(--color-fg-muted)]/40";
   }
 
   const content = (
-    <span className={`font-medium ${isHeader ? "text-[10px] tracking-wider" : "text-sm"}`}>
+    <span className={`font-medium ${isHeader ? "text-[10px] sm:text-[9px] tracking-wider" : "text-[15px] sm:text-sm"}`}>
       {day}
     </span>
   );
@@ -180,29 +181,29 @@ export function Calendar({ selectedDate, onSelectDate, onBookClick }: CalendarPr
   };
 
   return (
-    <div className="group relative flex flex-col rounded-3xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] p-6 md:p-8 hover:border-brand/40 transition-colors overflow-hidden">
+    <div className="group relative flex flex-col rounded-3xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] p-5 sm:p-6 md:p-8 hover:border-brand/40 transition-colors overflow-hidden">
       <div className="pointer-events-none absolute inset-0 z-0 bg-gradient-to-tl from-brand/10 via-transparent to-transparent opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100" />
       <div className="relative z-10 grid h-full gap-6 md:grid-cols-[1fr_auto] md:items-center">
         <div>
-          <span className="text-xs font-medium uppercase tracking-[0.2em] text-brand-soft mb-3 block">
+          <span className="text-[10px] sm:text-xs font-medium uppercase tracking-[0.2em] text-brand-soft mb-3 block">
             Randevu
           </span>
-          <h2 className="mb-3 text-2xl md:text-3xl font-bold text-[color:var(--color-fg)] tracking-tight">
+          <h2 className="mb-3 text-xl sm:text-2xl md:text-3xl font-bold text-[color:var(--color-fg)] tracking-tight leading-tight">
             Makicalls&apos;ı 30 dakikada tanıyın
           </h2>
-          <p className="mb-5 text-sm md:text-base text-[color:var(--color-fg-muted)] max-w-md">
+          <p className="mb-5 text-[14px] sm:text-base text-[color:var(--color-fg-muted)] max-w-md leading-relaxed">
             Kliniğinize özel demo arama dinleyin, AI çağrı asistanını gerçek zamanlı test edelim. Uzun sözleşme yok, ön ödeme yok.
           </p>
           <Button
             type="button"
             onClick={onBookClick}
-            className="rounded-2xl bg-brand hover:bg-brand-deep text-white"
+            className="rounded-2xl bg-brand hover:bg-brand-deep active:bg-brand-deep text-white min-h-[48px] px-5 text-[15px] shadow-[0_8px_24px_-8px_rgb(var(--brand))]"
           >
-            <CalendarDays className="mr-2 h-4 w-4" />
+            <CalendarDays className="mr-2 h-[18px] w-[18px]" />
             {selectedDate
               ? "Bilgileri Gir"
               : "Şimdi Randevu Al"}
-            <ArrowUpRight className="ml-1 h-4 w-4" />
+            <ArrowUpRight className="ml-1 h-[18px] w-[18px]" />
           </Button>
         </div>
 
@@ -212,19 +213,20 @@ export function Calendar({ selectedDate, onSelectDate, onBookClick }: CalendarPr
               className="rounded-2xl border border-[color:var(--color-border)] p-4 bg-[color:var(--color-elevated)]"
               style={{ boxShadow: "0px 2px 1.5px 0px rgb(255 255 255 / 0.04) inset" }}
             >
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center justify-between gap-2 flex-wrap">
                 <p className="text-sm text-[color:var(--color-fg)]">
-                  <span className="font-medium capitalize">
+                  <span className="font-semibold capitalize">
                     {computed.monthName}, {computed.year}
                   </span>
                 </p>
-                <span className="h-1 w-1 rounded-full bg-[color:var(--color-fg-muted)]">&nbsp;</span>
-                <p className="text-xs text-[color:var(--color-fg-muted)]">30 dk görüşme</p>
+                <p className="text-[11px] text-[color:var(--color-fg-muted)] uppercase tracking-wider">
+                  30 dk görüşme
+                </p>
               </div>
-              <div className="mt-4 grid grid-cols-7 gap-1.5">
+              <div className="mt-4 grid grid-cols-7 gap-1 sm:gap-1.5 justify-items-center">
                 {renderCalendarDays()}
               </div>
-              <p className="mt-4 text-[10px] text-[color:var(--color-fg-muted)] text-center">
+              <p className="mt-4 text-[11px] text-[color:var(--color-fg-muted)] text-center">
                 Bir gün seçin · Hafta içi randevu mümkün
               </p>
             </div>

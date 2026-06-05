@@ -89,8 +89,15 @@
 
 html {
   scroll-behavior: smooth;
+  /* Sticky navbar (h-16 ~64px) altına anchor'lar tıkanmasın */
+  scroll-padding-top: 80px;
   background: rgb(var(--bg-page));
   color-scheme: dark;
+  /* iOS Safari iyileştirmeleri */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  /* Yatay scroll'u tetikleyecek minik overflow'ları kes (mobil için kritik) */
+  overflow-x: hidden;
 }
 
 body {
@@ -99,6 +106,50 @@ body {
   font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "kern", "liga", "calt", "ss01";
+  text-rendering: optimizeLegibility;
+  /* iOS Safari'de gri tap highlight'ı kapat — premium feel */
+  -webkit-tap-highlight-color: transparent;
+  /* Bounce overscroll'u temizle (mobil) */
+  overscroll-behavior-y: none;
+  /* Notch'lu cihazlar */
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+/* iOS focus zoom'u önle — tüm form input'larında min 16px font */
+@media (max-width: 768px) {
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
+
+/* Touch cihazlarda hover state'leri kapat (yapışkan hover sorunu) */
+@media (hover: none) {
+  *:hover {
+    transition-duration: 0ms !important;
+  }
+}
+
+/* Erişilebilirlik: motion reduce respect */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Mobil tablo / kart içerikleri taşma yapsa scroll yumuşak */
+@media (max-width: 768px) {
+  .scroll-touch {
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 ::selection {

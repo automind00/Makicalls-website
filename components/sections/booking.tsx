@@ -137,7 +137,7 @@ export default function Booking() {
   };
 
   const inputBase =
-    "w-full pl-10 pr-4 py-3 rounded-xl bg-[color:var(--color-surface)] border border-[color:var(--color-border)] text-[color:var(--color-fg)] text-sm placeholder:text-[color:var(--color-fg-muted)] focus:outline-none focus:border-brand/60 focus:ring-1 focus:ring-brand/30 transition-all disabled:opacity-60";
+    "w-full pl-11 pr-4 py-3.5 sm:py-3 min-h-[52px] sm:min-h-[48px] rounded-xl bg-[color:var(--color-surface)] border border-[color:var(--color-border)] text-[color:var(--color-fg)] text-[15px] sm:text-sm placeholder:text-[color:var(--color-fg-muted)] focus:outline-none focus:border-brand/60 focus:ring-2 focus:ring-brand/20 transition-all disabled:opacity-60";
 
   return (
     <section
@@ -200,7 +200,7 @@ export default function Booking() {
                 className="overflow-hidden"
               >
                 <div className="mt-8 p-[1px] rounded-3xl bg-gradient-to-b from-[color:var(--color-border-strong)] to-[color:var(--color-border)]">
-                  <div className="bg-[color:var(--color-elevated)] rounded-3xl p-6 md:p-10 shadow-[var(--shadow-md)]">
+                  <div className="bg-[color:var(--color-elevated)] rounded-3xl p-5 sm:p-6 md:p-10 shadow-[var(--shadow-md)]">
                     {state === "success" ? (
                       <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
@@ -258,10 +258,10 @@ export default function Booking() {
                                 type="button"
                                 key={slot}
                                 onClick={() => setSelectedTime(slot)}
-                                className={`py-2 rounded-lg text-sm font-medium border transition-all ${
+                                className={`min-h-[48px] sm:min-h-[44px] py-2 rounded-xl text-[15px] sm:text-sm font-semibold border transition-all ${
                                   selectedTime === slot
-                                    ? "bg-brand border-brand text-white shadow-[var(--shadow-glow)]"
-                                    : "bg-[color:var(--color-surface)] border-[color:var(--color-border)] text-[color:var(--color-fg-muted)] hover:border-brand/40 hover:text-white"
+                                    ? "bg-brand border-brand text-white shadow-[var(--shadow-glow)] scale-[1.02]"
+                                    : "bg-[color:var(--color-surface)] border-[color:var(--color-border)] text-[color:var(--color-fg-secondary)] active:border-brand/40 hover:border-brand/40 hover:text-white"
                                 }`}
                               >
                                 {slot}
@@ -372,10 +372,10 @@ export default function Booking() {
 
                         <motion.button
                           whileHover={state === "submitting" ? undefined : { scale: 1.01 }}
-                          whileTap={state === "submitting" ? undefined : { scale: 0.99 }}
+                          whileTap={state === "submitting" ? undefined : { scale: 0.98 }}
                           type="submit"
                           disabled={state === "submitting" || !selectedTime}
-                          className="w-full py-4 rounded-xl text-base font-semibold text-white bg-brand hover:bg-brand-deep transition-colors duration-300 flex items-center justify-center gap-2 shadow-[0_0_30px_-8px_rgb(var(--brand))] disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="w-full min-h-[56px] py-4 rounded-2xl text-base sm:text-base font-semibold text-white bg-gradient-to-br from-brand-soft via-brand to-brand-deep active:from-brand-deep transition-colors duration-200 flex items-center justify-center gap-2 shadow-[0_12px_40px_-10px_rgb(var(--brand)),inset_0_1px_0_rgba(255,255,255,0.15)] ring-1 ring-inset ring-white/10 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           {state === "submitting" ? (
                             <>

@@ -144,54 +144,86 @@ export default function Navbar() {
           {/* Mobile Menu Toggle */}
           <div className="md:hidden flex items-center gap-2">
             <button
-              className="text-[color:var(--color-fg)] p-2"
+              className="text-[color:var(--color-fg)] p-2.5 -mr-2 rounded-lg active:bg-white/5 transition-colors"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label="Menü"
+              aria-expanded={mobileOpen}
             >
-              {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+              {mobileOpen ? <X size={26} /> : <Menu size={26} />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu — full-screen premium overlay */}
       <AnimatePresence>
         {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-[color:var(--color-page)]/95 backdrop-blur-xl border-t border-[color:var(--color-border)]"
-          >
-            <div className="px-6 py-6 space-y-4">
-              {navLinks.map((link) => (
-                <button
-                  key={link.label}
-                  onClick={() => handleNavClick(link)}
-                  className="block text-[color:var(--color-fg-secondary)] hover:text-[color:var(--color-fg)] transition-colors text-base w-full text-left"
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              onClick={() => setMobileOpen(false)}
+              className="md:hidden fixed inset-0 top-16 bg-black/60 backdrop-blur-md z-40"
+              aria-hidden="true"
+            />
+            {/* Panel */}
+            <motion.div
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              className="md:hidden fixed left-0 right-0 top-16 z-50 bg-[color:var(--color-page)]/98 backdrop-blur-2xl border-b border-[color:var(--color-border)] shadow-[0_24px_48px_-12px_rgba(0,0,0,0.6)]"
+            >
+              <div className="px-5 pt-2 pb-6 max-h-[calc(100vh-4rem)] overflow-y-auto" style={{ paddingBottom: "max(1.5rem, env(safe-area-inset-bottom))" }}>
+                <nav className="flex flex-col" aria-label="Mobil ana menü">
+                  {navLinks.map((link, i) => (
+                    <motion.button
+                      key={link.label}
+                      initial={{ opacity: 0, x: -12 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.3, delay: 0.05 + i * 0.05 }}
+                      onClick={() => handleNavClick(link)}
+                      className="flex items-center justify-between text-left w-full py-4 text-[17px] font-medium text-[color:var(--color-fg)] border-b border-[color:var(--color-border)] active:bg-brand/5 transition-colors"
+                    >
+                      <span>{link.label}</span>
+                      <span className="text-brand-soft text-lg" aria-hidden>›</span>
+                    </motion.button>
+                  ))}
+                </nav>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.1 + navLinks.length * 0.05 }}
+                  className="mt-6"
                 >
-                  {link.label}
-                </button>
-              ))}
-              {DEMO_PHONE ? (
-                <a
-                  href={`tel:${DEMO_PHONE}`}
-                  className="flex items-center justify-center gap-2 w-full mt-4 px-6 py-3 rounded-full text-sm font-semibold text-white bg-brand"
-                >
-                  <Phone className="w-4 h-4" />
-                  Canlı Demo: {DEMO_PHONE_DISPLAY}
-                </a>
-              ) : (
-                <button
-                  onClick={() => scrollToSection("iletisim")}
-                  className="flex items-center justify-center gap-2 w-full mt-4 px-6 py-3 rounded-full text-sm font-semibold text-white bg-brand"
-                >
-                  <Phone className="w-4 h-4" />
-                  Canlı Demo Talep Et
-                </button>
-              )}
-            </div>
-          </motion.div>
+                  {DEMO_PHONE ? (
+                    <a
+                      href={`tel:${DEMO_PHONE}`}
+                      className="flex items-center justify-center gap-2 w-full px-6 py-4 rounded-full text-base font-semibold text-white bg-brand active:bg-brand-deep shadow-[0_8px_30px_-8px_rgb(var(--brand))]"
+                    >
+                      <Phone className="w-5 h-5" />
+                      Canlı Demo: {DEMO_PHONE_DISPLAY}
+                    </a>
+                  ) : (
+                    <button
+                      onClick={() => scrollToSection("randevu")}
+                      className="flex items-center justify-center gap-2 w-full px-6 py-4 rounded-full text-base font-semibold text-white bg-brand active:bg-brand-deep shadow-[0_8px_30px_-8px_rgb(var(--brand))]"
+                    >
+                      <Phone className="w-5 h-5" />
+                      Canlı Demo Talep Et
+                    </button>
+                  )}
+                  <p className="mt-4 text-center text-[11px] text-[color:var(--color-fg-muted)] tracking-wider uppercase">
+                    7/24 · Türkçe · 30 dk
+                  </p>
+                </motion.div>
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </motion.nav>

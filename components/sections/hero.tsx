@@ -1,11 +1,12 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Spotlight } from "@/components/ui/spotlight";
 import { SplineScene } from "@/components/ui/splite";
 import { RevealText } from "@/components/ui/reveal-text";
 import { ArrowRight, MessageCircle, Mic, Bot, Globe, Phone } from "lucide-react";
 
+// Full set masaüstü için; mobilde performance için az kullanılır.
 const PARTICLES = [
   { id: 0, x: 12, y: 18, size: 2.4, duration: 14, delay: 0.5 },
   { id: 1, x: 28, y: 62, size: 1.8, duration: 18, delay: 2.1 },
@@ -23,6 +24,17 @@ const PARTICLES = [
   { id: 13, x: 67, y: 47, size: 2.9, duration: 12, delay: 0.6 },
   { id: 14, x: 33, y: 84, size: 1.5, duration: 19, delay: 3.8 },
 ];
+
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.matchMedia("(max-width: 768px)").matches);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+  return isMobile;
+}
 
 function AnimatedGrid() {
   return (
@@ -44,10 +56,11 @@ function AnimatedGrid() {
   );
 }
 
-function FloatingParticles() {
+function FloatingParticles({ count = PARTICLES.length }: { count?: number }) {
+  const slice = PARTICLES.slice(0, count);
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {PARTICLES.map((p) => (
+      {slice.map((p) => (
         <motion.div
           key={p.id}
           className="absolute rounded-full bg-white/30"
@@ -77,8 +90,15 @@ const subtitleWords = [
 ];
 
 export default function Hero() {
+  const isMobile = useIsMobile();
+
+  // Mobilde animasyon delay'leri dramatik şekilde kısaltılıyor — kullanıcı
+  // 2sn beklemeden CTA'yı görsün. ScaleDelay 0..1 arası tüm gecikmeleri
+  // çarpan etkisiyle azaltır.
+  const dly = (d: number) => (isMobile ? d * 0.4 : d);
+
   const scrollToContact = () => {
-    const el = document.getElementById("iletisim");
+    const el = document.getElementById("randevu") ?? document.getElementById("iletisim");
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -95,9 +115,10 @@ export default function Hero() {
   ];
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[color:var(--color-page)]">
+    <section className="relative min-h-[100svh] md:min-h-screen flex items-center justify-center overflow-hidden bg-[color:var(--color-page)]">
       <AnimatedGrid />
-      <FloatingParticles />
+      {/* Mobilde 6 partikül yeterli — daha az reflow, daha fluid scroll */}
+      <FloatingParticles count={isMobile ? 6 : PARTICLES.length} />
       <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 py-24 sm:py-32 md:py-40">
@@ -131,20 +152,20 @@ export default function Hero() {
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="text-xl sm:text-3xl md:text-4xl font-light text-[color:var(--color-fg-secondary)] mb-5 sm:mb-6 leading-tight tracking-tight"
+              transition={{ duration: 0.7, delay: dly(0.5) }}
+              className="text-[22px] sm:text-3xl md:text-4xl font-light text-[color:var(--color-fg-secondary)] mb-5 sm:mb-6 leading-[1.25] tracking-tight"
             >
               <span className="text-brand-soft font-semibold">AI sesli asistan</span> telefonu açar,{" "}
               <span className="text-brand-soft font-semibold">chatbot</span> mesajı yazar.
             </motion.h2>
 
-            <p className="text-sm sm:text-lg text-[color:var(--color-fg-muted)] max-w-xl lg:mx-0 mx-auto mb-8 sm:mb-10 leading-relaxed">
+            <p className="text-[15px] sm:text-lg text-[color:var(--color-fg-muted)] max-w-xl lg:mx-0 mx-auto mb-8 sm:mb-10 leading-relaxed">
               {subtitleWords.map((w, i) => (
                 <motion.span
                   key={i}
                   initial={{ opacity: 0, y: 12, filter: "blur(6px)" }}
                   animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                  transition={{ duration: 0.4, delay: 0.9 + w.delay / 1000 }}
+                  transition={{ duration: 0.4, delay: dly(0.8 + w.delay / 1000) }}
                   className={`inline-block mr-1.5 ${w.accent ? "text-[color:var(--color-fg)] font-semibold" : ""}`}
                 >
                   {w.text}
@@ -155,27 +176,27 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 2.0 }}
+              transition={{ duration: 0.7, delay: dly(1.4) }}
               className="flex flex-col sm:flex-row items-stretch sm:items-center lg:justify-start sm:justify-center gap-3 sm:gap-4 mb-8 sm:mb-10"
             >
               <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.97 }}
                 onClick={scrollToContact}
-                className="relative inline-flex group px-6 sm:px-8 py-3.5 sm:py-4 rounded-full text-sm sm:text-base font-semibold text-white bg-brand hover:bg-brand-deep transition-colors duration-300 shadow-[0_0_40px_-10px_rgb(var(--brand))] cursor-pointer"
+                className="relative inline-flex group px-6 sm:px-8 min-h-[52px] sm:min-h-[56px] py-3.5 sm:py-4 rounded-full text-[15px] sm:text-base font-semibold text-white bg-gradient-to-br from-brand-soft via-brand to-brand-deep active:from-brand-deep active:via-brand-deep active:to-brand-deep transition-colors duration-200 shadow-[0_12px_40px_-10px_rgb(var(--brand)),inset_0_1px_0_rgba(255,255,255,0.15)] cursor-pointer ring-1 ring-inset ring-white/10"
               >
-                <span className="flex items-center justify-center gap-2">
-                  <Phone className="w-4 h-4" />
+                <span className="flex items-center justify-center gap-2 w-full">
+                  <Phone className="w-[18px] h-[18px]" />
                   Canlı Demo Talep Et
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-[18px] h-[18px] group-hover:translate-x-1 transition-transform" />
                 </span>
               </motion.button>
 
               <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.97 }}
                 onClick={scrollToServices}
-                className="px-6 sm:px-8 py-3.5 sm:py-4 rounded-full text-sm sm:text-base font-medium text-[color:var(--color-fg-secondary)] border border-brand/30 hover:border-brand-soft/60 hover:text-[color:var(--color-fg)] hover:bg-brand/10 transition-all duration-300 backdrop-blur-sm bg-[color:var(--color-surface)] flex items-center justify-center gap-2"
+                className="px-6 sm:px-8 min-h-[52px] sm:min-h-[56px] py-3.5 sm:py-4 rounded-full text-[15px] sm:text-base font-medium text-[color:var(--color-fg-secondary)] border border-[color:var(--color-border-strong)] hover:border-brand-soft/60 hover:text-[color:var(--color-fg)] hover:bg-brand/5 transition-all duration-300 backdrop-blur-sm bg-[color:var(--color-surface)]/60 flex items-center justify-center gap-2"
               >
                 Hizmetleri Gör
                 <ArrowRight className="w-4 h-4 text-brand-soft" />
@@ -185,19 +206,19 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 2.2 }}
-              className="flex flex-wrap items-center lg:justify-start justify-center gap-3"
+              transition={{ duration: 0.7, delay: dly(1.6) }}
+              className="flex flex-wrap items-center lg:justify-start justify-center gap-2 sm:gap-3"
             >
               {services.map((s, i) => (
                 <motion.div
                   key={i}
-                  initial={{ opacity: 0, scale: 0.8 }}
+                  initial={{ opacity: 0, scale: 0.85 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5, delay: 2.4 + i * 0.1 }}
-                  className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-[color:var(--color-surface)] border border-[color:var(--color-border)] hover:border-brand/40 hover:bg-brand/5 transition-all duration-300 cursor-default"
+                  transition={{ duration: 0.4, delay: dly(1.8 + i * 0.08) }}
+                  className="flex items-center gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-2xl bg-[color:var(--color-surface)]/80 border border-[color:var(--color-border)] hover:border-brand/40 hover:bg-brand/5 transition-all duration-300 cursor-default backdrop-blur-sm"
                 >
                   <span className="text-brand-soft">{s.icon}</span>
-                  <span className="text-sm text-[color:var(--color-fg-secondary)]">{s.label}</span>
+                  <span className="text-[13px] sm:text-sm text-[color:var(--color-fg-secondary)] font-medium">{s.label}</span>
                 </motion.div>
               ))}
             </motion.div>

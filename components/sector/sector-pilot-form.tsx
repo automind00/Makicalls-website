@@ -106,7 +106,7 @@ export default function SectorPilotForm({ sector }: { sector: SectorConfig }) {
   };
 
   const inputBase =
-    "w-full pl-10 pr-4 py-3 rounded-xl bg-[color:var(--color-surface)] border border-[color:var(--color-border)] text-[color:var(--color-fg)] text-sm placeholder:text-[color:var(--color-fg-muted)] focus:outline-none focus:border-brand/60 transition-colors disabled:opacity-60";
+    "w-full pl-11 pr-4 py-3.5 sm:py-3 min-h-[52px] sm:min-h-[48px] rounded-xl bg-[color:var(--color-surface)] border border-[color:var(--color-border)] text-[color:var(--color-fg)] text-[15px] sm:text-sm placeholder:text-[color:var(--color-fg-muted)] focus:outline-none focus:border-brand/60 focus:ring-2 focus:ring-brand/20 transition-all disabled:opacity-60";
 
   return (
     <section
