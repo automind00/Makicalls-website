@@ -8,7 +8,6 @@ import Services from "@/components/sections/services";
 import Process from "@/components/sections/process";
 import DashboardMockup from "@/components/sections/dashboard-mockup";
 import GoogleReviews from "@/components/sections/google-reviews";
-import Testimonials from "@/components/sections/testimonials";
 import Faq from "@/components/sections/faq";
 import CtaBanner from "@/components/sections/cta-banner";
 import Booking from "@/components/sections/booking";
@@ -30,7 +29,6 @@ export default function Home() {
         <Process />
         <DashboardMockup />
         <GoogleReviews />
-        <Testimonials />
         <CtaBanner />
         {/* "İletişim" navbar linki Booking bölümüne anchor olarak inisin */}
         <span id="iletisim" aria-hidden="true" />

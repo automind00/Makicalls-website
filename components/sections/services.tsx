@@ -153,7 +153,7 @@ export default function Services() {
                         : "bg-[color:var(--color-surface)] text-[color:var(--color-fg)] border border-[color:var(--color-border)] hover:bg-brand/5 hover:border-brand/40"
                     }`}
                   >
-                    Canlı Demo Talep Et
+                    {pkg.popular ? "Bu Paketi Seç" : "Detaylı Bilgi Al"}
                     <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
                   </motion.button>
                 </div>

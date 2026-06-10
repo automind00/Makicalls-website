@@ -183,7 +183,7 @@ export default function RevenueCalculator() {
               onClick={scrollToForm}
               className="mt-7 w-full group flex items-center justify-center gap-2 px-5 py-3.5 rounded-full text-sm font-semibold text-white bg-brand hover:bg-brand-deep transition-colors shadow-[0_0_40px_-10px_rgb(var(--brand))]"
             >
-              Canlı Demo Talep Et
+              Bu Geliri Yakalayalım
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </button>
           </div>

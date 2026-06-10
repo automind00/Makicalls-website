@@ -182,7 +182,7 @@ export const SECTORS: SectorConfig[] = [
     ],
     formSourceTag: "sector_dis_klinikleri",
     formCopy: {
-      badge: "Canlı Demo Talep Et",
+      badge: "Pilot Başvurusu",
       titleStart: "Kliniğinize özel",
       titleEnd: "AI asistanı dinleyin",
       subtitle:

@@ -71,7 +71,7 @@ const columns: { title: string; links: FooterLink[] }[] = [
     title: "Şirket",
     links: [
       { label: "İletişim", href: "/#iletisim" },
-      { label: "Canlı Demo Talep Et", href: "/#iletisim" },
+      { label: "Randevu Al", href: "/#randevu" },
       { label: "KVKK Aydınlatma", href: "/kvkk" },
       { label: "Gizlilik Politikası", href: "/gizlilik" },
       { label: "Kullanım Şartları", href: "/sartlar" },
@@ -165,17 +165,17 @@ export default function Footer() {
           {/* CTA card */}
           <div className="col-span-2 md:col-span-2">
             <h4 className="text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--color-fg-muted)] mb-4">
-              Demo
+              Randevu
             </h4>
             <Link
-              href="/#iletisim"
+              href="/#randevu"
               className="block rounded-xl border border-brand/40 bg-brand/5 p-4 hover:bg-brand/10 hover:border-brand/60 transition-colors"
             >
               <div className="text-sm font-semibold text-[color:var(--color-fg)] mb-1">
-                Canlı demo talep et
+                15 dakikada planlayalım
               </div>
               <div className="text-xs text-[color:var(--color-fg-muted)] leading-relaxed">
-                Kendi kliniğiniz için AI’yı 15 dakika içinde dinleyin.
+                İşletmenize özel AI'yı kısa görüşmede dinleyin.
               </div>
             </Link>
           </div>

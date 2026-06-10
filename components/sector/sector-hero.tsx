@@ -65,7 +65,7 @@ export default function SectorHero({ sector }: { sector: SectorConfig }) {
             onClick={() => scrollTo("demo-talep")}
             className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-base font-semibold text-white bg-brand hover:bg-brand-deep transition-colors shadow-[0_0_40px_-10px_rgb(var(--brand))]"
           >
-            Canlı Demo Talep Et
+            Sektörünüze Özel Demo
             <ArrowRight className="w-4 h-4" />
           </button>
           <button

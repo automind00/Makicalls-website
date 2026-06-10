@@ -66,7 +66,7 @@ export default function DentalHero() {
           >
             <span className="flex items-center justify-center gap-2">
               <Phone className="w-4 h-4" />
-              Canlı Demo Talep Et
+              Kliniğim İçin Demo
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </span>
           </motion.button>

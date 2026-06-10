@@ -104,7 +104,7 @@ export default function PilotForm() {
           className="text-center mb-10"
         >
           <span className="text-[10px] sm:text-xs font-medium uppercase tracking-[0.2em] text-brand-soft mb-3 block">
-            Canlı Demo Talep Et
+            Pilot Başvurusu
           </span>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[color:var(--color-fg)] tracking-[-0.02em] leading-tight">
             Kliniğinize özel{" "}

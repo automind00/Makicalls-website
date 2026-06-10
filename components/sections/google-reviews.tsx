@@ -125,10 +125,10 @@ export default function GoogleReviews() {
             </div>
           </div>
           <a
-            href="#iletisim"
+            href="#randevu"
             className="group inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold text-white bg-brand hover:bg-brand-deep transition-colors shadow-[0_0_30px_-8px_rgb(var(--brand))] whitespace-nowrap"
           >
-            Canlı Demo Talep Et
+            Süreci Birlikte Planlayalım
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </a>
         </motion.div>

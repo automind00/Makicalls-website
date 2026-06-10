@@ -62,13 +62,13 @@ export default function CtaBanner() {
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.7, delay: 0.5 }}
         >
-          <a href="#iletisim">
+          <a href="#randevu">
             <motion.span
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
               className="group inline-flex items-center gap-2 px-7 sm:px-9 py-3.5 sm:py-4 rounded-full text-sm sm:text-base font-semibold text-white bg-brand hover:bg-brand-deep transition-colors duration-300 shadow-[0_0_60px_-10px_rgb(var(--brand))] cursor-pointer"
             >
-              Canlı Demo Talep Et
+              15 Dakika Ayır, Konuşalım
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </motion.span>
           </a>
