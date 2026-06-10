@@ -59,6 +59,7 @@ export default function Navbar() {
   const navLinks: { label: string; id?: string; href?: string }[] = [
     { label: "Hizmetler", id: "hizmetler" },
     { label: "Sektörler", href: "/sektorler" },
+    { label: "Blog", href: "/blog" },
     { label: "Süreç", id: "surec" },
     { label: "SSS", id: "sss" },
     { label: "İletişim", id: "iletisim" },

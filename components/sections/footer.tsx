@@ -70,6 +70,7 @@ const columns: { title: string; links: FooterLink[] }[] = [
   {
     title: "Şirket",
     links: [
+      { label: "Blog", href: "/blog" },
       { label: "İletişim", href: "/#iletisim" },
       { label: "Randevu Al", href: "/#randevu" },
       { label: "KVKK Aydınlatma", href: "/kvkk" },
