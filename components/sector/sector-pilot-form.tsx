@@ -14,6 +14,7 @@ import {
   Loader2,
 } from "lucide-react";
 import type { SectorConfig } from "@/lib/sectors";
+import { getDemoPhone } from "@/lib/contact";
 
 type FormState = "idle" | "submitting" | "success" | "error";
 
@@ -137,6 +138,21 @@ export default function SectorPilotForm({ sector }: { sector: SectorConfig }) {
           <p className="mt-4 text-sm sm:text-base text-[color:var(--color-fg-muted)]">
             {sector.formCopy.subtitle}
           </p>
+
+          {/* Telefon alternatifi — env tanımlıysa görünür */}
+          {(() => {
+            const demoPhone = getDemoPhone();
+            if (!demoPhone) return null;
+            return (
+              <a
+                href={`tel:${demoPhone.tel}`}
+                className="inline-flex items-center gap-2 mt-5 px-4 py-2 rounded-full text-xs sm:text-sm font-medium text-brand-soft bg-brand/5 border border-brand/30 hover:bg-brand/10 hover:border-brand/50 transition-colors tabular-nums"
+              >
+                <Phone className="w-3.5 h-3.5" />
+                Direkt arayın: {demoPhone.display}
+              </a>
+            );
+          })()}
         </motion.div>
 
         <motion.div

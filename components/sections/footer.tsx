@@ -2,6 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import { Mail, Phone, MapPin } from "lucide-react";
+import { getDemoPhone } from "@/lib/contact";
 
 const InstagramIcon = ({ className }: { className?: string }) => (
   <svg
@@ -70,6 +71,7 @@ const columns: { title: string; links: FooterLink[] }[] = [
   {
     title: "Şirket",
     links: [
+      { label: "Hakkımızda", href: "/hakkimizda" },
       { label: "Blog", href: "/blog" },
       { label: "İletişim", href: "/#iletisim" },
       { label: "Randevu Al", href: "/#randevu" },
@@ -80,14 +82,39 @@ const columns: { title: string; links: FooterLink[] }[] = [
   },
 ];
 
-const socials: { icon: React.ReactNode; label: string; href?: string }[] = [
-  { icon: <InstagramIcon className="w-4 h-4" />, label: "Instagram", href: "https://www.instagram.com/makicalls/" },
-  { icon: <LinkedinIcon className="w-4 h-4" />, label: "LinkedIn" },
-  { icon: <Mail className="w-4 h-4" />, label: "E-posta" },
-  { icon: <Phone className="w-4 h-4" />, label: "Telefon" },
-];
+/**
+ * Sosyal/iletişim ikonları. Sadece `href`'i olanlar render edilir —
+ * "yakında" disabled state'i kaldırıldı (half-baked görünmesin).
+ * E-posta her zaman aktif. Telefon env var bağımlı (lib/contact.ts).
+ */
+function buildSocials(): { icon: React.ReactNode; label: string; href: string }[] {
+  const list: { icon: React.ReactNode; label: string; href: string }[] = [
+    {
+      icon: <InstagramIcon className="w-4 h-4" />,
+      label: "Instagram",
+      href: "https://www.instagram.com/makicalls/",
+    },
+    {
+      icon: <Mail className="w-4 h-4" />,
+      label: "E-posta",
+      href: "mailto:info@makicalls.com",
+    },
+  ];
+  const demoPhone = getDemoPhone();
+  if (demoPhone) {
+    list.push({
+      icon: <Phone className="w-4 h-4" />,
+      label: "Telefon",
+      href: `tel:${demoPhone.tel}`,
+    });
+  }
+  return list;
+}
 
 export default function Footer() {
+  const demoPhone = getDemoPhone();
+  const socials = buildSocials();
+
   return (
     <footer className="relative bg-[color:var(--color-surface)] border-t border-[color:var(--color-border)]">
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-14 md:py-16">
@@ -108,6 +135,17 @@ export default function Footer() {
                   info@makicalls.com
                 </a>
               </li>
+              {demoPhone && (
+                <li className="flex items-center gap-2">
+                  <Phone className="w-3.5 h-3.5 text-brand-soft flex-shrink-0" />
+                  <a
+                    href={`tel:${demoPhone.tel}`}
+                    className="hover:text-[color:var(--color-fg)] transition-colors tabular-nums"
+                  >
+                    {demoPhone.display}
+                  </a>
+                </li>
+              )}
               <li className="flex items-center gap-2">
                 <MapPin className="w-3.5 h-3.5 text-brand-soft flex-shrink-0" />
                 <span>İstanbul, Türkiye</span>
@@ -116,28 +154,16 @@ export default function Footer() {
 
             <div className="flex items-center gap-2.5 mt-6">
               {socials.map((s) => (
-                <div key={s.label} className="group relative">
-                  {s.href ? (
-                    <a
-                      href={s.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={s.label}
-                      className="w-9 h-9 rounded-full bg-[color:var(--color-elevated)] border border-[color:var(--color-border)] flex items-center justify-center text-[color:var(--color-fg-secondary)] hover:text-brand-soft hover:border-brand-soft/40 hover:bg-brand/10 transition-colors"
-                    >
-                      {s.icon}
-                    </a>
-                  ) : (
-                    <button
-                      type="button"
-                      aria-label={`${s.label} — yakında`}
-                      aria-disabled="true"
-                      className="w-9 h-9 rounded-full bg-[color:var(--color-elevated)] border border-[color:var(--color-border)] flex items-center justify-center text-[color:var(--color-fg-muted)] opacity-50 cursor-not-allowed"
-                    >
-                      {s.icon}
-                    </button>
-                  )}
-                </div>
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target={s.href.startsWith("http") ? "_blank" : undefined}
+                  rel={s.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                  aria-label={s.label}
+                  className="w-9 h-9 rounded-full bg-[color:var(--color-elevated)] border border-[color:var(--color-border)] flex items-center justify-center text-[color:var(--color-fg-secondary)] hover:text-brand-soft hover:border-brand-soft/40 hover:bg-brand/10 transition-colors"
+                >
+                  {s.icon}
+                </a>
               ))}
             </div>
           </div>

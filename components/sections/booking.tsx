@@ -14,6 +14,7 @@ import {
   Send,
 } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
+import { getDemoPhone } from "@/lib/contact";
 
 type FormState = "idle" | "submitting" | "success" | "error";
 
@@ -169,6 +170,30 @@ export default function Booking() {
             30 dakika içinde Makicalls&apos;ı kliniğinizin ihtiyaçlarına göre konuşalım.
           </p>
         </motion.div>
+
+        {/* Telefon bandı — env'de NEXT_PUBLIC_DEMO_PHONE varsa görünür */}
+        {(() => {
+          const demoPhone = getDemoPhone();
+          if (!demoPhone) return null;
+          return (
+            <motion.a
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              href={`tel:${demoPhone.tel}`}
+              className="flex items-center justify-center gap-3 mb-6 px-5 py-3.5 rounded-2xl bg-brand/5 border border-brand/25 hover:bg-brand/10 hover:border-brand/45 transition-colors text-sm sm:text-base"
+            >
+              <Phone className="w-4 h-4 sm:w-5 sm:h-5 text-brand-soft" />
+              <span className="text-[color:var(--color-fg-muted)]">
+                Hemen konuşmak istiyorsan ara:
+              </span>
+              <span className="font-semibold text-[color:var(--color-fg)] tabular-nums">
+                {demoPhone.display}
+              </span>
+            </motion.a>
+          );
+        })()}
 
         <motion.div
           initial={{ opacity: 0, y: 30 }}

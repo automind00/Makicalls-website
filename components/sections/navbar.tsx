@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone } from "lucide-react";
+import { getDemoPhone } from "@/lib/contact";
 
 export default function Navbar() {
   const router = useRouter();
@@ -73,9 +74,11 @@ export default function Navbar() {
     if (link.id) scrollToSection(link.id);
   };
 
-  // NetGSM numarası kurulduğunda buraya doldurulacak. Şimdilik Calendly'ye / iletişim formuna düşüyor.
-  const DEMO_PHONE: string | null = null;
-  const DEMO_PHONE_DISPLAY = "0850 XXX XX XX";
+  // lib/contact.ts üzerinden env-driven. NEXT_PUBLIC_DEMO_PHONE tanımlıysa
+  // navbar + footer + booking otomatik telefon göstermeye başlar.
+  const demoPhone = getDemoPhone();
+  const DEMO_PHONE = demoPhone?.tel ?? null;
+  const DEMO_PHONE_DISPLAY = demoPhone?.display ?? "";
 
   return (
     <motion.nav
