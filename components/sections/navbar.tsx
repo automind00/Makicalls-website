@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone } from "lucide-react";
 import { getDemoPhone } from "@/lib/contact";
+import { track } from "@/components/analytics/google-analytics";
 
 export default function Navbar() {
   const router = useRouter();
@@ -135,7 +136,10 @@ export default function Navbar() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => scrollToSection("randevu")}
+                onClick={() => {
+                  track("cta_demo_click", { source: "navbar_desktop" });
+                  scrollToSection("randevu");
+                }}
                 className="flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-semibold text-white bg-brand hover:bg-brand-deep transition-colors duration-300 shadow-[0_0_30px_-8px_rgb(var(--brand)/0.6)]"
               >
                 <Phone className="w-4 h-4" />
@@ -213,7 +217,10 @@ export default function Navbar() {
                     </a>
                   ) : (
                     <button
-                      onClick={() => scrollToSection("randevu")}
+                      onClick={() => {
+                        track("cta_demo_click", { source: "navbar_mobile" });
+                        scrollToSection("randevu");
+                      }}
                       className="flex items-center justify-center gap-2 w-full px-6 py-4 rounded-full text-base font-semibold text-white bg-brand active:bg-brand-deep shadow-[0_8px_30px_-8px_rgb(var(--brand))]"
                     >
                       <Phone className="w-5 h-5" />

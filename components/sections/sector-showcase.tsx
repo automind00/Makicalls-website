@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { ArrowUpRight, AlertCircle } from "lucide-react";
 import { SECTORS, getSectorHref, type SectorConfig } from "@/lib/sectors";
 import { ACCENT_THEMES, SHOWCASE_ICONS } from "@/components/sector/icon-map";
+import { track } from "@/components/analytics/google-analytics";
 
 function SectorCard({ sector, i }: { sector: SectorConfig; i: number }) {
   const theme = ACCENT_THEMES[sector.accent];
@@ -20,7 +21,16 @@ function SectorCard({ sector, i }: { sector: SectorConfig; i: number }) {
       transition={{ duration: 0.5, delay: i * 0.05 }}
       className="h-full"
     >
-      <Link href={href} className="block h-full">
+      <Link
+        href={href}
+        className="block h-full"
+        onClick={() =>
+          track("sector_card_click", {
+            slug: sector.slug,
+            name: sector.name,
+          })
+        }
+      >
         <div
           className={`group relative h-full rounded-2xl bg-[color:var(--color-elevated)] border border-[color:var(--color-border)] ${theme.hoverBorder} p-5 md:p-6 overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-lg)]`}
         >

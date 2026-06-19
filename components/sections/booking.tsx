@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { getDemoPhone } from "@/lib/contact";
+import { track } from "@/components/analytics/google-analytics";
 
 type FormState = "idle" | "submitting" | "success" | "error";
 
@@ -85,6 +86,11 @@ export default function Booking() {
       setState("error");
       return;
     }
+    track("booking_submit_attempt", {
+      has_phone: Boolean(formData.phone),
+      has_clinic: Boolean(formData.clinic),
+      has_notes: Boolean(formData.notes),
+    });
     setState("submitting");
     setErrorMessage(null);
 
@@ -119,6 +125,7 @@ export default function Booking() {
         throw new Error(json.error || `Sunucu hatası (${res.status})`);
       }
 
+      track("booking_submit_success", {});
       setState("success");
       setFormData({ name: "", email: "", phone: "", clinic: "", notes: "" });
       setSelectedTime(null);
@@ -132,6 +139,10 @@ export default function Booking() {
         : err instanceof Error
           ? err.message
           : "Bir hata oluştu. Lütfen tekrar deneyin.";
+      track("booking_submit_error", {
+        message: msg.slice(0, 100),
+        aborted: isAbort,
+      });
       setErrorMessage(msg);
       setState("error");
     }
@@ -204,11 +215,17 @@ export default function Booking() {
           <Calendar
             selectedDate={selectedDate}
             onSelectDate={(d) => {
+              track("booking_date_select", {
+                date: d.toISOString().slice(0, 10),
+              });
               setSelectedDate(d);
               setState("idle");
               setErrorMessage(null);
             }}
-            onBookClick={handleBookClick}
+            onBookClick={() => {
+              track("booking_open", { source: "calendar_card" });
+              handleBookClick();
+            }}
           />
         </motion.div>
 
@@ -282,7 +299,10 @@ export default function Booking() {
                               <button
                                 type="button"
                                 key={slot}
-                                onClick={() => setSelectedTime(slot)}
+                                onClick={() => {
+                                  track("booking_slot_select", { slot });
+                                  setSelectedTime(slot);
+                                }}
                                 className={`min-h-[48px] sm:min-h-[44px] py-2 rounded-xl text-[15px] sm:text-sm font-semibold border transition-all ${
                                   selectedTime === slot
                                     ? "bg-brand border-brand text-white shadow-[var(--shadow-glow)] scale-[1.02]"

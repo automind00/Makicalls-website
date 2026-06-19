@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import type { SectorConfig } from "@/lib/sectors";
 import { getDemoPhone } from "@/lib/contact";
+import { track } from "@/components/analytics/google-analytics";
 
 type FormState = "idle" | "submitting" | "success" | "error";
 
@@ -43,6 +44,11 @@ export default function SectorPilotForm({ sector }: { sector: SectorConfig }) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.kvkk) return;
+    track("sector_pilot_submit_attempt", {
+      sector_slug: sector.slug,
+      sector_name: sector.name,
+      call_volume: form.callVolume,
+    });
     setState("submitting");
     setErrorMessage(null);
 
@@ -79,6 +85,10 @@ export default function SectorPilotForm({ sector }: { sector: SectorConfig }) {
       if (!res.ok || !json.ok) {
         throw new Error(json.error || `Sunucu hatası (${res.status})`);
       }
+      track("sector_pilot_submit_success", {
+        sector_slug: sector.slug,
+        sector_name: sector.name,
+      });
       setState("success");
       setForm({
         name: "",
@@ -95,13 +105,16 @@ export default function SectorPilotForm({ sector }: { sector: SectorConfig }) {
       console.error("[SectorPilotForm] submit error:", err);
       const isAbort =
         err instanceof DOMException && err.name === "AbortError";
-      setErrorMessage(
-        isAbort
-          ? "Sunucuya ulaşılamıyor. Lütfen tekrar deneyin."
-          : err instanceof Error
-            ? err.message
-            : "Bir hata oluştu. Lütfen tekrar deneyin.",
-      );
+      const msg = isAbort
+        ? "Sunucuya ulaşılamıyor. Lütfen tekrar deneyin."
+        : err instanceof Error
+          ? err.message
+          : "Bir hata oluştu. Lütfen tekrar deneyin.";
+      track("sector_pilot_submit_error", {
+        sector_slug: sector.slug,
+        message: msg.slice(0, 100),
+      });
+      setErrorMessage(msg);
       setState("error");
     }
   };

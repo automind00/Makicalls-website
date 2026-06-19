@@ -5,6 +5,7 @@ import { Spotlight } from "@/components/ui/spotlight";
 import { SplineScene } from "@/components/ui/splite";
 import { RevealText } from "@/components/ui/reveal-text";
 import { ArrowRight, MessageCircle, Mic, Bot, Globe, Phone } from "lucide-react";
+import { track } from "@/components/analytics/google-analytics";
 
 // Full set masaüstü için; mobilde performance için az kullanılır.
 const PARTICLES = [
@@ -98,11 +99,13 @@ export default function Hero() {
   const dly = (d: number) => (isMobile ? d * 0.4 : d);
 
   const scrollToContact = () => {
+    track("cta_demo_click", { source: "hero" });
     const el = document.getElementById("randevu") ?? document.getElementById("iletisim");
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
   const scrollToServices = () => {
+    track("nav_services_click", { source: "hero" });
     const el = document.getElementById("hizmetler");
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
