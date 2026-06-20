@@ -43,6 +43,37 @@ export type SectorProcessStep = {
   time: string;
 };
 
+export type RoiSliderInput = {
+  label: string;
+  min: number;
+  max: number;
+  step: number;
+  default: number;
+  prefix?: string;
+  suffix?: string;
+};
+
+export type RoiResult = {
+  lossLabel: string;
+  lossAmount: number;
+  lossSubtext?: string;
+  recoveryLabel: string;
+  recoveryAmount: number;
+  recoverySubtext?: string;
+};
+
+export type RoiCalculator = {
+  badge: string;
+  titleStart: string;
+  titleMid: string;
+  titleEnd: string;
+  description?: string;
+  helperFootnote: string;
+  inputs: [RoiSliderInput, RoiSliderInput, RoiSliderInput];
+  /** 3 slider değerini alıp canlı kayıp + kurtarma hesaplar */
+  compute: (a: number, b: number, c: number) => RoiResult;
+};
+
 export type SectorConfig = {
   /** URL slug — yeni rotalar /sektorler/<slug> altında çıkar */
   slug: string;
@@ -105,6 +136,9 @@ export type SectorConfig = {
     description: string;
     keywords: string[];
   };
+
+  /** Sektöre özel ROI kayıp + kurtarma hesaplayıcı (generic sector page'de gösterilir) */
+  roiCalculator?: RoiCalculator;
 };
 
 export type ShowcaseIconKey =
@@ -333,6 +367,57 @@ export const SECTORS: SectorConfig[] = [
         "AI resepsiyonist otel",
       ],
     },
+    roiCalculator: {
+      badge: "Kaç para komisyon ödüyorsunuz?",
+      titleStart: "Otelinizin",
+      titleMid: "OTA komisyon kaybını",
+      titleEnd: "hesaplayın",
+      description:
+        "Üç slider'ı otelinize göre ayarlayın. Booking, Hotels.com, Expedia'ya ödediğiniz komisyonların aylık ve yıllık karşılığını canlı görün.",
+      helperFootnote:
+        "Hesaplama: Aylık dolu oda gecesi × OTA oranı × Ortalama gecelik fiyat × Komisyon (~%16). Sektör ortalaması.",
+      inputs: [
+        {
+          label: "Aylık dolu oda gecesi (toplam)",
+          min: 50,
+          max: 1500,
+          step: 10,
+          default: 350,
+        },
+        {
+          label: "Rezervasyonların OTA üzerinden gelme oranı",
+          min: 20,
+          max: 95,
+          step: 1,
+          default: 70,
+          suffix: "%",
+        },
+        {
+          label: "Ortalama gecelik oda fiyatı",
+          min: 500,
+          max: 8000,
+          step: 100,
+          default: 1500,
+          suffix: " ₺",
+        },
+      ],
+      compute: (rooms, otaPct, rate) => {
+        const otaRooms = rooms * (otaPct / 100);
+        const monthlyCommission = otaRooms * rate * 0.16;
+        const annualCommission = monthlyCommission * 12;
+        // Direkt rezervasyon kanalı 7/24 açıkken ortalama %50 OTA payı geri kazanılır
+        const recovery = annualCommission * 0.5;
+        return {
+          lossLabel: "Yıllık OTA komisyon kaybı",
+          lossAmount: annualCommission,
+          lossSubtext: `Aylık ortalama: ${new Intl.NumberFormat("tr-TR", { style: "currency", currency: "TRY", maximumFractionDigits: 0 }).format(monthlyCommission)}`,
+          recoveryLabel: "Direkt rezervasyonla kurtarabilirsiniz",
+          recoveryAmount: recovery,
+          recoverySubtext:
+            "7/24 çoklu dil AI asistan ile OTA payının ~%50'si direkt kanala kayar",
+        };
+      },
+    },
   },
 
   // ---------------------------------------------------------------- HAIR TRANSPLANT
@@ -417,6 +502,59 @@ export const SECTORS: SectorConfig[] = [
         "uluslararası hasta otomasyonu",
       ],
     },
+    roiCalculator: {
+      badge: "Kaç lead kaybediyorsunuz?",
+      titleStart: "Kliniğinizin",
+      titleMid: "kayıp lead maliyetini",
+      titleEnd: "hesaplayın",
+      description:
+        "Avrupa zaman farkı, geç cevap, fotoğraf analizi beklentisi — bu üçü bir araya geldiğinde lead kayıpları büyük. Hesaplayın.",
+      helperFootnote:
+        "Hesaplama: Haftalık lead × Geç cevap oranı × Kaçma katsayısı (0.62) × Paket × 4 hafta. Sektör ortalaması (4500 USD ≈ 158.000 ₺).",
+      inputs: [
+        {
+          label: "Haftalık gelen WhatsApp / arama leadi",
+          min: 10,
+          max: 300,
+          step: 5,
+          default: 80,
+        },
+        {
+          label: "İlk 2 saatte cevap veremediğiniz oran",
+          min: 10,
+          max: 80,
+          step: 1,
+          default: 45,
+          suffix: "%",
+        },
+        {
+          label: "Ortalama paket fiyatı (USD)",
+          min: 2000,
+          max: 8000,
+          step: 100,
+          default: 4500,
+          suffix: " $",
+        },
+      ],
+      compute: (leadsWeek, lateRatePct, usd) => {
+        const usdTry = 35; // 2026 ortalama
+        const lateLeadsPerMonth = leadsWeek * (lateRatePct / 100) * 4;
+        const lostLeads = lateLeadsPerMonth * 0.62; // %62 rakibe gider
+        // Conversion rate %4 (saç ekiminde tipik)
+        const lostRevenue = lostLeads * 0.04 * usd * usdTry;
+        const annual = lostRevenue * 12;
+        const recovery = annual * 0.7;
+        return {
+          lossLabel: "Yıllık kayıp gelir",
+          lossAmount: annual,
+          lossSubtext: `Aylık ortalama: ${new Intl.NumberFormat("tr-TR", { style: "currency", currency: "TRY", maximumFractionDigits: 0 }).format(lostRevenue)}`,
+          recoveryLabel: "AI asistan ile kurtarabilirsiniz",
+          recoveryAmount: recovery,
+          recoverySubtext:
+            "7/24 çoklu dil yanıt + foto ön analiz ile kayıp lead'in ~%70'i geri kazanılır",
+        };
+      },
+    },
   },
 
   // ---------------------------------------------------------------- AESTHETIC
@@ -495,6 +633,58 @@ export const SECTORS: SectorConfig[] = [
         "lazer epilasyon randevu otomasyonu",
         "estetik klinik müşteri hizmetleri",
       ],
+    },
+    roiCalculator: {
+      badge: "Sezon talebini yakalıyor musunuz?",
+      titleStart: "Sezon",
+      titleMid: "talep patlamasında kaybınızı",
+      titleEnd: "hesaplayın",
+      description:
+        "Yaz lazer epilasyon, sonbahar botoks dönemi başlayınca telefon ve DM bombardımanı oluyor. Yakalayamadığınız her müşteri rakibinizde.",
+      helperFootnote:
+        "Hesaplama: Sezon aylık çağrı × Kaçırma oranı × Ortalama paket. 4 ay sezon varsayımı.",
+      inputs: [
+        {
+          label: "Sezon ayında günlük çağrı + DM sayısı",
+          min: 20,
+          max: 300,
+          step: 5,
+          default: 80,
+        },
+        {
+          label: "Yoğun saatte yakalayamadığınız oran",
+          min: 10,
+          max: 70,
+          step: 1,
+          default: 35,
+          suffix: "%",
+        },
+        {
+          label: "Ortalama tedavi / paket fiyatı",
+          min: 1500,
+          max: 30000,
+          step: 500,
+          default: 6000,
+          suffix: " ₺",
+        },
+      ],
+      compute: (callsDay, missPct, avgPackage) => {
+        // %10 conversion (estetikte yüksek), 4 ay sezon
+        const missedPerDay = callsDay * (missPct / 100);
+        const conversionRate = 0.1;
+        const monthlyLoss = missedPerDay * 30 * conversionRate * avgPackage;
+        const seasonalLoss = monthlyLoss * 4;
+        const recovery = seasonalLoss * 0.8;
+        return {
+          lossLabel: "Sezonluk kayıp gelir (4 ay)",
+          lossAmount: seasonalLoss,
+          lossSubtext: `Sezon aylık: ${new Intl.NumberFormat("tr-TR", { style: "currency", currency: "TRY", maximumFractionDigits: 0 }).format(monthlyLoss)}`,
+          recoveryLabel: "AI ile sezon talebini yakalayın",
+          recoveryAmount: recovery,
+          recoverySubtext:
+            "Eş zamanlı sınırsız konuşma + DM otomasyonu ile yoğun saatte kaybın ~%80'i geri kazanılır",
+        };
+      },
     },
   },
 
@@ -575,6 +765,58 @@ export const SECTORS: SectorConfig[] = [
         "uluslararası hasta WhatsApp",
       ],
     },
+    roiCalculator: {
+      badge: "Çoklu dil baskısı kaç para?",
+      titleStart: "Acentanızın",
+      titleMid: "dil uyumsuzluk kaybını",
+      titleEnd: "hesaplayın",
+      description:
+        "Yabancı hastanın %78'i ana dilinde iletişim istiyor. Konuşamadığınız her hasta rakibe gidiyor — kaç para?",
+      helperFootnote:
+        "Hesaplama: Aylık yabancı lead × Dil uyumsuzluk oranı × Paket × Conversion. Sektör ortalaması.",
+      inputs: [
+        {
+          label: "Aylık gelen yabancı lead sayısı",
+          min: 20,
+          max: 500,
+          step: 5,
+          default: 120,
+        },
+        {
+          label: "Lead'in ana dilini konuşamadığınız oran",
+          min: 10,
+          max: 80,
+          step: 1,
+          default: 40,
+          suffix: "%",
+        },
+        {
+          label: "Ortalama tedavi paketi (USD)",
+          min: 1500,
+          max: 15000,
+          step: 250,
+          default: 5500,
+          suffix: " $",
+        },
+      ],
+      compute: (monthlyLeads, languageMissPct, packageUSD) => {
+        const usdTry = 35;
+        const lostLeads = monthlyLeads * (languageMissPct / 100);
+        const conversion = 0.06; // %6 conversion sağlık turizmi
+        const monthlyLoss = lostLeads * conversion * packageUSD * usdTry;
+        const annual = monthlyLoss * 12;
+        const recovery = annual * 0.65;
+        return {
+          lossLabel: "Yıllık kayıp paket geliri",
+          lossAmount: annual,
+          lossSubtext: `Aylık: ${new Intl.NumberFormat("tr-TR", { style: "currency", currency: "TRY", maximumFractionDigits: 0 }).format(monthlyLoss)}`,
+          recoveryLabel: "6 dilli AI ile kurtarabilirsiniz",
+          recoveryAmount: recovery,
+          recoverySubtext:
+            "Hastanın ana dilinde 7/24 yanıt — kayıp lead'in ~%65'i geri kazanılır",
+        };
+      },
+    },
   },
 
   // ---------------------------------------------------------------- CAR RENTAL
@@ -653,6 +895,58 @@ export const SECTORS: SectorConfig[] = [
         "araç rezervasyon otomasyonu",
         "havalimanı araç kiralama AI",
       ],
+    },
+    roiCalculator: {
+      badge: "Geri arayacağım = lead kayıp",
+      titleStart: "Sezon",
+      titleMid: "müsaitlik kaybınızı",
+      titleEnd: "hesaplayın",
+      description:
+        "Yaz ortası, Kurban Bayramı, Yılbaşı — talep katlanır. 'Geri arayacağım' diyen her temsilcinin %63'ü lead kaybeder. Hesabı net.",
+      helperFootnote:
+        "Hesaplama: Günlük müsaitlik sorgusu × Geri arayacağım oranı × Kaçma katsayısı (0.63) × Ortalama kira × 30 gün.",
+      inputs: [
+        {
+          label: "Günlük gelen müsaitlik sorgusu",
+          min: 15,
+          max: 200,
+          step: 5,
+          default: 50,
+        },
+        {
+          label: "Geri arayacağım dediği oran",
+          min: 10,
+          max: 70,
+          step: 1,
+          default: 35,
+          suffix: "%",
+        },
+        {
+          label: "Ortalama kira bedeli (3-7 gün ortalama)",
+          min: 1000,
+          max: 15000,
+          step: 250,
+          default: 4500,
+          suffix: " ₺",
+        },
+      ],
+      compute: (dailyQueries, callbackPct, avgRental) => {
+        const callbackPerDay = dailyQueries * (callbackPct / 100);
+        const lostPerDay = callbackPerDay * 0.63;
+        const conversion = 0.4; // müsaitlik sorgulayan %40 alır
+        const monthlyLoss = lostPerDay * 30 * conversion * avgRental;
+        const annual = monthlyLoss * 12;
+        const recovery = annual * 0.75;
+        return {
+          lossLabel: "Yıllık kayıp gelir",
+          lossAmount: annual,
+          lossSubtext: `Aylık: ${new Intl.NumberFormat("tr-TR", { style: "currency", currency: "TRY", maximumFractionDigits: 0 }).format(monthlyLoss)}`,
+          recoveryLabel: "AI müsaitlik asistanı ile kurtarın",
+          recoveryAmount: recovery,
+          recoverySubtext:
+            "Filo sistemine canlı bağlı asistan ile 'geri arayacağım' bitiyor, kaybın ~%75'i geri kazanılır",
+        };
+      },
     },
   },
 
@@ -734,6 +1028,57 @@ export const SECTORS: SectorConfig[] = [
         "müşteri hizmetleri AI",
       ],
     },
+    roiCalculator: {
+      badge: "Sepet terki ne kadara mal oluyor?",
+      titleStart: "Kampanya günü",
+      titleMid: "müşteri hizmeti darboğazınızın",
+      titleEnd: "maliyetini hesaplayın",
+      description:
+        "Yavaş cevap sepet terkini %41 artırıyor. Kampanya günü WhatsApp + DM bombardımanı tıkanırsa kayıp büyük.",
+      helperFootnote:
+        "Hesaplama: Günlük mesaj × Yavaş cevap oranı × Sepet terki katsayısı (0.41) × Ortalama sepet × 30 gün.",
+      inputs: [
+        {
+          label: "Günlük gelen WhatsApp / DM mesajı",
+          min: 30,
+          max: 1500,
+          step: 10,
+          default: 250,
+        },
+        {
+          label: "30 dk'dan geç cevap verdiğiniz oran",
+          min: 5,
+          max: 70,
+          step: 1,
+          default: 35,
+          suffix: "%",
+        },
+        {
+          label: "Ortalama sepet tutarı",
+          min: 100,
+          max: 5000,
+          step: 50,
+          default: 650,
+          suffix: " ₺",
+        },
+      ],
+      compute: (dailyMsgs, slowPct, avgBasket) => {
+        const slowMsgs = dailyMsgs * (slowPct / 100);
+        const abandoned = slowMsgs * 0.41; // sepet terki katsayısı
+        const monthlyLoss = abandoned * 30 * avgBasket;
+        const annual = monthlyLoss * 12;
+        const recovery = annual * 0.6;
+        return {
+          lossLabel: "Yıllık kayıp ciro",
+          lossAmount: annual,
+          lossSubtext: `Aylık: ${new Intl.NumberFormat("tr-TR", { style: "currency", currency: "TRY", maximumFractionDigits: 0 }).format(monthlyLoss)}`,
+          recoveryLabel: "AI ile darboğazı kıracaksınız",
+          recoveryAmount: recovery,
+          recoverySubtext:
+            "Eş zamanlı sınırsız konuşma + kargo + iade otomasyonu ile sepet terkinin ~%60'ı geri kazanılır",
+        };
+      },
+    },
   },
 
   // ---------------------------------------------------------------- REAL ESTATE
@@ -813,6 +1158,59 @@ export const SECTORS: SectorConfig[] = [
         "lead kalifikasyon AI",
         "gayrimenkul WhatsApp asistan",
       ],
+    },
+    roiCalculator: {
+      badge: "Kalifiye olmayan lead = saat kaybı",
+      titleStart: "Danışmanlarınızın",
+      titleMid: "kayıp komisyon potansiyelini",
+      titleEnd: "hesaplayın",
+      description:
+        "Lead'lerin %71'i kalifiye değil. Danışman 45 dakika konuşup 'kredi çıkmadı' duyarsa kayıp gerçek. AI ön kalifikasyon ile sadece gerçek alıcı kalır.",
+      helperFootnote:
+        "Hesaplama: Aylık ilan sorgusu × Kalifiye değil oranı × Danışman saati × Komisyon kayıp oranı.",
+      inputs: [
+        {
+          label: "Aylık gelen ilan sorgusu",
+          min: 50,
+          max: 1000,
+          step: 10,
+          default: 250,
+        },
+        {
+          label: "Kalifiye olmayan lead oranı",
+          min: 30,
+          max: 90,
+          step: 1,
+          default: 71,
+          suffix: "%",
+        },
+        {
+          label: "Ortalama satış komisyonu",
+          min: 20000,
+          max: 500000,
+          step: 5000,
+          default: 80000,
+          suffix: " ₺",
+        },
+      ],
+      compute: (inquiries, unqualifiedPct, avgCommission) => {
+        const unqualified = inquiries * (unqualifiedPct / 100);
+        // Her unqualified lead 0.7 saat danışman zamanı yer
+        // O sürede 1 nitelikli lead'i kaçırma olasılığı
+        const lostQualifiedDeals = unqualified * 0.02; // %2 deal'a dönüşür
+        const monthlyLoss = lostQualifiedDeals * avgCommission;
+        const annual = monthlyLoss * 12;
+        const recovery = annual * 0.8;
+        return {
+          lossLabel: "Yıllık kayıp komisyon",
+          lossAmount: annual,
+          lossSubtext: `Aylık: ${new Intl.NumberFormat("tr-TR", { style: "currency", currency: "TRY", maximumFractionDigits: 0 }).format(monthlyLoss)}`,
+          recoveryLabel: "AI kalifikasyon ile kurtarın",
+          recoveryAmount: recovery,
+          recoverySubtext:
+            "Bütçe + kredi + ihtiyaç ön sorgusu ile danışmana sadece nitelikli lead düşer, kaybın ~%80'i kazanılır",
+        };
+      },
     },
   },
 ];

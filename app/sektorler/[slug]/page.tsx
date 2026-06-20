@@ -8,6 +8,7 @@ import SectorHero from "@/components/sector/sector-hero";
 import SectorPainPoints from "@/components/sector/sector-pain-points";
 import SectorOmnichannel from "@/components/sector/sector-omnichannel";
 import SectorProcess from "@/components/sector/sector-process";
+import SectorRoiCalculator from "@/components/sector/sector-roi-calculator";
 import SectorFaq from "@/components/sector/sector-faq";
 import SectorPilotForm from "@/components/sector/sector-pilot-form";
 import SectorJsonLd from "@/components/sector/sector-jsonld";
@@ -85,6 +86,7 @@ export default async function SectorPage({
         <SectorPainPoints sector={sector} />
         <SectorOmnichannel sector={sector} />
         <SectorProcess sector={sector} />
+        <SectorRoiCalculator sector={sector} />
         <Integrations />
         <SectorFaq sector={sector} />
         <SectorPilotForm sector={sector} />

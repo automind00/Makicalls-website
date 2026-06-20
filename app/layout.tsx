@@ -1,8 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Suspense } from "react";
-import { Analytics } from "@vercel/analytics/next";
 import GoogleAnalytics from "@/components/analytics/google-analytics";
+import VercelAnalyticsConsentAware from "@/components/analytics/vercel-analytics";
+import CookieBanner from "@/components/analytics/cookie-banner";
+import StickyMobileCta from "@/components/sections/sticky-mobile-cta";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -109,10 +111,17 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-[color:var(--color-page)] text-[color:var(--color-fg)]">
         {children}
-        <Analytics />
+        {/* Analytics — sadece consent verildiyse yüklenir (KVKK uyumu) */}
+        <VercelAnalyticsConsentAware />
         <Suspense fallback={null}>
           <GoogleAnalytics />
         </Suspense>
+        {/* Mobile sticky CTA — consent kararı sonrası görünür */}
+        <Suspense fallback={null}>
+          <StickyMobileCta />
+        </Suspense>
+        {/* KVKK consent banner — karar verilmedikçe görünür */}
+        <CookieBanner />
       </body>
     </html>
   );

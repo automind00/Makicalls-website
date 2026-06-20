@@ -1,24 +1,29 @@
 "use client";
 
 import Script from "next/script";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
+import {
+  getConsent,
+  isAnalyticsAllowed,
+  subscribeConsent,
+} from "@/lib/consent";
 
 /**
- * Google Analytics 4 (GA4) entegrasyonu.
+ * Google Analytics 4 (GA4) entegrasyonu — consent-aware.
+ *
+ * Sadece kullanıcı "accepted" verdiyse yüklenir. "essential" veya
+ * karar verilmemiş durumda hiçbir GA script çalışmaz.
  *
  * Çalışması için:
  *   1. https://analytics.google.com → yeni property oluştur (GA4)
  *   2. Tracking ID'yi al: G-XXXXXXXXXX formatında
  *   3. Vercel → Project → Settings → Environment Variables'a ekle:
  *        NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
- *   4. Re-deploy — 24 saat içinde Realtime raporda veri görünmeye başlar
+ *   4. Re-deploy — kullanıcı "Tümünü Kabul Et" dedikten sonra Realtime
+ *      raporda veri görünmeye başlar
  *
- * Ortam değişkeni yoksa hiçbir şey yapmaz (dev ortamı kirlenmez).
- *
- * Türkiye + KVKK notu: GA4 default IP anonymization kullanır,
- * fakat tam KVKK uyumu için /kvkk metninde GA kullanımı belirtilmeli
- * (zaten genel "analitik araçlar" maddesi varsa yeterli).
+ * KVKK uyumu için anonymize_ip on, cookie_flags Secure.
  */
 
 declare global {
@@ -58,7 +63,20 @@ function RouteChangeTracker() {
 }
 
 export default function GoogleAnalytics() {
-  if (!GA_ID) return null;
+  const [analyticsAllowed, setAnalyticsAllowed] = useState(false);
+
+  useEffect(() => {
+    // İlk render: consent'i oku
+    setAnalyticsAllowed(isAnalyticsAllowed());
+    // Consent değişimini dinle (kullanıcı banner'dan tıkladığında)
+    const unsubscribe = subscribeConsent(() => {
+      setAnalyticsAllowed(isAnalyticsAllowed());
+    });
+    return unsubscribe;
+  }, []);
+
+  // GA_ID env yok ya da consent verilmedi → hiçbir script yüklenmez
+  if (!GA_ID || !analyticsAllowed) return null;
 
   return (
     <>
@@ -75,7 +93,7 @@ export default function GoogleAnalytics() {
           gtag('config', '${GA_ID}', {
             page_path: window.location.pathname,
             anonymize_ip: true,
-            cookie_flags: 'SameSite=None;Secure'
+            cookie_flags: 'SameSite=Lax;Secure'
           });
         `}
       </Script>
