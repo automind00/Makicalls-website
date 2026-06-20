@@ -81,7 +81,7 @@ export default function HakkimizdaPage() {
               </span>
             </h1>
             <p className="text-base sm:text-lg text-[color:var(--color-fg-muted)] leading-relaxed">
-              MakiCalls, Türkiye'deki KOBİ ve klinik sahiplerinin yıllardır
+              MakiCalls, Türkiye&apos;deki KOBİ ve klinik sahiplerinin yıllardır
               sessizce kaybettiği telefon çağrılarını, AI ile yakalama
               fikrinden doğdu. Bir ekibiz, üç ilkeyle çalışıyoruz.
             </p>
@@ -102,7 +102,7 @@ export default function HakkimizdaPage() {
 
             <div className="space-y-6 text-[15px] sm:text-base text-[color:var(--color-fg-secondary)] leading-[1.8]">
               <p>
-                Türkiye'de bir KOBİ sahibi olmak — bir diş kliniği, butik otel,
+                Türkiye&apos;de bir KOBİ sahibi olmak — bir diş kliniği, butik otel,
                 araç kiralama ofisi yönetmek — sürekli telefonla yarışmak
                 demektir. Mesai bitince çalan telefon, hafta sonu kaçırılan
                 rezervasyon, akşam ondan sonraki WhatsApp mesajı. Çoğu işletme
@@ -119,7 +119,7 @@ export default function HakkimizdaPage() {
                 verebilen.
               </p>
               <p>
-                2024-2025'te büyük dil modelleri (LLM) Türkçe konusunda
+                2024-2025&apos;te büyük dil modelleri (LLM) Türkçe konusunda
                 kategorik bir sıçrama yaptı. Aynı dönemde Türkçe ses sentezi
                 gerçek insan sesinden ayırt edilemez seviyeye geldi. Bu iki
                 teknoloji bir araya gelince, KOBİ ölçeğinde mantıklı bir AI

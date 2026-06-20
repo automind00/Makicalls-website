@@ -166,6 +166,12 @@ export default function GlobalError({
               <RefreshCw style={{ width: 18, height: 18 }} />
               Tekrar Dene
             </button>
+            {/*
+              global-error sayfasında <a> kullanıyoruz çünkü Next.js
+              Link bileşeni root layout'a bağlı; root fail olunca güvenli değil.
+              Bu sayfa zaten hard reload trigger ediyor.
+            */}
+            {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
             <a
               href="/"
               style={{

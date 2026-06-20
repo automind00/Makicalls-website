@@ -1,13 +1,9 @@
 "use client";
 
 import Script from "next/script";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
-import {
-  getConsent,
-  isAnalyticsAllowed,
-  subscribeConsent,
-} from "@/lib/consent";
+import { useIsAnalyticsAllowed } from "@/lib/use-consent";
 
 /**
  * Google Analytics 4 (GA4) entegrasyonu — consent-aware.
@@ -63,17 +59,7 @@ function RouteChangeTracker() {
 }
 
 export default function GoogleAnalytics() {
-  const [analyticsAllowed, setAnalyticsAllowed] = useState(false);
-
-  useEffect(() => {
-    // İlk render: consent'i oku
-    setAnalyticsAllowed(isAnalyticsAllowed());
-    // Consent değişimini dinle (kullanıcı banner'dan tıkladığında)
-    const unsubscribe = subscribeConsent(() => {
-      setAnalyticsAllowed(isAnalyticsAllowed());
-    });
-    return unsubscribe;
-  }, []);
+  const analyticsAllowed = useIsAnalyticsAllowed();
 
   // GA_ID env yok ya da consent verilmedi → hiçbir script yüklenmez
   if (!GA_ID || !analyticsAllowed) return null;

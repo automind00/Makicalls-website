@@ -1,15 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Cookie, X } from "lucide-react";
-import {
-  getConsent,
-  setConsent,
-  subscribeConsent,
-  type ConsentValue,
-} from "@/lib/consent";
+import { setConsent } from "@/lib/consent";
+import { useConsent } from "@/lib/use-consent";
 
 /**
  * KVKK uyumlu çerez banner'ı.
@@ -18,26 +13,16 @@ import {
  * - "Tümünü Kabul Et" → analytics yüklenir
  * - "Sadece Gerekli" → sadece zorunlu (form, auth) çerezler
  * - Her iki seçenek de localStorage'a kaydedilir, banner kaybolur
- * - "X" kapatma → "essential" varsayar (KVKK best practice: opt-in, opt-out değil)
+ * - "X" kapatma → "essential" varsayar (KVKK best practice: opt-in)
  * - Detaylar için /gizlilik ve /kvkk linkleri
  *
- * SSR-safe: ilk render'da null döner (hydration mismatch yok),
- * mount sonrası gerçek consent okunur.
+ * SSR-safe: useSyncExternalStore ile snapshot SSR'da null döner;
+ * mount sonrası gerçek consent okunur — setState-in-effect yok.
  */
 export default function CookieBanner() {
-  const [mounted, setMounted] = useState(false);
-  const [consent, setConsentState] = useState<ConsentValue | null>(null);
+  const consent = useConsent();
 
-  useEffect(() => {
-    setMounted(true);
-    setConsentState(getConsent());
-    const unsubscribe = subscribeConsent((v) => setConsentState(v));
-    return unsubscribe;
-  }, []);
-
-  // SSR/ilk render: banner çıkarmıyoruz, hydration mismatch riski yok
-  if (!mounted) return null;
-  // Karar verildi → banner görünmez
+  // SSR ve karar verilmiş durum → banner görünmez
   if (consent !== null) return null;
 
   const handleAccept = () => setConsent("accepted");

@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { CalendarDays, Phone } from "lucide-react";
 import { getDemoPhone } from "@/lib/contact";
 import { track } from "@/components/analytics/google-analytics";
-import { getConsent, subscribeConsent } from "@/lib/consent";
+import { useConsent } from "@/lib/use-consent";
 
 /**
  * Mobile-only sticky bottom CTA bar.
@@ -25,7 +25,9 @@ export default function StickyMobileCta() {
   const pathname = usePathname();
   const [visible, setVisible] = useState(false);
   const [bookingInView, setBookingInView] = useState(false);
-  const [consentDecided, setConsentDecided] = useState(false);
+  // Consent durumu — useSyncExternalStore tabanlı, setState-in-effect yok
+  const consent = useConsent();
+  const consentDecided = consent !== null;
 
   // /admin sayfasında hiç render etme
   const isExcluded = pathname?.startsWith("/admin");
@@ -33,6 +35,7 @@ export default function StickyMobileCta() {
   useEffect(() => {
     if (isExcluded) return;
 
+    // Scroll → external API (window) → setState burada legitimate
     const handleScroll = () => {
       // 400px'ten sonra göster (hero'nun ötesinde)
       setVisible(window.scrollY > 400);
@@ -40,7 +43,7 @@ export default function StickyMobileCta() {
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
 
-    // Booking section IntersectionObserver
+    // Booking section IntersectionObserver → external API
     const bookingSection = document.getElementById("randevu");
     let observer: IntersectionObserver | undefined;
     if (bookingSection) {
@@ -51,14 +54,9 @@ export default function StickyMobileCta() {
       observer.observe(bookingSection);
     }
 
-    // Consent kararı verildi mi? Cookie banner ile çakışma önlemek için
-    setConsentDecided(getConsent() !== null);
-    const unsubscribe = subscribeConsent((v) => setConsentDecided(v !== null));
-
     return () => {
       window.removeEventListener("scroll", handleScroll);
       observer?.disconnect();
-      unsubscribe();
     };
   }, [isExcluded, pathname]);
 

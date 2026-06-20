@@ -82,10 +82,12 @@ const CalendarDayCell: React.FC<CalendarDayCellProps> = ({
 };
 
 export function Calendar({ selectedDate, onSelectDate, onBookClick }: CalendarProps) {
+  // viewDate SSR'da null (hydration mismatch riski yok), mount sonrası gerçek
+  // tarih atanır. setState-in-effect uyarısı bu pattern için false-positive:
+  // tarih external (window'un current time'ı) — useEffect doğru yer.
   const [viewDate, setViewDate] = useState<Date | null>(null);
-
-  // Initialize to current month after mount (hydration safe)
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setViewDate(new Date());
   }, []);
 
@@ -103,10 +105,10 @@ export function Calendar({ selectedDate, onSelectDate, onBookClick }: CalendarPr
     };
   }, [viewDate]);
 
-  // Highlight a deterministic subset of upcoming weekdays as "available"
-  const [availableDays, setAvailableDays] = useState<Set<number>>(new Set());
-  useEffect(() => {
-    if (!viewDate) return;
+  // availableDays state olmaktan derived value'ya çevrildi (useMemo).
+  // viewDate değiştikçe otomatik recompute, ekstra render yok.
+  const availableDays = useMemo<Set<number>>(() => {
+    if (!viewDate) return new Set();
     const slots = new Set<number>();
     const startDay =
       computed.month === computed.todayMonth && computed.year === computed.todayYear
@@ -118,7 +120,7 @@ export function Calendar({ selectedDate, onSelectDate, onBookClick }: CalendarPr
         slots.add(d);
       }
     }
-    setAvailableDays(slots);
+    return slots;
   }, [viewDate, computed]);
 
   const isPastDay = (d: number) => {

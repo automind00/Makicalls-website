@@ -1,21 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Analytics } from "@vercel/analytics/next";
-import { isAnalyticsAllowed, subscribeConsent } from "@/lib/consent";
+import { useIsAnalyticsAllowed } from "@/lib/use-consent";
 
 /**
  * Vercel Analytics — consent-aware wrapper.
  * Sadece kullanıcı analytics'e onay verdiyse mount edilir.
+ * useSyncExternalStore sayesinde setState-in-effect anti-pattern'i yok.
  */
 export default function VercelAnalyticsConsentAware() {
-  const [allowed, setAllowed] = useState(false);
-
-  useEffect(() => {
-    setAllowed(isAnalyticsAllowed());
-    return subscribeConsent(() => setAllowed(isAnalyticsAllowed()));
-  }, []);
-
+  const allowed = useIsAnalyticsAllowed();
   if (!allowed) return null;
   return <Analytics />;
 }

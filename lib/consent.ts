@@ -40,20 +40,29 @@ export function setConsent(value: ConsentValue) {
   window.dispatchEvent(new CustomEvent(EVENT, { detail: value }));
 }
 
-/** React hook'ları için subscribe yardımcısı */
-export function subscribeConsent(callback: (v: ConsentValue | null) => void): () => void {
+/**
+ * React useSyncExternalStore için subscribe.
+ * IMPORTANT: dönen fonksiyon SAME REFERENCE olmalı her çağrıda — React
+ * aynı subscribe ile event listener kuracak.
+ */
+export function subscribeConsent(callback: () => void): () => void {
   if (typeof window === "undefined") return () => undefined;
-  const handler = () => callback(getConsent());
   // Aynı tab: custom event
-  window.addEventListener(EVENT, handler);
+  window.addEventListener(EVENT, callback);
   // Farklı tab: storage event
-  window.addEventListener("storage", (e) => {
-    if (e.key === STORAGE_KEY) handler();
-  });
-  return () => {
-    window.removeEventListener(EVENT, handler);
-    window.removeEventListener("storage", handler as EventListener);
+  const storageHandler = (e: StorageEvent) => {
+    if (e.key === STORAGE_KEY) callback();
   };
+  window.addEventListener("storage", storageHandler);
+  return () => {
+    window.removeEventListener(EVENT, callback);
+    window.removeEventListener("storage", storageHandler);
+  };
+}
+
+/** SSR snapshot — server'da hep null (karar verilmedi varsay) */
+export function getConsentServerSnapshot(): ConsentValue | null {
+  return null;
 }
 
 export const ANALYTICS_OK_VALUES: ConsentValue[] = ["accepted"];

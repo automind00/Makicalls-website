@@ -98,7 +98,7 @@ export default function RevenueCalculator() {
             hesaplayın
           </h2>
           <p className="mt-4 text-sm sm:text-base text-[color:var(--color-fg-muted)]">
-            Üç slider'ı kliniğinize göre ayarlayın. Mesai dışı kaçırdığınız randevuların yıllık maliyetini canlı görün.
+            Üç slider&apos;ı kliniğinize göre ayarlayın. Mesai dışı kaçırdığınız randevuların yıllık maliyetini canlı görün.
           </p>
         </motion.div>
 
