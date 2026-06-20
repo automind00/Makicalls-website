@@ -86,7 +86,7 @@ export default async function SectorPage({
         <SectorPainPoints sector={sector} />
         <SectorOmnichannel sector={sector} />
         <SectorProcess sector={sector} />
-        <SectorRoiCalculator sector={sector} />
+        <SectorRoiCalculator sectorSlug={sector.slug} />
         <Integrations />
         <SectorFaq sector={sector} />
         <SectorPilotForm sector={sector} />

@@ -3,7 +3,8 @@
 import React, { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { TrendingDown, ArrowRight } from "lucide-react";
-import type { SectorConfig } from "@/lib/sectors";
+import { SECTORS_BY_SLUG } from "@/lib/sectors";
+import { ROI_FORMULAS } from "@/lib/sector-roi-formulas";
 
 const TL_FORMATTER = new Intl.NumberFormat("tr-TR", {
   style: "currency",
@@ -68,14 +69,21 @@ function SliderRow({
 /**
  * Generic Sektörel ROI Calculator.
  * 3 slider input (sektöre özel parametreler) + canlı hesaplama.
- * Sektörün roiCalculator alanı yoksa hiçbir şey render etmez.
+ *
+ * NOT: sectorSlug alır (sector objesi DEĞİL) — çünkü sector.roiCalculator.compute
+ * bir function ve Server Component → Client Component serialize edilemez.
+ * Slug client'a geçer, config burada SECTORS_BY_SLUG ile lookup edilir.
+ *
+ * Sektörün roiCalculator alanı yoksa hiçbir şey render etmez (opt-in).
  */
 export default function SectorRoiCalculator({
-  sector,
+  sectorSlug,
 }: {
-  sector: SectorConfig;
+  sectorSlug: string;
 }) {
-  const roi = sector.roiCalculator;
+  const sector = SECTORS_BY_SLUG[sectorSlug];
+  const roi = sector?.roiCalculator;
+  const compute = ROI_FORMULAS[sectorSlug];
   // Hooks must be called unconditionally, so initialize with safe defaults
   const initialA = roi?.inputs[0]?.default ?? 0;
   const initialB = roi?.inputs[1]?.default ?? 0;
@@ -86,9 +94,9 @@ export default function SectorRoiCalculator({
   const [c, setC] = useState(initialC);
 
   const result = useMemo(() => {
-    if (!roi) return null;
-    return roi.compute(a, b, c);
-  }, [roi, a, b, c]);
+    if (!roi || !compute) return null;
+    return compute(a, b, c);
+  }, [roi, compute, a, b, c]);
 
   if (!roi || !result) return null;
 

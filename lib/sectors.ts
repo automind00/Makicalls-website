@@ -62,6 +62,12 @@ export type RoiResult = {
   recoverySubtext?: string;
 };
 
+/**
+ * ROI hesaplayıcı görsel + input config. Asıl compute fonksiyonu
+ * `lib/sector-roi-formulas.ts` içinde slug-keyed map'te tutulur —
+ * çünkü function'lar Server Component → Client Component prop
+ * serialize edilemez (Next.js 16 constraint).
+ */
 export type RoiCalculator = {
   badge: string;
   titleStart: string;
@@ -70,8 +76,6 @@ export type RoiCalculator = {
   description?: string;
   helperFootnote: string;
   inputs: [RoiSliderInput, RoiSliderInput, RoiSliderInput];
-  /** 3 slider değerini alıp canlı kayıp + kurtarma hesaplar */
-  compute: (a: number, b: number, c: number) => RoiResult;
 };
 
 export type SectorConfig = {
@@ -401,22 +405,6 @@ export const SECTORS: SectorConfig[] = [
           suffix: " ₺",
         },
       ],
-      compute: (rooms, otaPct, rate) => {
-        const otaRooms = rooms * (otaPct / 100);
-        const monthlyCommission = otaRooms * rate * 0.16;
-        const annualCommission = monthlyCommission * 12;
-        // Direkt rezervasyon kanalı 7/24 açıkken ortalama %50 OTA payı geri kazanılır
-        const recovery = annualCommission * 0.5;
-        return {
-          lossLabel: "Yıllık OTA komisyon kaybı",
-          lossAmount: annualCommission,
-          lossSubtext: `Aylık ortalama: ${new Intl.NumberFormat("tr-TR", { style: "currency", currency: "TRY", maximumFractionDigits: 0 }).format(monthlyCommission)}`,
-          recoveryLabel: "Direkt rezervasyonla kurtarabilirsiniz",
-          recoveryAmount: recovery,
-          recoverySubtext:
-            "7/24 çoklu dil AI asistan ile OTA payının ~%50'si direkt kanala kayar",
-        };
-      },
     },
   },
 
@@ -536,24 +524,6 @@ export const SECTORS: SectorConfig[] = [
           suffix: " $",
         },
       ],
-      compute: (leadsWeek, lateRatePct, usd) => {
-        const usdTry = 35; // 2026 ortalama
-        const lateLeadsPerMonth = leadsWeek * (lateRatePct / 100) * 4;
-        const lostLeads = lateLeadsPerMonth * 0.62; // %62 rakibe gider
-        // Conversion rate %4 (saç ekiminde tipik)
-        const lostRevenue = lostLeads * 0.04 * usd * usdTry;
-        const annual = lostRevenue * 12;
-        const recovery = annual * 0.7;
-        return {
-          lossLabel: "Yıllık kayıp gelir",
-          lossAmount: annual,
-          lossSubtext: `Aylık ortalama: ${new Intl.NumberFormat("tr-TR", { style: "currency", currency: "TRY", maximumFractionDigits: 0 }).format(lostRevenue)}`,
-          recoveryLabel: "AI asistan ile kurtarabilirsiniz",
-          recoveryAmount: recovery,
-          recoverySubtext:
-            "7/24 çoklu dil yanıt + foto ön analiz ile kayıp lead'in ~%70'i geri kazanılır",
-        };
-      },
     },
   },
 
@@ -668,23 +638,6 @@ export const SECTORS: SectorConfig[] = [
           suffix: " ₺",
         },
       ],
-      compute: (callsDay, missPct, avgPackage) => {
-        // %10 conversion (estetikte yüksek), 4 ay sezon
-        const missedPerDay = callsDay * (missPct / 100);
-        const conversionRate = 0.1;
-        const monthlyLoss = missedPerDay * 30 * conversionRate * avgPackage;
-        const seasonalLoss = monthlyLoss * 4;
-        const recovery = seasonalLoss * 0.8;
-        return {
-          lossLabel: "Sezonluk kayıp gelir (4 ay)",
-          lossAmount: seasonalLoss,
-          lossSubtext: `Sezon aylık: ${new Intl.NumberFormat("tr-TR", { style: "currency", currency: "TRY", maximumFractionDigits: 0 }).format(monthlyLoss)}`,
-          recoveryLabel: "AI ile sezon talebini yakalayın",
-          recoveryAmount: recovery,
-          recoverySubtext:
-            "Eş zamanlı sınırsız konuşma + DM otomasyonu ile yoğun saatte kaybın ~%80'i geri kazanılır",
-        };
-      },
     },
   },
 
@@ -799,23 +752,6 @@ export const SECTORS: SectorConfig[] = [
           suffix: " $",
         },
       ],
-      compute: (monthlyLeads, languageMissPct, packageUSD) => {
-        const usdTry = 35;
-        const lostLeads = monthlyLeads * (languageMissPct / 100);
-        const conversion = 0.06; // %6 conversion sağlık turizmi
-        const monthlyLoss = lostLeads * conversion * packageUSD * usdTry;
-        const annual = monthlyLoss * 12;
-        const recovery = annual * 0.65;
-        return {
-          lossLabel: "Yıllık kayıp paket geliri",
-          lossAmount: annual,
-          lossSubtext: `Aylık: ${new Intl.NumberFormat("tr-TR", { style: "currency", currency: "TRY", maximumFractionDigits: 0 }).format(monthlyLoss)}`,
-          recoveryLabel: "6 dilli AI ile kurtarabilirsiniz",
-          recoveryAmount: recovery,
-          recoverySubtext:
-            "Hastanın ana dilinde 7/24 yanıt — kayıp lead'in ~%65'i geri kazanılır",
-        };
-      },
     },
   },
 
@@ -930,23 +866,6 @@ export const SECTORS: SectorConfig[] = [
           suffix: " ₺",
         },
       ],
-      compute: (dailyQueries, callbackPct, avgRental) => {
-        const callbackPerDay = dailyQueries * (callbackPct / 100);
-        const lostPerDay = callbackPerDay * 0.63;
-        const conversion = 0.4; // müsaitlik sorgulayan %40 alır
-        const monthlyLoss = lostPerDay * 30 * conversion * avgRental;
-        const annual = monthlyLoss * 12;
-        const recovery = annual * 0.75;
-        return {
-          lossLabel: "Yıllık kayıp gelir",
-          lossAmount: annual,
-          lossSubtext: `Aylık: ${new Intl.NumberFormat("tr-TR", { style: "currency", currency: "TRY", maximumFractionDigits: 0 }).format(monthlyLoss)}`,
-          recoveryLabel: "AI müsaitlik asistanı ile kurtarın",
-          recoveryAmount: recovery,
-          recoverySubtext:
-            "Filo sistemine canlı bağlı asistan ile 'geri arayacağım' bitiyor, kaybın ~%75'i geri kazanılır",
-        };
-      },
     },
   },
 
@@ -1062,22 +981,6 @@ export const SECTORS: SectorConfig[] = [
           suffix: " ₺",
         },
       ],
-      compute: (dailyMsgs, slowPct, avgBasket) => {
-        const slowMsgs = dailyMsgs * (slowPct / 100);
-        const abandoned = slowMsgs * 0.41; // sepet terki katsayısı
-        const monthlyLoss = abandoned * 30 * avgBasket;
-        const annual = monthlyLoss * 12;
-        const recovery = annual * 0.6;
-        return {
-          lossLabel: "Yıllık kayıp ciro",
-          lossAmount: annual,
-          lossSubtext: `Aylık: ${new Intl.NumberFormat("tr-TR", { style: "currency", currency: "TRY", maximumFractionDigits: 0 }).format(monthlyLoss)}`,
-          recoveryLabel: "AI ile darboğazı kıracaksınız",
-          recoveryAmount: recovery,
-          recoverySubtext:
-            "Eş zamanlı sınırsız konuşma + kargo + iade otomasyonu ile sepet terkinin ~%60'ı geri kazanılır",
-        };
-      },
     },
   },
 
@@ -1193,24 +1096,6 @@ export const SECTORS: SectorConfig[] = [
           suffix: " ₺",
         },
       ],
-      compute: (inquiries, unqualifiedPct, avgCommission) => {
-        const unqualified = inquiries * (unqualifiedPct / 100);
-        // Her unqualified lead 0.7 saat danışman zamanı yer
-        // O sürede 1 nitelikli lead'i kaçırma olasılığı
-        const lostQualifiedDeals = unqualified * 0.02; // %2 deal'a dönüşür
-        const monthlyLoss = lostQualifiedDeals * avgCommission;
-        const annual = monthlyLoss * 12;
-        const recovery = annual * 0.8;
-        return {
-          lossLabel: "Yıllık kayıp komisyon",
-          lossAmount: annual,
-          lossSubtext: `Aylık: ${new Intl.NumberFormat("tr-TR", { style: "currency", currency: "TRY", maximumFractionDigits: 0 }).format(monthlyLoss)}`,
-          recoveryLabel: "AI kalifikasyon ile kurtarın",
-          recoveryAmount: recovery,
-          recoverySubtext:
-            "Bütçe + kredi + ihtiyaç ön sorgusu ile danışmana sadece nitelikli lead düşer, kaybın ~%80'i kazanılır",
-        };
-      },
     },
   },
 ];
