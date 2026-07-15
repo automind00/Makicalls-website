@@ -50,7 +50,7 @@ const organization = {
   // Kullanıcı yeni hesap açtıkça buraya eklenmeli.
   sameAs: [
     "https://www.instagram.com/makicalls/",
-    // "https://www.linkedin.com/company/makicalls",
+    "https://www.linkedin.com/company/makicalls",
     // "https://twitter.com/makicalls",
     // "https://www.youtube.com/@makicalls",
     // "https://www.facebook.com/makicalls",

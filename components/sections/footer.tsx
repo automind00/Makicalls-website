@@ -23,6 +23,25 @@ const InstagramIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
+const LinkedinIcon = ({ className }: { className?: string }) => (
+  <svg
+    className={className}
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+    <rect x="2" y="9" width="4" height="12" />
+    <circle cx="4" cy="4" r="2" />
+  </svg>
+);
+
 
 type FooterLink = { label: string; href: string; external?: boolean };
 
@@ -75,6 +94,11 @@ function buildSocials(): { icon: React.ReactNode; label: string; href: string }[
       icon: <InstagramIcon className="w-4 h-4" />,
       label: "Instagram",
       href: "https://www.instagram.com/makicalls/",
+    },
+    {
+      icon: <LinkedinIcon className="w-4 h-4" />,
+      label: "LinkedIn",
+      href: "https://www.linkedin.com/company/makicalls/",
     },
     {
       icon: <Mail className="w-4 h-4" />,

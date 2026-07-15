@@ -12,6 +12,26 @@ import {
 } from "lucide-react";
 import Navbar from "@/components/sections/navbar";
 import Footer from "@/components/sections/footer";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+
+const LinkedinIcon = ({ className }: { className?: string }) => (
+  <svg
+    className={className}
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+    <rect x="2" y="9" width="4" height="12" />
+    <circle cx="4" cy="4" r="2" />
+  </svg>
+);
 
 const SITE_URL = "https://makicalls.com";
 const PAGE_URL = `${SITE_URL}/hakkimizda`;
@@ -127,6 +147,41 @@ export default function HakkimizdaPage() {
                 tonla, gerçek müşterilere hizmet edecek şekilde doldurmak için
                 kuruldu.
               </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Kurucu */}
+        <section className="relative py-16 sm:py-20 border-t border-[color:var(--color-border)]">
+          <div className="max-w-3xl mx-auto px-5 sm:px-6 lg:px-8">
+            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 p-6 sm:p-8 rounded-2xl bg-[color:var(--color-elevated)] border border-[color:var(--color-border)]">
+              <Avatar className="h-20 w-20 sm:h-24 sm:w-24 flex-shrink-0 ring-1 ring-brand/30">
+                <AvatarFallback className="bg-gradient-to-br from-brand/25 to-brand-soft/10 text-brand-soft text-2xl font-bold">
+                  EH
+                </AvatarFallback>
+              </Avatar>
+              <div className="text-center sm:text-left">
+                <h3 className="text-lg sm:text-xl font-semibold text-[color:var(--color-fg)]">
+                  Ekrem Hindioğlu
+                </h3>
+                <p className="text-sm text-brand-soft font-medium mb-3">
+                  Kurucu &amp; CEO
+                </p>
+                <p className="text-sm text-[color:var(--color-fg-muted)] leading-relaxed mb-4 max-w-md">
+                  MakiCalls&apos;ı kurdu. Türkiye&apos;deki KOBİ ve
+                  kliniklere AI destekli sesli ve mesaj asistanları
+                  kuruyor.
+                </p>
+                <a
+                  href="https://www.linkedin.com/in/ekrem-hindioglu-495bb726a/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-sm text-brand-soft hover:text-white underline-offset-4 hover:underline transition-colors"
+                >
+                  <LinkedinIcon className="w-4 h-4" />
+                  LinkedIn&apos;de bağlantı kur
+                </a>
+              </div>
             </div>
           </div>
         </section>
