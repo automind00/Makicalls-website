@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -12,7 +13,7 @@ import {
 } from "lucide-react";
 import Navbar from "@/components/sections/navbar";
 import Footer from "@/components/sections/footer";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { HolographicCard } from "@/components/ui/holographic-card";
 
 const LinkedinIcon = ({ className }: { className?: string }) => (
   <svg
@@ -147,41 +148,6 @@ export default function HakkimizdaPage() {
                 tonla, gerçek müşterilere hizmet edecek şekilde doldurmak için
                 kuruldu.
               </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Kurucu */}
-        <section className="relative py-16 sm:py-20 border-t border-[color:var(--color-border)]">
-          <div className="max-w-3xl mx-auto px-5 sm:px-6 lg:px-8">
-            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 p-6 sm:p-8 rounded-2xl bg-[color:var(--color-elevated)] border border-[color:var(--color-border)]">
-              <Avatar className="h-20 w-20 sm:h-24 sm:w-24 flex-shrink-0 ring-1 ring-brand/30">
-                <AvatarFallback className="bg-gradient-to-br from-brand/25 to-brand-soft/10 text-brand-soft text-2xl font-bold">
-                  EH
-                </AvatarFallback>
-              </Avatar>
-              <div className="text-center sm:text-left">
-                <h3 className="text-lg sm:text-xl font-semibold text-[color:var(--color-fg)]">
-                  Ekrem Hindioğlu
-                </h3>
-                <p className="text-sm text-brand-soft font-medium mb-3">
-                  Kurucu &amp; CEO
-                </p>
-                <p className="text-sm text-[color:var(--color-fg-muted)] leading-relaxed mb-4 max-w-md">
-                  MakiCalls&apos;ı kurdu. Türkiye&apos;deki KOBİ ve
-                  kliniklere AI destekli sesli ve mesaj asistanları
-                  kuruyor.
-                </p>
-                <a
-                  href="https://www.linkedin.com/in/ekrem-hindioglu-495bb726a/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-sm text-brand-soft hover:text-white underline-offset-4 hover:underline transition-colors"
-                >
-                  <LinkedinIcon className="w-4 h-4" />
-                  LinkedIn&apos;de bağlantı kur
-                </a>
-              </div>
             </div>
           </div>
         </section>
@@ -400,6 +366,57 @@ export default function HakkimizdaPage() {
               15 Dakika Ayır, Konuşalım
               <ArrowRight className="w-4 h-4" />
             </Link>
+          </div>
+        </section>
+
+        {/* Kurucu Hakkında */}
+        <section className="relative py-16 sm:py-20 border-t border-[color:var(--color-border)]">
+          <div className="max-w-4xl mx-auto px-5 sm:px-6 lg:px-8">
+            <div className="text-center mb-10">
+              <span className="text-[10px] sm:text-xs font-medium uppercase tracking-[0.2em] text-brand-soft mb-2 block">
+                Kurucu Hakkında
+              </span>
+            </div>
+
+            <HolographicCard className="flex flex-col sm:flex-row items-center sm:items-start gap-8 sm:gap-10 p-6 sm:p-10 rounded-3xl bg-[color:var(--color-elevated)] border border-[color:var(--color-border)]">
+              <div className="relative w-40 h-40 sm:w-48 sm:h-48 flex-shrink-0 rounded-2xl overflow-hidden ring-1 ring-brand/30">
+                <Image
+                  src="/kurucu-ekrem-hindioglu.png"
+                  alt="Ekrem Hindioğlu — MakiCalls Kurucusu"
+                  fill
+                  sizes="(min-width: 640px) 192px, 160px"
+                  className="object-cover"
+                />
+              </div>
+
+              <div className="text-center sm:text-left flex-1">
+                <h2 className="text-2xl sm:text-3xl font-bold uppercase tracking-tight text-[color:var(--color-fg)]">
+                  Ekrem Hindioğlu
+                </h2>
+                <p className="text-sm sm:text-base text-brand-soft font-semibold mt-1">
+                  MakiCalls Kurucusu &amp; CEO
+                </p>
+                <p className="text-xs sm:text-sm text-[color:var(--color-fg-muted)] font-medium mt-1.5 mb-5">
+                  Randevu bazlı işletmeler için 7/24 AI müşteri asistanı —
+                  arama, WhatsApp, randevu, Google yorum
+                </p>
+                <p className="text-sm sm:text-base text-[color:var(--color-fg-secondary)] leading-relaxed mb-5 max-w-xl">
+                  Randevu bazlı işletmelerin kaçırdığı her telefonun bir
+                  müşteri kaybı olduğunu fark etti ve bunu çözecek AI
+                  asistanı MakiCalls&apos;ta hayata geçirdi. Bugün
+                  işletmelere 7/24 kesintisiz müşteri iletişimi kuruyor.
+                </p>
+                <a
+                  href="https://www.linkedin.com/in/ekrem-hindioglu-495bb726a/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-sm text-brand-soft hover:text-white underline-offset-4 hover:underline transition-colors"
+                >
+                  <LinkedinIcon className="w-4 h-4" />
+                  LinkedIn&apos;de bağlantı kur
+                </a>
+              </div>
+            </HolographicCard>
           </div>
         </section>
       </main>
