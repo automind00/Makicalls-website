@@ -5,7 +5,7 @@ import Navbar from "@/components/sections/navbar";
 import Footer from "@/components/sections/footer";
 
 export const metadata: Metadata = {
-  title: "Sayfa Bulunamadı (404) | MakiCalls",
+  title: "Sayfa Bulunamadı (404)",
   description:
     "Aradığın sayfa burada değil. Ana sayfaya, sektör çözümlerine veya randevu bölümüne geçebilirsin.",
   robots: { index: false, follow: true },

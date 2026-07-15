@@ -227,7 +227,7 @@ export const SECTORS: SectorConfig[] = [
         "Formu doldurun, 24 saat içinde dönüş yapıyoruz. Uygun bulursak kısa demo görüşmesi kuruyoruz.",
     },
     metadata: {
-      title: "Diş Klinikleri İçin AI Resepsiyonist | MakiCalls",
+      title: "Diş Klinikleri İçin AI Resepsiyonist",
       description:
         "Diş kliniğinizin telefonunu 7/24 açan, Türkçe konuşan AI resepsiyonist. Mesai dışı randevu kaybetmeyin, hasta kaçırmayın.",
       keywords: [
@@ -357,7 +357,7 @@ export const SECTORS: SectorConfig[] = [
         "Form doldurun, 24 saat içinde otelinizin dilinde örnek bir asistan çağrısı dinleyelim.",
     },
     metadata: {
-      title: "Oteller İçin AI Rezervasyon Asistanı | MakiCalls",
+      title: "Oteller İçin AI Rezervasyon Asistanı",
       description:
         "Otelinizin telefonunu 7/24, 4 dilde açan AI asistan. Gece arayan rezervasyonu OTA'ya kaptırmayın, direkt satışla komisyon ödemeyin.",
       keywords: [
@@ -522,7 +522,7 @@ export const SECTORS: SectorConfig[] = [
         "Formu doldurun, kliniğinize özel hazırlanmış örnek bir WhatsApp + çağrı demo'su gönderelim.",
     },
     metadata: {
-      title: "Saç Ekimi Klinikleri İçin Çoklu Dil AI Asistan | MakiCalls",
+      title: "Saç Ekimi Klinikleri İçin Çoklu Dil AI Asistan",
       description:
         "Saç ekimi kliniğinizin Avrupa & Körfez hastalarını gece bile kaybetmeyin. Türkçe + İngilizce + Arapça konuşan AI asistan, fotoğraftan ön analiz başlatır.",
       keywords: [
@@ -680,7 +680,7 @@ export const SECTORS: SectorConfig[] = [
         "Form doldurun, sezonun yoğun günlerini birlikte planlayalım.",
     },
     metadata: {
-      title: "Estetik Klinikleri İçin AI Asistan | MakiCalls",
+      title: "Estetik Klinikleri İçin AI Asistan",
       description:
         "Estetik kliniğinizin sezon talep patlamasını AI asistanla yönetin. Lazer, botoks, dolgu fiyat sorularını yanıtlar, randevu açar, DM patlamasını çözer.",
       keywords: [
@@ -837,7 +837,7 @@ export const SECTORS: SectorConfig[] = [
         "Form doldurun, çalıştığınız hedef pazarlarda örnek bir asistan dinleyelim.",
     },
     metadata: {
-      title: "Sağlık Turizmi İçin Çoklu Dil AI Asistan | MakiCalls",
+      title: "Sağlık Turizmi İçin Çoklu Dil AI Asistan",
       description:
         "Sağlık turizmi acentanız için 6 dilde çalışan AI koordinatör. Paket, transfer, otel sorularını otomatik yanıtlar, lead kaybını sıfırlar.",
       keywords: [
@@ -994,7 +994,7 @@ export const SECTORS: SectorConfig[] = [
         "Form doldurun, filonuzun büyüklüğüne göre özel çözümle dönüş yapalım.",
     },
     metadata: {
-      title: "Araç Kiralama İçin AI Rezervasyon Asistanı | MakiCalls",
+      title: "Araç Kiralama İçin AI Rezervasyon Asistanı",
       description:
         "Araç kiralama şirketinizin 7/24 müsaitlik sorgulayan, rezervasyon açan AI asistanı. Sezon yoğunluğunu, depozito sorularını otomatikleştirin.",
       keywords: [
@@ -1151,7 +1151,7 @@ export const SECTORS: SectorConfig[] = [
         "Form doldurun, mağazanızın altyapısına göre demo planlayalım.",
     },
     metadata: {
-      title: "E-ticaret İçin AI Müşteri Hizmetleri | MakiCalls",
+      title: "E-ticaret İçin AI Müşteri Hizmetleri",
       description:
         "E-ticaret markanız için 'kargom nerede' ve 'iade nasıl' sorularını otomatikleştiren AI asistan. Kampanya günlerinde tıkanmadan satış yapın.",
       keywords: [
@@ -1309,7 +1309,7 @@ export const SECTORS: SectorConfig[] = [
         "Form doldurun, portföyünüze göre özel asistan demo'su gönderelim.",
     },
     metadata: {
-      title: "Gayrimenkul Ofisleri İçin AI Lead Asistanı | MakiCalls",
+      title: "Gayrimenkul Ofisleri İçin AI Lead Asistanı",
       description:
         "Gayrimenkul ofisinizin lead'lerini kalifiye eden, gezme randevusu açan AI asistan. 'Hala satılık mı' tekrar sorularını otomatikleştirin.",
       keywords: [
