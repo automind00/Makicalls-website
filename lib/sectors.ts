@@ -448,6 +448,49 @@ export const SECTORS: SectorConfig[] = [
         stat: "Ortalama paket: 4.500 USD",
       },
     ],
+    channels: ["voice", "whatsapp", "web", "instagram"],
+    channelCopy: {
+      voice: {
+        title: "Sesli Arama",
+        body: "Yurt dışından arayan hastayı kendi dilinde karşılar, greft/donor sorularını yanıtlar, konsültasyon randevusu açar.",
+        badge: "6 dil",
+      },
+      whatsapp: {
+        title: "WhatsApp",
+        body: "Hasta saç çizgisi fotoğrafı atınca ön analiz başlatır, paket bilgisini gönderir — gece bile.",
+        badge: "Foto analiz",
+      },
+      web: {
+        title: "Web Chat",
+        body: "Siteyi gezen yurt dışı ziyaretçiye anında paket ve süreç bilgisi verir, WhatsApp'a yönlendirir.",
+        badge: "7/24 aktif",
+      },
+      instagram: {
+        title: "Instagram DM",
+        body: "Öncesi/sonrası paylaşımına gelen 'ben de olur mu' mesajlarını anında yanıtlar, konsültasyona çevirir.",
+        badge: "Viral takip",
+      },
+    },
+    processSteps: [
+      {
+        n: "01",
+        title: "Paket ve donor kriterlerinizi paylaşın",
+        body: "Fiyat aralıkları, greft sayısı mantığı, hangi vakaya uygun olduğunuzu tanımlarsınız.",
+        time: "Sizden 20 dk",
+      },
+      {
+        n: "02",
+        title: "Çok dilli asistanı kliniğinize göre kuruyoruz",
+        body: "İngilizce/Arapça/Almanca konuşan asistan, fotoğraf analiz akışıyla birlikte hazırlanır.",
+        time: "Bizim işimiz",
+      },
+      {
+        n: "03",
+        title: "Yayına geçer, uluslararası lead'ler akar",
+        body: "Gece gelen her mesaj karşılanır, haftalık lead ve dönüşüm raporu size gelir.",
+        time: "Sürekli",
+      },
+    ],
     faqs: [
       {
         q: "Asistan hangi dilleri konuşuyor?",
@@ -567,6 +610,49 @@ export const SECTORS: SectorConfig[] = [
         stat: "Viral post sonrası ortalama 2,400 DM",
       },
     ],
+    channels: ["voice", "whatsapp", "web", "instagram"],
+    channelCopy: {
+      voice: {
+        title: "Sesli Arama",
+        body: "Sezon yoğunluğunda gelen her aramayı karşılar, işlem fiyatını standart şekilde sunar, randevu açar.",
+        badge: "Sınırsız eşzamanlı",
+      },
+      whatsapp: {
+        title: "WhatsApp",
+        body: "'Botoks/dolgu fiyatı ne kadar' sorusunu anında yanıtlar, güncel kampanya bilgisini paylaşır.",
+        badge: "Kampanya güncel",
+      },
+      web: {
+        title: "Web Chat",
+        body: "Sitenizi gezen ziyaretçiye işlem detayını anlatır, randevuya yönlendirir.",
+        badge: "Anında yanıt",
+      },
+      instagram: {
+        title: "Instagram DM",
+        body: "Viral bir postun ardından gelen yüzlerce DM'i eş zamanlı karşılar, hiçbiri kararıp gitmez.",
+        badge: "Viral kapasiteli",
+      },
+    },
+    processSteps: [
+      {
+        n: "01",
+        title: "Hizmet ve kampanya bilgilerinizi paylaşın",
+        body: "Botoks, dolgu, lazer — her hizmetin fiyatı ve kuralı tek formda.",
+        time: "Sizden 15 dk",
+      },
+      {
+        n: "02",
+        title: "AI'yı sezon yoğunluğuna göre kuruyoruz",
+        body: "Kampanya güncellemesi, doktor onay akışı ve fiyat sunumu ayarlanır.",
+        time: "Bizim işimiz",
+      },
+      {
+        n: "03",
+        title: "Sezon patlamasında bile hiç kaçırmaz",
+        body: "En yoğun günde bile eş zamanlı yüzlerce mesaj karşılanır, rapor haftalık gelir.",
+        time: "Sürekli",
+      },
+    ],
     faqs: [
       {
         q: "Lazer epilasyon, botoks, dolgu — her hizmetin kuralı farklı, asistan nasıl ayırır?",
@@ -679,6 +765,49 @@ export const SECTORS: SectorConfig[] = [
         title: "Diaspora ve VKM uyumu kayboluyor",
         body: "Yurtdışından gelen hasta KVKK + ülkesinin tıbbi turizm kurallarını sormak istiyor. Bilgi acentede dağınık, müşteri hizmetleri tutarsız konuşuyor, güven kaybı oluşuyor.",
         stat: "Cevapsız uyum sorusu = lead'in %44 sızması",
+      },
+    ],
+    channels: ["voice", "whatsapp", "web", "instagram"],
+    channelCopy: {
+      voice: {
+        title: "Sesli Arama",
+        body: "Hastanızı ana dilinde karşılar, tedavi + transfer + otel paketini tek seferde anlatır.",
+        badge: "6 dil",
+      },
+      whatsapp: {
+        title: "WhatsApp",
+        body: "Transfer, refakatçi, otel gibi tekrar eden soruları anında, tutarlı şekilde yanıtlar.",
+        badge: "Paket bilgisi hazır",
+      },
+      web: {
+        title: "Web Chat",
+        body: "Siteyi gezen yurt dışı hastaya paket karşılaştırması sunar, ödeme linkine yönlendirir.",
+        badge: "Ödeme entegre",
+      },
+      instagram: {
+        title: "Instagram DM",
+        body: "Tedavi öncesi/sonrası paylaşımına gelen sorulara hastanın ana dilinde anında döner.",
+        badge: "Diaspora erişimi",
+      },
+    },
+    processSteps: [
+      {
+        n: "01",
+        title: "Tedavi paketlerinizi ve anlaşmalı otel/transfer bilgilerinizi paylaşın",
+        body: "Hangi tedavi, hangi dil, hangi paket — tek seferde tanımlanır.",
+        time: "Sizden 30 dk",
+      },
+      {
+        n: "02",
+        title: "6 dilli koordinasyon asistanını kuruyoruz",
+        body: "KVKK ve hedef ülke uyum bilgileri de asistana işlenir.",
+        time: "Bizim işimiz",
+      },
+      {
+        n: "03",
+        title: "Yayına geçer, her dilde aynı tutarlılıkla cevaplar",
+        body: "Hangi ülkeden gelirse gelsin aynı kalitede yanıt, haftalık lead raporu.",
+        time: "Sürekli",
       },
     ],
     faqs: [
@@ -795,6 +924,49 @@ export const SECTORS: SectorConfig[] = [
         stat: "Multi-loc kiralama oranı %38, koordinasyon kayıp %20+",
       },
     ],
+    channels: ["voice", "whatsapp", "web", "instagram"],
+    channelCopy: {
+      voice: {
+        title: "Sesli Arama",
+        body: "Havalimanı gecesi arayan müşteriye anında müsaitlik ve fiyat verir, rezervasyonu açar.",
+        badge: "Filo entegre",
+      },
+      whatsapp: {
+        title: "WhatsApp",
+        body: "'14-18 Temmuz'da X araç var mı' sorusunu filo sisteminizden anlık kontrol edip yanıtlar.",
+        badge: "Anlık müsaitlik",
+      },
+      web: {
+        title: "Web Chat",
+        body: "Sitenizi gezen müşteriye depozito, sigorta ve hasarsızlık kurallarını standart şekilde anlatır.",
+        badge: "Sözleşme net",
+      },
+      instagram: {
+        title: "Instagram DM",
+        body: "Kampanya postuna gelen 'müsait mi' mesajlarını anında rezervasyona çevirir.",
+        badge: "Hızlı dönüşüm",
+      },
+    },
+    processSteps: [
+      {
+        n: "01",
+        title: "Filo ve fiyat bilgilerinizi paylaşın",
+        body: "Araç tipleri, sezon fiyatları, depozito/sigorta kuralları tek formda.",
+        time: "Sizden 15 dk",
+      },
+      {
+        n: "02",
+        title: "Filo sisteminizle entegre ediyoruz",
+        body: "Müsaitlik gerçek zamanlı senkron çalışacak şekilde bağlanır.",
+        time: "Bizim işimiz",
+      },
+      {
+        n: "03",
+        title: "Yayına geçer, 'geri arayacağım' biter",
+        body: "30 saniyede yanıt, haftalık rezervasyon raporu size gelir.",
+        time: "Sürekli",
+      },
+    ],
     faqs: [
       {
         q: "Filo yönetim sistemim varsa entegre olur mu?",
@@ -907,6 +1079,49 @@ export const SECTORS: SectorConfig[] = [
         title: "İade akışı manuel ve uzun",
         body: "Müşteri 'iade edeceğim' diyor; temsilci kargo etiketi gönderiyor, iade kodunu açıyor, hesabı güncelliyor. 12 dakikalık manuel iş. AI asistan tüm akışı 90 saniyede tamamlar.",
         stat: "Manuel iade ortalaması: 12 dk, AI ile: 90 sn",
+      },
+    ],
+    channels: ["voice", "whatsapp", "web", "instagram"],
+    channelCopy: {
+      voice: {
+        title: "Sesli Arama",
+        body: "Sipariş/kargo durumu sorusunu API'den çekip anında yanıtlar, gerekirse temsilciye bağlar.",
+        badge: "Kargo entegre",
+      },
+      whatsapp: {
+        title: "WhatsApp",
+        body: "'Kargom nerede' mesajına anında gerçek zamanlı durum bilgisiyle döner.",
+        badge: "%80 otomatik",
+      },
+      web: {
+        title: "Web Chat",
+        body: "Sitenizdeki ziyaretçiye ürün ve iade sorularını yanıtlar, sepet terkini azaltır.",
+        badge: "Sepeti kurtarır",
+      },
+      instagram: {
+        title: "Instagram DM",
+        body: "Kampanya günü gelen DM patlamasını eş zamanlı karşılar, ekibiniz asla tıkanmaz.",
+        badge: "Kampanya dayanıklı",
+      },
+    },
+    processSteps: [
+      {
+        n: "01",
+        title: "Mağaza ve kargo entegrasyon bilgilerinizi paylaşın",
+        body: "Shopify/Ideasoft/Ticimax ve kargo firmanız tek formda tanımlanır.",
+        time: "Sizden 15 dk",
+      },
+      {
+        n: "02",
+        title: "Sipariş + iade akışını bağlıyoruz",
+        body: "Kargo takibi ve iade süreci API üzerinden gerçek zamanlı çalışacak şekilde kurulur.",
+        time: "Bizim işimiz",
+      },
+      {
+        n: "03",
+        title: "Kampanya günü bile ekip rahat çalışır",
+        body: "Robotik sorular otomatik çözülür, temsilciniz sadece gerçek vakaya bakar.",
+        time: "Sürekli",
       },
     ],
     faqs: [
@@ -1022,6 +1237,49 @@ export const SECTORS: SectorConfig[] = [
         title: "Kalifiye olmayan lead'le zaman kaybı",
         body: "Danışman bir alıcıyla 45 dk konuşuyor; sonunda 'kredi çıkmadı' diye iş düşüyor. AI asistan ön kalifikasyonu (bütçe, kredi durumu, peşinat) en başta yapar, sadece gerçek alıcıyı danışmana iletir.",
         stat: "Lead'lerin %71'i kalifiye değil",
+      },
+    ],
+    channels: ["voice", "whatsapp", "web", "instagram"],
+    channelCopy: {
+      voice: {
+        title: "Sesli Arama",
+        body: "İlanı arayan alıcıya anında güncel durumu ve fiyatı söyler, gezme randevusu açar.",
+        badge: "İlan senkron",
+      },
+      whatsapp: {
+        title: "WhatsApp",
+        body: "'Hala satılık mı' sorusunu ilan veritabanınızdan anlık kontrol edip yanıtlar.",
+        badge: "Anlık durum",
+      },
+      web: {
+        title: "Web Chat",
+        body: "Site ziyaretçisini bütçe ve kredi durumuna göre ön kalifiye eder, danışmana yönlendirir.",
+        badge: "Ön kalifikasyon",
+      },
+      instagram: {
+        title: "Instagram DM",
+        body: "İlan paylaşımına gelen 'detay alabilir miyim' mesajlarını anında yanıtlar.",
+        badge: "Hızlı geri dönüş",
+      },
+    },
+    processSteps: [
+      {
+        n: "01",
+        title: "İlan veritabanınızı ve kalifikasyon kurallarınızı paylaşın",
+        body: "Bütçe aralığı, kredi durumu gibi ön sorular tanımlanır.",
+        time: "Sizden 15 dk",
+      },
+      {
+        n: "02",
+        title: "İlan sisteminize bağlıyoruz",
+        body: "sahibinden/hepsiemlak/CRM'iniz ile entegre olur, ilan durumu anlık güncellenir.",
+        time: "Bizim işimiz",
+      },
+      {
+        n: "03",
+        title: "Yayına geçer, sadece nitelikli lead danışmana düşer",
+        body: "Gezme randevuları otomatik planlanır, haftalık lead raporu gelir.",
+        time: "Sürekli",
       },
     ],
     faqs: [
