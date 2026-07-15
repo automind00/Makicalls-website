@@ -5,7 +5,7 @@ import SectorShowcase from "@/components/sections/sector-showcase";
 
 const SITE_URL = "https://makicalls.com";
 const PAGE_URL = `${SITE_URL}/sektorler`;
-const PAGE_TITLE = "Sektörler | MakiCalls — Sektöre Özel AI Müşteri Asistanları";
+const PAGE_TITLE = "Sektörler — Sektöre Özel AI Müşteri Asistanları";
 const PAGE_DESCRIPTION =
   "Diş kliniği, otel, saç ekimi, estetik, sağlık turizmi, araç kiralama, e-ticaret, gayrimenkul — her sektörün gerçek derdine özel kurulmuş AI asistan çözümleri.";
 

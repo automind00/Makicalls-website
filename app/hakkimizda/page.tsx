@@ -37,7 +37,7 @@ const LinkedinIcon = ({ className }: { className?: string }) => (
 const SITE_URL = "https://makicalls.com";
 const PAGE_URL = `${SITE_URL}/hakkimizda`;
 const PAGE_TITLE =
-  "Hakkımızda | MakiCalls — Türkiye'nin AI Çağrı Merkezi Platformu";
+  "Hakkımızda — Türkiye'nin AI Çağrı Merkezi Platformu";
 const PAGE_DESCRIPTION =
   "MakiCalls'ın hikayesi, neye inandığımız, neyi yapmadığımız ve veri güvenliği yaklaşımımız. KOBİ'lerin gerçek iletişim derdine kategorik çözüm.";
 

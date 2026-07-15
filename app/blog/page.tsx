@@ -6,7 +6,7 @@ import { getSortedPosts } from "@/lib/blog";
 
 const SITE_URL = "https://makicalls.com";
 const PAGE_URL = `${SITE_URL}/blog`;
-const PAGE_TITLE = "Blog | MakiCalls — AI Çağrı Merkezi ve Otomasyon Yazıları";
+const PAGE_TITLE = "Blog — AI Çağrı Merkezi ve Otomasyon Yazıları";
 const PAGE_DESCRIPTION =
   "AI sesli asistan, WhatsApp chatbot, çağrı merkezi otomasyonu ve KOBİ teknolojisi üzerine Türkçe uzman makaleler.";
 
