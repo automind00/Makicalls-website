@@ -512,6 +512,10 @@ export const SECTORS: SectorConfig[] = [
         q: "Hasta transfer + otel + tedavi paketi soruyor?",
         a: "Paket detaylarınızı asistana tek seferde tanımlarız; transfer dahil mi, otel kaç gece, refakatçi politikası — net cevap verir.",
       },
+      {
+        q: "Sözleşme veya taahhüt var mı?",
+        a: "Uzun süreli sözleşme yok, istediğiniz zaman ayrılabilirsiniz. Yurt dışı hasta akışınız mevsimsel değişse bile esneklik sizde kalır.",
+      },
     ],
     formSourceTag: "sector_sac_ekimi",
     formCopy: {
@@ -670,6 +674,10 @@ export const SECTORS: SectorConfig[] = [
         q: "Hasta gizlilik açısından AI ile konuşmaktan rahatsız olmaz mı?",
         a: "Asistan başlangıçta 'kliniğin dijital asistanıyım' diyebilir veya gizli kalabilir — sizin tercih ettiğiniz tonda çalışır.",
       },
+      {
+        q: "Sözleşme veya taahhüt var mı?",
+        a: "Uzun süreli taahhüt yok — sezon dışında kullanmak istemezseniz durdurabilir, sezon başında istediğiniz an tekrar başlatabilirsiniz.",
+      },
     ],
     formSourceTag: "sector_estetik",
     formCopy: {
@@ -826,6 +834,10 @@ export const SECTORS: SectorConfig[] = [
       {
         q: "Asistan hangi sigortalarla / kart ödemeleriyle çalışıyor?",
         a: "iyzico, Stripe, PayPal, banka havalesi destekli. Yurtdışı kart kabul eden tüm sağlayıcılarla entegre ödeme linki gönderir.",
+      },
+      {
+        q: "Sözleşme veya taahhüt var mı?",
+        a: "Uzun vadeli taahhüt yok, istediğiniz zaman iptal edebilirsiniz. Veri ve konuşma geçmişiniz talep ettiğinizde size teslim edilir.",
       },
     ],
     formSourceTag: "sector_saglik_turizmi",
@@ -984,6 +996,10 @@ export const SECTORS: SectorConfig[] = [
         q: "Yabancı müşteriler için dil desteği?",
         a: "Standart İngilizce, Arapça, Rusça, Almanca. Turist sezonunda anlamlı ROI sağlar.",
       },
+      {
+        q: "Uzun vadeli sözleşme zorunluluğu var mı?",
+        a: "Hayır, aylık çalışırız — sezon dışı dönemde dilerseniz durdurabilir, sezon başında tekrar açabilirsiniz.",
+      },
     ],
     formSourceTag: "sector_arac_kiralama",
     formCopy: {
@@ -1140,6 +1156,10 @@ export const SECTORS: SectorConfig[] = [
       {
         q: "Müşteri temsilcisinin işine son mu veriyor?",
         a: "Hayır — robotik soruları çözüp ekibi gerçek değer üreten taleplere yönlendirir. Genelde temsilcilerin verimliliği 3-4x artar.",
+      },
+      {
+        q: "Sözleşme veya taahhüt var mı?",
+        a: "Uzun vadeli taahhüt yok. Kampanya döneminde yoğun kullanıp sonra ihtiyacınıza göre planı küçültebilirsiniz.",
       },
     ],
     formSourceTag: "sector_eticaret",
@@ -1298,6 +1318,10 @@ export const SECTORS: SectorConfig[] = [
       {
         q: "WhatsApp Business numarama eklenir mi?",
         a: "Mevcut Business numaranıza entegre olur; danışmanlarınızın elinden çıkmadan müşteriyle konuşur, gerektiğinde devri otomatik yapar.",
+      },
+      {
+        q: "Sözleşme veya taahhüt var mı?",
+        a: "Uzun süreli taahhüt yok, istediğiniz zaman iptal edebilirsiniz. Portföyünüz büyüdükçe veya küçüldükçe plan ayarlanabilir.",
       },
     ],
     formSourceTag: "sector_gayrimenkul",
