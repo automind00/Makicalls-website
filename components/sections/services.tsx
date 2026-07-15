@@ -10,13 +10,17 @@ const packages = [
     title: "Chatbot Paketi",
     subtitle: "WhatsApp & Instagram",
     description: "Müşterilerinize 7/24 otomatik yanıt verin, randevu alın ve bilgi paylaşın.",
+    price: "$199",
+    priceNote: "/ay",
+    priceDetail: "Kurulum ücreti yok",
+    ctaLabel: "Bu Paketi Seç",
     features: [
       "WhatsApp Business API entegrasyonu",
       "Instagram DM otomasyonu",
-      "Akıllı cevap sistemi",
-      "Randevu ve sipariş yönetimi",
-      "Müşteri segmentasyonu",
-      "Detaylı analitik dashboard",
+      "7/24 akıllı, bağlam farkında cevaplar",
+      "Randevu hatırlatma (24 saat + 2 saat önce)",
+      "Google yorum otomasyonu",
+      "Temel yönetim paneli (CRM görünümü)",
     ],
   },
   {
@@ -25,13 +29,17 @@ const packages = [
     subtitle: "Tam Entegrasyon",
     description: "Chatbot özelliklerinin yanında sesli arama asistanı ile müşteri deneyimini üst seviyeye taşıyın.",
     popular: true,
+    price: "$599",
+    priceNote: "/ay",
+    priceDetail: "Kurulum ücreti yok • İlk 15 gün risksiz",
+    ctaLabel: "Bu Paketi Seç",
     features: [
       "Chatbot paketinin tüm özellikleri",
-      "AI sesli arama asistanı",
-      "Gelen çağrı karşılama",
-      "Giden arama otomasyonu",
-      "Çağrı kaydı ve analizi",
-      "CRM entegrasyonu",
+      "AI sesli arama asistanı (Türkçe, 7/24)",
+      "Gelen çağrı karşılama + randevu oluşturma",
+      "Ayda 3.000 dakika sesli görüşme dahil (aşımda dk. başı $0.30)",
+      "Çağrı kaydı, transkript ve güven skoru",
+      "Gelişmiş CRM + özel dashboard (tüm kanallar tek ekranda)",
     ],
   },
   {
@@ -39,13 +47,16 @@ const packages = [
     title: "Özel Çözümler",
     subtitle: "İhtiyacınıza Özel",
     description: "İşletmenize özel tasarlanmış, tamamen kişiselleştirilmiş otomasyon çözümleri.",
+    price: "Özel Fiyatlandırma",
+    priceDetail: "Görüşme sonrası net teklif",
+    ctaLabel: "Fiyat Teklifi Alın",
     features: [
       "Özel AI model eğitimi",
-      "Çoklu platform entegrasyonu",
-      "API geliştirme",
-      "Mevcut sistem entegrasyonu",
+      "Çoklu platform / çoklu şube entegrasyonu",
+      "API geliştirme + üçüncü parti CRM entegrasyonu",
+      "Mevcut sisteminize tam entegrasyon",
       "Öncelikli teknik destek",
-      "Sınırsız özelleştirme",
+      "Sınırsız özelleştirme, sınırsız kullanım kotası",
     ],
   },
 ];
@@ -129,6 +140,23 @@ export default function Services() {
 
                   <h3 className="text-xl font-bold text-[color:var(--color-fg)] mb-1">{pkg.title}</h3>
                   <span className="text-sm text-[color:var(--color-fg-muted)] mb-3">{pkg.subtitle}</span>
+
+                  <div className="flex items-baseline gap-1.5 mt-4 mb-1">
+                    <span
+                      className={`font-bold text-[color:var(--color-fg)] tracking-tight ${
+                        pkg.priceNote ? "text-3xl lg:text-4xl" : "text-xl lg:text-2xl"
+                      }`}
+                    >
+                      {pkg.price}
+                    </span>
+                    {pkg.priceNote && (
+                      <span className="text-sm text-[color:var(--color-fg-muted)]">{pkg.priceNote}</span>
+                    )}
+                  </div>
+                  {pkg.priceDetail && (
+                    <span className="text-xs text-brand-soft font-medium mb-4 block">{pkg.priceDetail}</span>
+                  )}
+
                   <p className="text-sm text-[color:var(--color-fg-muted)] mb-6 leading-relaxed">{pkg.description}</p>
 
                   <ul className="space-y-3 mb-8 flex-1">
@@ -153,7 +181,7 @@ export default function Services() {
                         : "bg-[color:var(--color-surface)] text-[color:var(--color-fg)] border border-[color:var(--color-border)] hover:bg-brand/5 hover:border-brand/40"
                     }`}
                   >
-                    {pkg.popular ? "Bu Paketi Seç" : "Detaylı Bilgi Al"}
+                    {pkg.ctaLabel}
                     <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
                   </motion.button>
                 </div>

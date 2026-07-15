@@ -6,14 +6,16 @@ import { Check, X, Sparkles } from "lucide-react";
 type Row = { label: string; old: string; maki: string };
 
 const rows: Row[] = [
-  { label: "Mesai dışı", old: "Boşa çalar", maki: "7/24 açılır" },
-  { label: "Yanıt hızı", old: "Sırada bekletir", maki: "İlk saniyede" },
-  { label: "Kanallar", old: "Dağınık, ayrı", maki: "Tek panelde" },
-  { label: "Randevu", old: "Elle, unutulur", maki: "Otomatik CRM’e" },
-  { label: "Çağrı kaydı", old: "Genelde yok", maki: "Transkript + öneri" },
-  { label: "Kapasite", old: "Tek hat tıkanır", maki: "Sınırsız eşzamanlı" },
-  { label: "Maliyet", old: "Maaş + SGK + mola", maki: "Tek sabit abonelik" },
-  { label: "Tutarlılık", old: "Akşam düşer", maki: "Hep aynı kalite" },
+  { label: "Mesai dışı", old: "Telefon çalar, kimse duymaz", maki: "Gece yarısı bile ilk çalışta açılır" },
+  { label: "Yanıt hızı", old: "Saatlerce cevap bekler", maki: "1 saniyenin altında yanıtlar" },
+  { label: "Kanallar", old: "Telefon, WhatsApp, Instagram — hepsi ayrı, kontrolsüz", maki: "Tek asistan, tek hafıza, tek panel" },
+  { label: "Randevu", old: "Kağıda yazılır, unutulur, çakışır", maki: "Otomatik oluşur, CRM’e işlenir" },
+  { label: "Çağrı kaydı", old: "Ne konuşulduğu kimsenin aklında kalmaz", maki: "Her çağrı transkriptli ve aranabilir" },
+  { label: "Kapasite", old: "Aynı anda tek hasta, gerisi meşgul sinyali", maki: "Onlarca görüşme aynı anda, hiç tıkanmaz" },
+  { label: "Maliyet", old: "Maaş + SGK + yemek + izin — hep artar", maki: "Tek sabit abonelik, sürpriz yok" },
+  { label: "Tutarlılık", old: "Yorgun gün, moral düşer, kalite dalgalanır", maki: "Her saatte, her günde aynı kalite" },
+  { label: "Kurulum", old: "Haftalarca IT projesi, eğitim, altyapı", maki: "48 saatte devrede, sıfır donanım" },
+  { label: "Risk", old: "Uzun sözleşme, ön ödeme, cayamazsın", maki: "Taahhüt yok, ilk 15 gün risksiz" },
 ];
 
 export default function Comparison() {

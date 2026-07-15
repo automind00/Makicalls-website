@@ -11,7 +11,7 @@ export const faqItems: QA[] = [
   },
   {
     q: "Fiyatlandırma nasıl çalışıyor?",
-    a: "Her klinik için kullanım hacmine, entegrasyon ihtiyacına ve dil sayısına göre özel teklif çıkarıyoruz. Ön görüşme sonrası net bir teklif sunarız — sürpriz kalem yok.",
+    a: "Chatbot Paketi $199/ay, Chatbot + Sesli Asistan $599/ay — ikisi de sabit fiyat, kurulum ücreti yok. Sesli Asistan paketi ayda 3.000 dakika görüşme içerir, aşımı dakika başı $0.30. Çoklu şube veya özel entegrasyon gerekiyorsa Özel Çözümler paketiyle ihtiyacınıza göre teklif çıkarıyoruz.",
   },
   {
     q: "KVKK ve hasta verisi güvenliği nasıl yönetiliyor?",
