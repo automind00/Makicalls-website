@@ -32,6 +32,7 @@ export default function DentalJsonLd() {
         description:
           "İstanbul diş klinikleri için 7/24 çalışan AI çağrı asistanı. Sesli arama, WhatsApp, web chat ve Instagram DM tek asistandan yönetilir.",
         url: `${SITE_URL}/dis-klinikleri`,
+        image: `${SITE_URL}/dis-klinikleri/opengraph-image`,
       },
       {
         "@type": "FAQPage",

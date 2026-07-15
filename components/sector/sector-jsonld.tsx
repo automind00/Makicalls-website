@@ -20,6 +20,7 @@ export default function SectorJsonLd({ sector }: { sector: SectorConfig }) {
     areaServed: "TR",
     serviceType: "AI Müşteri Hizmetleri",
     url: pageUrl,
+    image: `${SITE_URL}/sektorler/${sector.slug}/opengraph-image`,
   };
 
   const faq = {

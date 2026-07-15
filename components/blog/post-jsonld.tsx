@@ -30,7 +30,7 @@ export default function PostJsonLd({ post }: { post: BlogPost }) {
         height: 512,
       },
     },
-    image: `${SITE_URL}/opengraph-image`,
+    image: `${url}/opengraph-image`,
     keywords: post.tags.join(", "),
     mainEntityOfPage: {
       "@type": "WebPage",
