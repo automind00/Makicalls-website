@@ -150,7 +150,7 @@ export default function Process() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 1 }}
-            className="flex justify-center order-2 lg:order-1"
+            className="flex justify-center order-2 lg:order-1 scale-[0.62] -my-24 sm:scale-100 sm:my-0"
           >
             <OrbitingSkills
               centerIcon={
