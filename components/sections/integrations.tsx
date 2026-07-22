@@ -29,8 +29,6 @@ const rowTwo: Integration[] = [
   { name: "Twilio", domain: "twilio.com" },
   { name: "TikTok", domain: "tiktok.com" },
   { name: "LinkedIn", domain: "linkedin.com" },
-  { name: "n8n", domain: "n8n.io" },
-  { name: "Supabase", domain: "supabase.com" },
 ];
 
 function Pill({ item }: { item: Integration }) {

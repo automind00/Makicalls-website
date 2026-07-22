@@ -18,7 +18,7 @@ const faqs = [
   },
   {
     q: "Hasta kişisel verileri nasıl korunuyor? KVKK uyumlu mu?",
-    a: "Veriler Türkiye'de barındırılan Supabase altyapısında, KVKK uyumlu şekilde tutuluyor. Çağrı kayıtları sadece sizin erişimde, üçüncü taraflarla paylaşılmıyor. Sözleşmede açıkça yazıyor.",
+    a: "Veriler şifrelenmiş altyapıda, KVKK uyumlu şekilde tutuluyor. Çağrı kayıtları sadece sizin erişimde, üçüncü taraflarla paylaşılmıyor. Sözleşmede açıkça yazıyor.",
   },
   {
     q: "Sözleşme zorunluluğu var mı?",

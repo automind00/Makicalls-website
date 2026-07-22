@@ -27,7 +27,7 @@ export const faqItems: QA[] = [
   },
   {
     q: "Hangi entegrasyonlarla çalışır?",
-    a: "WhatsApp Business API, Instagram DM, Google Calendar, NetGSM, Stripe, Calendly ve Supabase tabanlı CRM. Mevcut sisteminiz farklıysa n8n üzerinden bağlarız.",
+    a: "WhatsApp Business API, Instagram DM, Google Calendar, NetGSM, Stripe, Calendly ve modern CRM sistemleri. Mevcut sisteminiz farklıysa size özel entegrasyon geliştiririz.",
   },
   {
     q: "İptal etmek istersem ne olur?",

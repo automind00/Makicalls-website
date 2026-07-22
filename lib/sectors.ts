@@ -211,7 +211,7 @@ export const SECTORS: SectorConfig[] = [
       },
       {
         q: "Hasta kişisel verileri nasıl korunuyor? KVKK uyumlu mu?",
-        a: "Veriler Türkiye'de barındırılan altyapıda, KVKK uyumlu şekilde tutuluyor. Çağrı kayıtları sadece sizin erişimde.",
+        a: "Veriler şifrelenmiş altyapıda, KVKK uyumlu şekilde tutuluyor. Çağrı kayıtları sadece sizin erişimde.",
       },
       {
         q: "Sözleşme zorunluluğu var mı?",
