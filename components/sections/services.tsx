@@ -31,7 +31,7 @@ const packages = [
     popular: true,
     price: "$599",
     priceNote: "/ay",
-    priceDetail: "Kurulum ücreti yok • İlk 15 gün risksiz",
+    priceDetail: "Kurulum ücreti yok • İlk 14 gün risksiz",
     ctaLabel: "Bu Paketi Seç",
     features: [
       "Chatbot paketinin tüm özellikleri",

@@ -15,7 +15,7 @@ const rows: Row[] = [
   { label: "Maliyet", old: "Maaş + SGK + yemek + izin — hep artar", maki: "Tek sabit abonelik, sürpriz yok" },
   { label: "Tutarlılık", old: "Yorgun gün, moral düşer, kalite dalgalanır", maki: "Her saatte, her günde aynı kalite" },
   { label: "Kurulum", old: "Haftalarca IT projesi, eğitim, altyapı", maki: "48 saatte devrede, sıfır donanım" },
-  { label: "Risk", old: "Uzun sözleşme, ön ödeme, cayamazsın", maki: "Taahhüt yok, ilk 15 gün risksiz" },
+  { label: "Risk", old: "Uzun sözleşme, ön ödeme, cayamazsın", maki: "Taahhüt yok, ilk 14 gün risksiz" },
 ];
 
 export default function Comparison() {
