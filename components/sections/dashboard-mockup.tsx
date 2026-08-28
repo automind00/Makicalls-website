@@ -77,11 +77,11 @@ const CHANNELS: { label: string; pct: number; color: string }[] = [
 ];
 
 const INBOX_ITEMS: { initials: string; name: string; flag: string; channel: Channel; preview: string; time: string; unread?: boolean; color: string }[] = [
-  { initials: "AY", name: "Ayşe G.", flag: "TR", channel: "whatsapp", preview: "Saç ekimi fiyatları hakkında bilgi alabilir miyim?", time: "2 dk", unread: true, color: "from-rose-500 to-pink-500" },
-  { initials: "JA", name: "James W.", flag: "GB", channel: "instagram", preview: "I'd like to know about Botox prices…", time: "15 dk", unread: true, color: "from-blue-500 to-indigo-500" },
-  { initials: "HA", name: "Hans M.", flag: "DE", channel: "web", preview: "Ich möchte einen Termin für Rhinoplastik…", time: "32 dk", color: "from-emerald-500 to-teal-500" },
-  { initials: "AH", name: "Анна K.", flag: "RU", channel: "whatsapp", preview: "Здравствуйте, хочу узнать о лечении…", time: "1 sa", color: "from-violet-500 to-purple-500" },
-  { initials: "ME", name: "Mehmet E.", flag: "TR", channel: "instagram", preview: "İmplant için randevu almak istiyorum.", time: "2 sa", color: "from-amber-500 to-orange-500" },
+  { initials: "AG", name: "Ayşe G.", flag: "TR", channel: "whatsapp", preview: "Diş beyazlatma için fiyat bilgisi alabilir miyim?", time: "2 dk", unread: true, color: "from-rose-500 to-pink-500" },
+  { initials: "MK", name: "Mehmet K.", flag: "TR", channel: "instagram", preview: "İmplant konsültasyonu için ne zaman randevu alabilirim?", time: "15 dk", unread: true, color: "from-blue-500 to-indigo-500" },
+  { initials: "ED", name: "Elif D.", flag: "TR", channel: "web", preview: "Ortodonti kontrolümü yarına alabilir miyiz?", time: "32 dk", color: "from-emerald-500 to-teal-500" },
+  { initials: "CY", name: "Can Y.", flag: "TR", channel: "whatsapp", preview: "Dolgu için bugün müsait bir saat var mı?", time: "1 sa", color: "from-violet-500 to-purple-500" },
+  { initials: "ZA", name: "Zeynep A.", flag: "TR", channel: "instagram", preview: "Kanal tedavisi sonrası kontrol için bilgi almak istiyorum.", time: "2 sa", color: "from-amber-500 to-orange-500" },
 ];
 
 const CALL_LIST: { caller: string; language: string; dir: "Gelen" | "Giden"; duration: string; status: string; statusColor: string; active?: boolean }[] = [
@@ -92,14 +92,14 @@ const CALL_LIST: { caller: string; language: string; dir: "Gelen" | "Giden"; dur
 ];
 
 const CALL_DEMO = {
-  summary: "Ayşe Hanım eşi için saç ekimi araştırıyor. DHI tekniğine ilgi gösterdi. Bütçe: 3.000-4.000$. İstanbul'a ulaşım ve konaklama dahil paket fiyatı talep etti.",
+  summary: "Ayşe Hanım implant tedavisi için bilgi almak amacıyla aradı. Daha önce başka bir klinikte muayene olmuş, fiyat ve süreci karşılaştırıyor. Sabah saatlerini tercih ediyor.",
   fields: [
-    { label: "Hasta", value: "Eşi (erkek, 35-40 yaş)" },
-    { label: "Tercih", value: "DHI yöntemi" },
-    { label: "Bütçe", value: "3.000 - 4.000$" },
-    { label: "Konum", value: "Ankara" },
+    { label: "Hasta", value: "Ayşe G. (42 yaş)" },
+    { label: "Tedavi", value: "İmplant" },
+    { label: "Tercih", value: "Sabah randevusu" },
+    { label: "Durum", value: "Fiyat karşılaştırıyor" },
   ],
-  suggestion: "Hasta yüksek niyetli (skor: 88). DHI All-Inclusive paket teklif edin. Fotoğrafları bugün isteyin — 24 saat içinde kişisel analiz raporu gönderin.",
+  suggestion: "Hasta yüksek niyetli (skor: 88). Bugün içinde net bir fiyat teklifiyle dönün ve sabah saatine randevu önerin — başka klinikle kıyaslıyor, hızlı dönüş kararını etkileyebilir.",
 };
 
 type ApptStatus = "confirmed" | "upcoming" | "pending" | "cancelled" | "completed";
